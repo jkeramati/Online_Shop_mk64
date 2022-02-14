@@ -4,4 +4,4 @@ from core.models import *
 
 # Create your models here.
 class Comment(BaseModel):
-    pass
+    content = models.CharField(max_length=255)
