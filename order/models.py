@@ -10,7 +10,7 @@ from product.models import Product
 class Cart(BaseModel):
     costumer = models.ForeignKey(to=Costumer, on_delete=models.CASCADE)
     off_code = models.ForeignKey(to=Discount, null=True, blank=True, on_delete=models.CASCADE)
-    status = models.CharField(choices=[('PAY', 'payed'), ('NPY', 'not_pay')])
+    status = models.CharField(max_length=9, choices=[('PAY', 'payed'), ('NPY', 'not_pay')])
     total_price = models.PositiveIntegerField()
     final_price = models.PositiveIntegerField()
 

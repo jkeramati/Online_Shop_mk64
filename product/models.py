@@ -1,4 +1,6 @@
 from django.db import models
+
+import product.models
 from core.models import *
 from discount.models import Discount
 from comment.models import Comment
@@ -9,17 +11,17 @@ from comment.models import Comment
 class Product(BaseModel):
     name = models.CharField(max_length=50)
     price = models.FloatField()
-    category = models.ManyToManyField('Category')
-    brand = models.ForeignKey('Brand', on_delete=models.CASCADE)
+    category = models.ManyToManyField('Category', null=True)
+    brand = models.ForeignKey('Brand', on_delete=models.CASCADE, null=True)
     description = models.TextField()
-    discount = models.ForeignKey(to=Discount, on_delete=models.CASCADE)
-    image = models.FileField()
-    comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE)
+    discount = models.ForeignKey(to=Discount, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.FileField(null=True, default=None, upload_to='product/')
+    comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Category(BaseModel):
     name = models.CharField(max_length=50)
-    category = models.OneToOneField('self', on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
 
 class Brand(BaseModel):

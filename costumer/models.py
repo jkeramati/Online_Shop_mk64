@@ -12,7 +12,6 @@ class Costumer(BaseModel):
 
 
 class Address(BaseModel):
-    costumer = models.ForeignKey(to=Costumer, on_delete=models.CASCADE)
     state = models.CharField(max_length=20)
     city = models.CharField(max_length=20)
     other = models.CharField(max_length=80)
