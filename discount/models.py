@@ -7,6 +7,9 @@ class Discount(BaseModel):
     type_disc = models.CharField(max_length=7, choices=[('PRI', 'price'), ('PER', 'percent')])
     value = models.IntegerField()
 
+    def __str__(self):
+        return f"type of discount: {self.type_disc} with {self.value} value"
+
     def profit(self, val: int):
         if self.type_disc == 'price':
             if val >= 2 * self.value:

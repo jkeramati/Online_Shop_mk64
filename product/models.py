@@ -1,6 +1,5 @@
 from django.db import models
 
-import product.models
 from core.models import *
 from discount.models import Discount
 from comment.models import Comment
@@ -11,7 +10,7 @@ from comment.models import Comment
 class Product(BaseModel):
     name = models.CharField(max_length=50)
     price = models.FloatField()
-    category = models.ManyToManyField('Category', null=True)
+    category = models.ManyToManyField('Category')
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE, null=True)
     description = models.TextField()
     discount = models.ForeignKey(to=Discount, on_delete=models.CASCADE, null=True, blank=True)
