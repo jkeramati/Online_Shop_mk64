@@ -9,12 +9,11 @@ from django.utils.translation import gettext_lazy as _
 class Product(BaseModel):
     name = models.CharField(max_length=50)  # TODO set validator
     price = models.FloatField()
-    category = models.ManyToManyField('Category', null=True, blank=True)
+    category = models.ManyToManyField('Category')
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True, blank=True)
     image = models.FileField(null=True, default=None, upload_to='product/')
-    comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = _('product')
@@ -70,13 +69,6 @@ class OffCode(BaseDiscount):
         verbose_name = _('off code')
         verbose_name_plural = _('off codes')
 
-
-class Comment(BaseModel):
-    content = models.TextField()
-
-    class Meta:
-        verbose_name = _('comment')
-        verbose_name_plural = _('comments')
 
 # class Contact(models.Model):
 #     name = models.CharField(max_length=40)

@@ -9,7 +9,7 @@ class Costumer(models.Model):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE) #TODO set validator
     fist_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    address = models.ForeignKey('Address', on_delete=models.SET_DEFAULT, null=True, blank=True)
+    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = _('costumer')
