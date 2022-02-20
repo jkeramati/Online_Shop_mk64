@@ -6,9 +6,9 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 class Costumer(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE) #TODO set validator
-    fist_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)  # TODO set validator
+    fist_name = models.CharField(max_length=20, null=True, blank=True)
+    last_name = models.CharField(max_length=20, null=True, blank=True)
     address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
