@@ -4,13 +4,26 @@ from django.utils.translation import gettext_lazy as _
 from costumer.models import Costumer, Address
 
 
-class CostumerForm(ModelForm):
+# class RegisterForm(...):
+#     ...
+
+
+
+
+
+
+
+
+class CostumerSignUpForm(ModelForm):
     class Meta:
         model = Costumer
         fields = "__all__"
         labels = {
             'address': _('Address')
         }
+
+
+
 
 
 class AddressForm(ModelForm):

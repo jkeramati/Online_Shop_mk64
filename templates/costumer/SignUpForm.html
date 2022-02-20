@@ -1,0 +1,14 @@
+{% extends 'base/_base.html' %}
+{% block title %}Costumer | Login{% endblock %}
+{% block body %}
+    <div style="border: solid red; justify-content: center">
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+
+{% endblock %}
