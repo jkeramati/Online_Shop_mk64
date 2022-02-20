@@ -4,12 +4,10 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Costumer, Address
-
-User = get_user_model
+from core.models import User
 
 
 class CostumerLoginForm(AuthenticationForm):
-
     help_texts = {
         'username': _("Phone"),
         'password': _("Password"),
@@ -20,12 +18,12 @@ class CostumerLoginForm(AuthenticationForm):
         for field in self.fields.items():
             # print(field[0],field[1])
             field[1].widget.attrs['placeholder'] = self.help_texts[field[0]]
+            field[1].widget.attrs['class'] = "form-control"  # bootstrap form
 
 
 class CostumerSignUpForm(UserCreationForm):
-
     class Meta:
-        model = Costumer
+        model = User
         fields = ['phone', 'password1', 'password2']
 
         help_texts = {
@@ -38,6 +36,7 @@ class CostumerSignUpForm(UserCreationForm):
         super(CostumerSignUpForm, self).__init__(*args, **kwargs)
         for field in self.fields.items():
             field[1].widget.attrs['placeholder'] = self.Meta.help_texts[field[0]]
+            field[1].widget.attrs['class'] = "form-control"
 
 
 class AddressForm(ModelForm):
