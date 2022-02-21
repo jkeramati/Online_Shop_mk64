@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 class CostumerSignUpFormView(FormView):
     form_class = CostumerSignUpForm
     template_name = 'costumer/SignUpForm.html'
-    success_url = '/costumer/signup/'
+    success_url = reverse_lazy('signUp')
     success_message = _("User was created successfully!")
 
     def form_valid(self, form):
@@ -19,10 +19,14 @@ class CostumerSignUpFormView(FormView):
         return super().form_valid(form)
 
 
+def success_signUp(request):
+    return render(request, template_name='costumer/SuccessSignUp.html')
+
+
 class CostumerLoginView(FormView):
     form_class = CostumerLoginForm
     template_name = "costumer/LoginForm.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('cart_list_view')
 
     def form_valid(self, form):
         login(self.request, user=form.get_user())

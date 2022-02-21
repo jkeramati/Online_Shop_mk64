@@ -8,7 +8,7 @@ from order.models import Cart, CartItem
 
 class CartListView(ListView):
     model = Cart
-    template_name = ''
+    template_name = 'order/cart_item.html'
 
 
 class CartItemListView(ListView):

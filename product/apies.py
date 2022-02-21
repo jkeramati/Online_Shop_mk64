@@ -32,6 +32,7 @@ class DiscountDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DiscountSerializer
     queryset = Product.objects.all()
 
+
 class OffCodeListAIE(generics.ListCreateAPIView):
     serializer_class = OffCodeSerializer
     queryset = Product.objects.all()  # TODO can be costume in filter product is not deleted or ...

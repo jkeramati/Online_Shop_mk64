@@ -19,6 +19,9 @@ class Product(BaseModel):
         verbose_name = _('product')
         verbose_name_plural = _('products')
 
+    def __str__(self):
+        return f"{self.name}, {self.price} $, {self.category} category"
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=50)
@@ -29,10 +32,16 @@ class Category(BaseModel):
         verbose_name = _('category')
         verbose_name_plural = _('categories')
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Brand(BaseModel):
     name = models.CharField(max_length=20)
     country = models.CharField(max_length=20, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class BaseDiscount(BaseModel):
@@ -69,7 +78,6 @@ class OffCode(BaseDiscount):
     class Meta:
         verbose_name = _('off code')
         verbose_name_plural = _('off codes')
-
 
 # class Contact(models.Model):
 #     name = models.CharField(max_length=40)

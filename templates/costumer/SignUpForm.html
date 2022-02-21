@@ -1,12 +1,24 @@
 {% extends 'base/_base.html' %}
 {% block title %}Costumer | Sign Up{% endblock %}
 {% block body %}
-    <div style="border: solid red; justify-content: center">
-        <form action="" method="post">
+    <div style="display: flex; align-items: center;justify-content: center;flex-direction: column">
+        {% for error in form.errors.values %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                {{ error }}
+            </div>
+        {% endfor %}
+        <form class="sign-up-form" method="post">
             {% csrf_token %}
-            <table>
-                {{ form.as_table }}
-            </table>
+            <div class="form-group">
+                {{ form.phone }}
+            </div>
+            <div class="form-group">
+                {{ form.password1 }}
+            </div>
+            <div class="form-group">
+                {{ form.password2 }}
+            </div>
             <input type="submit" value="SignUp">
         </form>
     </div>

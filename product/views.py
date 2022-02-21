@@ -16,7 +16,7 @@ class CategoryDetailView(DetailView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product.html'
+    template_name = 'product/product.html'
     context_object_name = 'product'
 
 
