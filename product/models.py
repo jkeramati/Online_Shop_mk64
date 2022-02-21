@@ -23,7 +23,7 @@ class Product(BaseModel):
 class Category(BaseModel):
     name = models.CharField(max_length=50)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
-    image = models.FileField(null=True, default=None, upload_to='brand/')
+    image = models.FileField(null=True, default=None, upload_to='category/')
 
     class Meta:
         verbose_name = _('category')

@@ -3,8 +3,12 @@ from django.urls import path, include
 
 # from product.views import ContactFormView, my_view
 from product.apies import *
+from product.views import CategoryListView, CategoryDetailView, ProductDetailView
 
 urlpatterns = [
+    path('', CategoryListView.as_view(), name='category_list'),
+    path('cate/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('prod/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
     # path('form/', ContactFormView.as_view(), name='contact_form'),
     # path('trans/', my_view, name='trans'),
     path('product/list/', ProductListAIE.as_view(), name='product_list'),

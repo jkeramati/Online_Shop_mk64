@@ -1,6 +1,17 @@
 {% extends 'base/_base.html' %}
 {% block title %}HOME{% endblock %}
 {% block body %}
+    <div style="border: #daff96">
+    <ul>
+        {% for cat in cateles %}
+            <li>{{ cat.name }}</li>
+            <li><img src="{{cat.image.url}}" alt="{{ cat.name }}"></li>
+        {% endfor %}
+    </ul>
+    </div>
+    <div style="border: #daff96">
 
-
+            {{ catedet.name }}
+            <img src="{{catedet.image.url}}" alt="{{ cat.name }}">
+    </div>
 {% endblock %}

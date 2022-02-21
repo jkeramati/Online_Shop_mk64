@@ -1,4 +1,27 @@
+from django.views.generic import ListView, DetailView
+from .models import Category, Product
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'home.html'
+    context_object_name = 'cateles'
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'home.html'
+    context_object_name = 'catedet'
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product.html'
+    context_object_name = 'product'
+
+
 import mixin as mixin
+
 from django.http import JsonResponse, HttpResponse
 
 from django.shortcuts import render
@@ -6,10 +29,9 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
-from product.models import Product
+from product.models import Product, Category
 from product.serializers import ProductSerializer
 from django.utils.translation import gettext as _
-
 
 # def my_view(request):
 #     output = _("Welcome to my site.")
