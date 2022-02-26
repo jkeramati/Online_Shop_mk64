@@ -1,0 +1,29 @@
+{% extends 'base/_base.html' %}
+{% block title %}Home | Shopping{% endblock %}
+{% block content %}
+<ul id="#adaptive" class="cs-hidden">
+        <!--BOX 1-->
+        <li class="item-a">
+            <!--BOX-->
+            <div class="full-slider-box f-slide-1">
+
+                <div class="slider-text-container">
+
+                    <div class="f-slider-text">
+                    <span>Limited Offer</span>
+                    <strong>30% OFF <br> In <font>New Product</font></strong>
+                    <a href="#" class="f-slider-btn">Shop Now</a>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+
+      </ul>
+    <input type="button" value="loggin" id="dokme">
+    <script>
+        $('#dokme').click(function (){
+            console.log('test')
+        })
+    </script>
+{% endblock %}
