@@ -1,0 +1,66 @@
+{% extends 'base/_base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'cart_item/item.css' %}">
+
+
+{% endblock %}
+{% block content %}
+    <div style="display: flex;align-items: center; justify-content: center; flex-direction: column">
+        <div class="product-card" >
+            <div class="logo-cart">
+                <img src="{{ product.brand.image.url }}"
+                     alt="logo">
+                <i class='bx bx-shopping-bag'></i>
+            </div>
+            <div class="main-images">
+                <img id="blue" class="blue active"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+                <img id="pink" class="pink"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+                <img id="yellow" class="yellow"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+            </div>
+            <div class="shoe-details">
+                <span class="shoe_name">{{ product.name }}</span>
+                <p>{{ product.description }}</p>
+            </div>
+            <div class="color-price">
+                <div class="color-option">
+                    <span class="color">Color:</span>
+                    <div class="circles">
+                        <span class="circle blue active" id="blue"></span>
+                        <span class="circle pink " id="pink"></span>
+                        <span class="circle yellow " id="yellow"></span>
+                    </div>
+                </div>
+                <div class="price">
+                    <span class="price_num">${{ product.price }}</span>
+                </div>
+            </div>
+            <div class="button">
+                <div class="button-layer"></div>
+                <button>Add To Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let circle = document.querySelector(".color-option");
+
+        circle.addEventListener("click", (e) => {
+            let target = e.target;
+            if (target.classList.contains("circle")) {
+                circle.querySelector(".active").classList.remove("active");
+                target.classList.add("active");
+                document.querySelector(".main-images .active").classList.remove("active");
+                document.querySelector(`.main-images .${target.id}`).classList.add("active");
+            }
+        });
+    </script>
+{% endblock %}

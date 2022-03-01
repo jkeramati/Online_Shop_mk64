@@ -12,17 +12,19 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 JAZZMIN_SETTINGS = {
+    "site_logo":"shopping.png",
+
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "The Voice Admin",
+    "site_title": "Shop admin",
 
     # Title on the brand, and login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "The Voice",
+    "site_header": "Jalal Shop",
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to the voice admin panel! :)",
+    "welcome_sign": "Welcome to the Jalal Shop panel! ",
 
     # Copyright on the footer
-    "copyright": "The Voice",
+    "copyright": "Jalal Shop",
 
     # The model admin to search from the search bar, search bar omitted if excluded
     "search_model": "user.User",
@@ -66,6 +68,17 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "auth": "fas fa-users-cog",
         "user.User": "fas fa-user",
+        "core.User": "fas fa-user",
+        "costumer.Costumer": "fas fa-user",
+        "costumer.Address": "fa fa-address-card",
+        "order.Cart": "fa fa-shopping-cart",
+        "order.CartItem": "fa fa-shopping-cart",
+        "product.Brand": "fab fa-app-store",
+        "product.Category": "fab fa-app-store",
+        "product.Discount": "fa fa-percent",
+        "product.OffCode": "fa fa-percent",
+        "product.Product": "fa fa-product-hunt",
+
         "user.Mentor": "fas fa-chalkboard-teacher",
         "user.Candidate": "fas fa-user-tie",
         "voice.Voice": "fas fa-music",
@@ -92,7 +105,7 @@ JAZZMIN_UI_TWEAKS = {
     "brand_small_text": False,
     "brand_colour": "navbar-indigo",
     "accent": "accent-lightblue",
-    "navbar": "navbar-indigo navbar-dark",
+    "navbar": "navbar-white navbar-light",
     "no_navbar_border": False,
     "navbar_fixed": False,
     "layout_boxed": False,
@@ -105,11 +118,11 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "cyborg",
+    "theme": "default",
     "dark_mode_theme": "cyborg",
     "button_classes": {
         "primary": "btn-outline-primary",
-        "secondary": "btn-secondary",
+        "secondary": "btn-outline-secondary",
         "info": "btn-outline-info",
         "warning": "btn-outline-warning",
         "danger": "btn-outline-danger",

@@ -17,7 +17,7 @@ from costumer.serializer import AddressSerializer, CostumerSerializer
 class CostumerSignUpFormView(FormView):
     form_class = CostumerSignUpForm
     template_name = 'costumer/SignUp.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('success')
     success_message = _("User was created successfully!")
 
     def form_invalid(self, form):
@@ -31,7 +31,7 @@ class CostumerSignUpFormView(FormView):
 
 
 def success_signUp(request):
-    return render(request, template_name='Home.html')
+    return render(request, template_name='success.html')
 
 
 class CostumerLoginView(FormView):

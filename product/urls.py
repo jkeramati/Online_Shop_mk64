@@ -8,6 +8,8 @@ from product.views import CategoryListView, CategoryDetailView, ProductDetailVie
 urlpatterns = [
     path('', CategoryListView.as_view(), name='category_list'),
     path('product_list/', ProductListView.as_view(), name='product_list'),
+    path('product_list_api/', ProductListAPI.as_view(), name='product_list_api'),
+    path('product_detail/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
 
 
 

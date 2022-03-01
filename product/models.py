@@ -39,6 +39,7 @@ class Category(BaseModel):
 class Brand(BaseModel):
     name = models.CharField(max_length=20)
     country = models.CharField(max_length=20, null=True, blank=True)
+    image = models.FileField(null=True, default=None, blank=None, upload_to='brand/')
 
     def __str__(self):
         return f"{self.name}"

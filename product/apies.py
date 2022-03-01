@@ -5,13 +5,33 @@ from product.serializers import *
 
 class ProductListAPI(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.filter()
+    queryset = Product.objects.all()
 
     def get_queryset(self):
-        cate_id = self.request.GET['cate_id']
+        queryset = Product.objects.all()
+        cate_id = self.request.GET['category_id']
         print(cate_id)
-        prodcts = Product.objects.filter(category__parent_id=cate_id)
-        return prodcts
+        queryset = queryset.filter(category_id=cate_id)
+        print(queryset[0])
+        return queryset
+
+
+    # def get_queryset(self):
+    #     cate_id = self.request.GET['category_id']
+    #     print(cate_id)
+    # #     products = Product.objects.filter(category_id=cate_id)
+    #     cat1 = Category.objects.filter(id=cate_id)
+    #     cat2 = Category.objects.filter(category__category=cat1)
+    #     cat3 = Category.objects.filter(category__category__category=cat2)
+    #     print(cat1)
+    #     print(cat2)
+    #     print(cat3)
+    #     prodcts1 = Product.objects.filter(category=cat1)
+    #     prodcts2 = Product.objects.filter(category=cat2)
+    #     prodcts3 = Product.objects.filter(category=cat3)
+    #     products=prodcts1+prodcts2+prodcts3
+
+        # return {'data': products}
     # TODO can be costume in filter product is not deleted or ...
 
 

@@ -10,10 +10,10 @@ class CategoryListView(ListView):
         kwargs['cateles'] = Category.objects.all()
         return super().get_context_data(object_list=object_list, **kwargs)
 
-    def get_queryset(self):
-        idd_parent = self.request.GET.get('id_parent')
-        print(idd_parent)
-        return {'data': idd_parent}
+    # def get_queryset(self):
+    #     idd_parent = self.request.GET.get('id_parent')
+    #     print(idd_parent)
+    #     return {'data': idd_parent}
 
 
 class CategoryDetailView(DetailView):
@@ -24,7 +24,7 @@ class CategoryDetailView(DetailView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product/product.html'
+    template_name = 'product/product_detail.html'
     context_object_name = 'product'
 
 

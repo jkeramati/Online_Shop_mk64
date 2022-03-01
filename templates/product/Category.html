@@ -1,6 +1,6 @@
 {% extends 'base/_base.html' %}
 {% load static %}
-{% block title %}Category{% endblock %}
+{% block title %}Product{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'TreeList.css' %}">
@@ -16,19 +16,19 @@
                     <ul id="myUL">
                         {% for cat in cateles %}
                             {% if not cat.parent %}
-                                <li><span class="caret parent" akbar="{{ cat.cate }}"
+                                <li><span class="caret parent" cate_id="{{ cat.id }}"
                                           style="color: #613400"> {{ cat.name }}</span>
                                     <ul class="nested">
                                         {% for cat1 in cateles %}
                                             {% if cat1.parent_id == cat.id %}
                                                 <li><span class="caret parent"
-                                                          akbar="{{ cat1.parent_id }}"
+                                                          cate_id="{{ cat1.id }}"
                                                           style="color: #d48806">{{ cat1.name }}</span>
                                                     <ul class="nested">
                                                         {% for cat2 in cateles %}
                                                             {% if cat2.parent_id == cat1.id %}
                                                                 <li><span class="caret parent"
-                                                                          akbar="{{ cat2.parent_id }}"
+                                                                          cate_id="{{ cat2.id }}"
                                                                           style="color: #ffd666">{{ cat2.name }}</span>
                                                                 </li>
                                                             {% endif %}
@@ -49,40 +49,41 @@
                 <section class="product-list">
                     <div class="container">
                         <div class="row">
+                            <div class="to_fill " style="margin: 0;padding: 0;border: 0;display: flex; flex-wrap: wrap;">
                                 <!--STRT ITEM-->
-                                <div class="item " style="display: flex; flex-wrap: wrap;">
-                                    <div class="product">
-                                        <div class="product-thumb">
-                                            <img class="pro-thumb-img click-to-product" akbar="{{ cat.id }}"
-                                                 src="{% if cat.image %} {{ cat.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"
-                                                 alt="{{ cat.name }}">
-                                            <div class="product-button ">
-                                                <a href="{{ cat.category_set }}" title="Quick View">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" title="Add To Cart">
-                                                    <i class="fas fa-shopping-bag"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product-info">
-                                            <h3 class="product-name">{{ cat.name }}</h3>
-
-                                            <div class="off-info">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{#                                <div class="item " style="display: flex; flex-wrap: wrap;">#}
+{#                                    <div class="product">#}
+{#                                        <div class="product-thumb">#}
+{#                                            <img class="pro-thumb-img click-to-product" akbar="{{ cat.id }}"#}
+{#                                                 src="{% if cat.image %} {{ cat.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"#}
+{#                                                 alt="{{ cat.name }}">#}
+{#                                            <div class="product-button ">#}
+{#                                                <a href="{{ cat.category_set }}" title="Quick View">#}
+{#                                                    <i class="fas fa-eye"></i>#}
+{#                                                </a>#}
+{#                                                <a href="#" title="Add To Cart">#}
+{#                                                    <i class="fas fa-shopping-bag"></i>#}
+{#                                                </a>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="product-info">#}
+{#                                            <h3 class="product-name">{{ cat.name }}</h3>#}
+{##}
+{#                                            <div class="off-info">#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
                                 <!--END ITEM-->
-
+                            </div>
                         </div>
 
                     </div>
-
                 </section>
             </div>
         </div>
     </div>
+{#    <input id="log" type="button" value="login">#}
     <script>
         var toggler = document.getElementsByClassName("caret");
         console.log(toggler)
@@ -96,16 +97,44 @@
         }
 
         $('.parent').click(function () {
-            var par = $(this).attr('akbar')
+            var par = $(this).attr('cate_id')
             console.log(par)
-            $('#fill_parent').attr("asqar", par);
-            let JsonData = {'id_parent': par};
+            let JsonData = {'category_id': par};
             $.ajax({
                 type: "GET",
-                url: {% url 'category_list' %},
+                url: 'http://127.0.0.1:8000/product/product_list_api/',
                 data: JsonData,
                 success: function (response) {
-                    console.log(response['data'])
+                    $('.to_fill').html('')
+                    for (let i of response) {
+                        $(`<div class="item col-5 " style="display: flex; flex-wrap: wrap;">
+                                    <div class="product">
+                                        <div class="product-thumb">
+                                            <img class="pro-thumb-img click-to-product"
+                                                 src="${i['image']}"
+                                                 alt="${i['name']}">
+                                            <div class="product-button ">
+                                                <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" title="Add To Cart">
+                                                    <i class="fas fa-shopping-bag"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+{#                                            <h3 class="product-name">${i['brand']['name']}</h3>#}
+                                            <h3 class="product-name">${i['name']}</h3>
+                                            <h3 class="product-name">${i['price']}</h3>
+
+                                            <div class="off-info">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`).appendTo($('.to_fill'))
+                        console.log(i)
+                    }
+
                 },
                 error: function () {
                     console.log('error')
