@@ -3,14 +3,15 @@ from django.utils.translation import gettext_lazy as _
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
+#
 from .form import CustomUserCreationForm, CustomUserChangeForm
+
 from .models import User
 
 
+#
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -19,7 +20,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('phone', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('phone', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active','date_joined')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'date_joined','groups', 'user_permissions')}),
     )
     add_fieldsets = (
         (None, {

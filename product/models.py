@@ -9,24 +9,24 @@ from django.utils.translation import gettext_lazy as _
 class Product(BaseModel):
     name = models.CharField(max_length=50)  # TODO set validator
     price = models.FloatField()
-    category = models.ManyToManyField('Category')
+    category = models.ForeignKey('Category', on_delete=models.PROTECT)
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.FileField(null=True, default=None, upload_to='product/')
+    image = models.FileField(null=True, default=None, blank=None, upload_to='product/')
 
     class Meta:
         verbose_name = _('product')
         verbose_name_plural = _('products')
 
     def __str__(self):
-        return f"{self.name}, {self.price} $, {self.category} category"
+        return f"{self.name} with {self.price}$ and {self.category} category"
 
 
 class Category(BaseModel):
     name = models.CharField(max_length=50)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
-    image = models.FileField(null=True, default=None, upload_to='category/')
+    image = models.FileField(null=True, default=None, blank=None, upload_to='category/')
 
     class Meta:
         verbose_name = _('category')

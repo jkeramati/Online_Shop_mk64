@@ -1,0 +1,118 @@
+{% extends 'base/_base.html' %}
+{% load static %}
+{% block title %}Category{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'TreeList.css' %}">
+
+
+{% endblock %}
+{% block content %}
+    <h1 class="product-title">Category Item</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <div class="container-fluid">
+                    <ul id="myUL">
+                        {% for cat in cateles %}
+                            {% if not cat.parent %}
+                                <li><span class="caret parent" akbar="{{ cat.cate }}"
+                                          style="color: #613400"> {{ cat.name }}</span>
+                                    <ul class="nested">
+                                        {% for cat1 in cateles %}
+                                            {% if cat1.parent_id == cat.id %}
+                                                <li><span class="caret parent"
+                                                          akbar="{{ cat1.parent_id }}"
+                                                          style="color: #d48806">{{ cat1.name }}</span>
+                                                    <ul class="nested">
+                                                        {% for cat2 in cateles %}
+                                                            {% if cat2.parent_id == cat1.id %}
+                                                                <li><span class="caret parent"
+                                                                          akbar="{{ cat2.parent_id }}"
+                                                                          style="color: #ffd666">{{ cat2.name }}</span>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-9">
+                <section class="product-list">
+                    <div class="container">
+                        <div class="row">
+                                <!--STRT ITEM-->
+                                <div class="item " style="display: flex; flex-wrap: wrap;">
+                                    <div class="product">
+                                        <div class="product-thumb">
+                                            <img class="pro-thumb-img click-to-product" akbar="{{ cat.id }}"
+                                                 src="{% if cat.image %} {{ cat.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"
+                                                 alt="{{ cat.name }}">
+                                            <div class="product-button ">
+                                                <a href="{{ cat.category_set }}" title="Quick View">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" title="Add To Cart">
+                                                    <i class="fas fa-shopping-bag"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">{{ cat.name }}</h3>
+
+                                            <div class="off-info">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--END ITEM-->
+
+                        </div>
+
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        var toggler = document.getElementsByClassName("caret");
+        console.log(toggler)
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
+        }
+
+        $('.parent').click(function () {
+            var par = $(this).attr('akbar')
+            console.log(par)
+            $('#fill_parent').attr("asqar", par);
+            let JsonData = {'id_parent': par};
+            $.ajax({
+                type: "GET",
+                url: {% url 'category_list' %},
+                data: JsonData,
+                success: function (response) {
+                    console.log(response['data'])
+                },
+                error: function () {
+                    console.log('error')
+                }
+            })
+        })
+
+
+    </script>
+{% endblock %}

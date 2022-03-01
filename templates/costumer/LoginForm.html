@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login | Costumer</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'StyleLogin.css' %}">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <div class="col-left">
+            <div class="login-text">
+                <h2>Logo</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget eros dapibus, ultricies tellus
+                    vitae, consectetur tortor. Etiam rutrum placerat
+                </p>
+                <a class="btn" href="">Read More</a>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="login-form">
+                <h2>Login</h2>
+                {% for error in form.errors.values %}
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    {{ error.0 }}
+                {% endfor %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p>
+                        <input class="btn" type="submit" value="LogIn">
+                    </p>
+                </form>
+                <p>
+                    <a href="{% url 'costumer_signup_view' %}">Create an account?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="credit">
+        Designed by <a href="https://htmlcodex.com">Jalal Codex</a>
+    </div>
+</div>
+</body>
+</html>

@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
                   path('', include('home.urls')),
@@ -24,7 +25,22 @@ urlpatterns = [
                   path('costumer/', include('costumer.urls')),
                   path('order/', include('order.urls')),
                   path('product/', include('product.urls')),
-                  path('rosetta/', include('rosetta.urls')),
-
+                  re_path(r'^rosetta/', include('rosetta.urls')),
+                  path('i18n/', include('django.conf.urls.i18n')),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+urlpatterns += i18n_patterns(
+    path('admin/', admin.site.urls),
+    path('', include('home.urls')),
+    path('admin/', admin.site.urls),
+    path('costumer/', include('costumer.urls')),
+    path('order/', include('order.urls')),
+    path('product/', include('product.urls')),
+
+    # اگر این مقدار وارد نشود یا برابر مقدار صحیح قرار گیرد
+    # می بایست زبان اصلی و پیشفرض پروژه را نیز در آدرس ها قرار دهیم
+    # /fa/ , /en/ , ....
+    prefix_default_language=False,
+)

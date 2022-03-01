@@ -4,8 +4,16 @@ from .models import Category, Product
 
 class CategoryListView(ListView):
     model = Category
-    template_name = 'home.html'
-    context_object_name = 'cateles'
+    template_name = 'product/Category.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        kwargs['cateles'] = Category.objects.all()
+        return super().get_context_data(object_list=object_list, **kwargs)
+
+    def get_queryset(self):
+        idd_parent = self.request.GET.get('id_parent')
+        print(idd_parent)
+        return {'data': idd_parent}
 
 
 class CategoryDetailView(DetailView):
@@ -18,6 +26,12 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product.html'
     context_object_name = 'product'
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'product/Category.html'
+    context_object_name = 'productles'
 
 
 import mixin as mixin

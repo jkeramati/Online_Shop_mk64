@@ -5,7 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <script src="{% static 'jssource.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    {#    <script src="{% static 'jssource.js' %}"></script>#}
+    <script src="{% static 'ajax.js' %}"></script>
+    {#    <script src="{% static 'alpine.js' %}"></script>#}
+    <script src="{% static 'foot/js/popper.js' %}"></script>
+    <script src="{% static 'foot/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'foot/js/main.js' %}"></script>
 
     {% block extra_head %}{% endblock %}
 </head>

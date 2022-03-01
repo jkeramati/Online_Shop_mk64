@@ -1,28 +1,32 @@
 {% extends 'base/_base.html' %}
+{% load static %}
 {% block title %}Home | Shopping{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
 {% block content %}
-<ul id="#adaptive" class="cs-hidden">
+    <ul id="#adaptive" class="cs-hidden">
         <!--BOX 1-->
         <li class="item-a">
             <!--BOX-->
-            <div class="full-slider-box f-slide-1">
+            <div class="full-slider-box f-slide-1" style="background-image:linear-gradient(rgba(0, 0, 0, 0.13),rgba(0, 0, 0, 0.158)), url({% static 'Home/image.jpeg' %});">
 
                 <div class="slider-text-container">
 
                     <div class="f-slider-text">
-                    <span>Limited Offer</span>
-                    <strong>30% OFF <br> In <font>New Product</font></strong>
-                    <a href="#" class="f-slider-btn">Shop Now</a>
+                        <span>Limited Offer</span>
+                        <strong>30% OFF <br> In <font>New Product</font></strong>
+                        <a href="#" class="f-slider-btn">Shop Now</a>
                     </div>
 
                 </div>
             </div>
         </li>
 
-      </ul>
+    </ul>
     <input type="button" value="loggin" id="dokme">
     <script>
-        $('#dokme').click(function (){
+        $('#dokme').click(function () {
             console.log('test')
         })
     </script>

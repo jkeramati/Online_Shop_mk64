@@ -3,9 +3,16 @@ from rest_framework import generics
 from product.serializers import *
 
 
-class ProductListAIE(generics.ListCreateAPIView):
+class ProductListAPI(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all()  # TODO can be costume in filter product is not deleted or ...
+    queryset = Product.objects.filter()
+
+    def get_queryset(self):
+        cate_id = self.request.GET['cate_id']
+        print(cate_id)
+        prodcts = Product.objects.filter(category__parent_id=cate_id)
+        return prodcts
+    # TODO can be costume in filter product is not deleted or ...
 
 
 class ProductDetailAPI(generics.RetrieveUpdateDestroyAPIView):
@@ -13,7 +20,7 @@ class ProductDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
 
 
-class CategoryListAIE(generics.ListCreateAPIView):
+class CategoryListAPI(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     queryset = Product.objects.all()  # TODO can be costume in filter product is not deleted or ...
 

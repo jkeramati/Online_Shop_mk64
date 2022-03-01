@@ -15,6 +15,9 @@ class Costumer(models.Model):
         verbose_name = _('costumer')
         verbose_name_plural = _('costumers')
 
+    def __str__(self):
+        return f"{self.fist_name} {self.last_name}"
+
 
 class Address(BaseModel):
     province = models.CharField(max_length=20)
@@ -27,3 +30,6 @@ class Address(BaseModel):
     class Meta:
         verbose_name = _('address')
         verbose_name_plural = _('addresses')
+
+    def __str__(self):
+        return f"{self.province} , {self.city}"
