@@ -7,9 +7,11 @@ urlpatterns = [
     path('logout/', logout_view, name='costumer_logout'),
     path('signup/', CostumerSignUpFormView.as_view(), name='costumer_signup_view'),
     path('signup/success', success_signUp, name='success'),
-    path('Address/', AddressFormView.as_view(), name='address_form_view0'),
-    path('address1/', AddressDetailApi.as_view(), name='address_view_detail'),
-    path('address2/', AddressListApi.as_view(), name='address_view_list'),
-    path('costumer1/', CostumerDetailApi.as_view(), name='costumer_view_detail'),
-    path('costumer2/', CostumerListApi.as_view(), name='costumer_view_list'),
+    path('dashboard/', dashboard, name='dashboard'),
+
+    # path('Address/', AddressFormView.as_view(), name='address_form_view0'),
+    # path('address1/', AddressDetailApi.as_view(), name='address_view_detail'),
+    # path('address2/', AddressListApi.as_view(), name='address_view_list'),
+    # path('costumer1/', CostumerDetailApi.as_view(), name='costumer_view_detail'),
+    # path('costumer2/', CostumerListApi.as_view(), name='costumer_view_list'),
 ]

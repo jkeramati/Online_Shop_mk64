@@ -34,10 +34,14 @@ def success_signUp(request):
     return render(request, template_name='success.html')
 
 
+def dashboard(request):
+    return render(request, template_name='costumer/dashboard.html')
+
+
 class CostumerLoginView(FormView):
     form_class = CostumerLoginForm
     template_name = "costumer/LoginForm.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         login(self.request, user=form.get_user())
