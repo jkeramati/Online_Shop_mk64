@@ -14,3 +14,10 @@ class CartListView(ListView):
 class CartItemListView(ListView):
     model = CartItem
     template_name = ''
+
+
+def modal_cart(request):
+    return render(request, 'order/modalcart.html')
+
+
+

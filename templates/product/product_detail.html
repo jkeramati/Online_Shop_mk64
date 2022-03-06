@@ -9,7 +9,7 @@
 {% endblock %}
 {% block content %}
     <div style="display: flex;align-items: center; justify-content: center; flex-direction: column">
-        <div class="product-card" >
+        <div class="product-card">
             <div class="logo-cart">
                 <img src="{{ product.brand.image.url }}"
                      alt="logo">
@@ -45,12 +45,34 @@
             </div>
             <div class="button">
                 <div class="button-layer"></div>
-                <button>Add To Cart</button>
+                <button class="click_to_add1" product_id_cookie="{{ product.id }}">Add To Cart</button>
             </div>
         </div>
     </div>
 
     <script>
+        $('.click_to_add1').click(function () {
+            console.log('test')
+            let id_product = $(this).attr('product_id_cookie')
+            console.log(id_product)
+            let JsonData = {'id_product': id_product}
+            $.ajax({
+                type: "POST",
+                url: 'http://127.0.0.1:8000/order/add_cart/',
+                data: JsonData,
+                success: function (response) {
+                    console.log(response)
+
+                },
+                error: function () {
+                    console.log('error')
+                }
+            })
+        })
+
+        $('#logggg').click(function () {
+            console.log('testt')
+        })
         let circle = document.querySelector(".color-option");
 
         circle.addEventListener("click", (e) => {

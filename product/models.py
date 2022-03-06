@@ -13,7 +13,7 @@ class Product(BaseModel):
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.FileField(null=True, default=None, blank=None, upload_to='product/')
+    image = models.FileField(null=True, default=None, blank=True, upload_to='product/')
 
     class Meta:
         verbose_name = _('product')
@@ -22,11 +22,19 @@ class Product(BaseModel):
     def __str__(self):
         return f"{self.name} with {self.price}$ and {self.category} category"
 
+    @property
+    def url_image_set(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=50)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
-    image = models.FileField(null=True, default=None, blank=None, upload_to='category/')
+    image = models.FileField(null=True, blank=True, upload_to='category/')
 
     class Meta:
         verbose_name = _('category')
@@ -35,11 +43,19 @@ class Category(BaseModel):
     def __str__(self):
         return f"{self.name}"
 
+    @property
+    def url_image_set(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
 
 class Brand(BaseModel):
     name = models.CharField(max_length=20)
     country = models.CharField(max_length=20, null=True, blank=True)
-    image = models.FileField(null=True, default=None, blank=None, upload_to='brand/')
+    image = models.FileField(null=True, blank=None, upload_to='brand/')
 
     def __str__(self):
         return f"{self.name}"

@@ -49,31 +49,32 @@
                 <section class="product-list">
                     <div class="container">
                         <div class="row">
-                            <div class="to_fill " style="margin: 0;padding: 0;border: 0;display: flex; flex-wrap: wrap;">
+                            <div class="to_fill "
+                                 style="margin: 0;padding: 0;border: 0;display: flex; flex-wrap: wrap;">
                                 <!--STRT ITEM-->
-{#                                <div class="item " style="display: flex; flex-wrap: wrap;">#}
-{#                                    <div class="product">#}
-{#                                        <div class="product-thumb">#}
-{#                                            <img class="pro-thumb-img click-to-product" akbar="{{ cat.id }}"#}
-{#                                                 src="{% if cat.image %} {{ cat.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"#}
-{#                                                 alt="{{ cat.name }}">#}
-{#                                            <div class="product-button ">#}
-{#                                                <a href="{{ cat.category_set }}" title="Quick View">#}
-{#                                                    <i class="fas fa-eye"></i>#}
-{#                                                </a>#}
-{#                                                <a href="#" title="Add To Cart">#}
-{#                                                    <i class="fas fa-shopping-bag"></i>#}
-{#                                                </a>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                        <div class="product-info">#}
-{#                                            <h3 class="product-name">{{ cat.name }}</h3>#}
-{##}
-{#                                            <div class="off-info">#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
+                                {#                                <div class="item " style="display: flex; flex-wrap: wrap;">#}
+                                {#                                    <div class="product">#}
+                                {#                                        <div class="product-thumb">#}
+                                {#                                            <img class="pro-thumb-img click-to-product" akbar="{{ cat.id }}"#}
+                                {#                                                 src="{% if cat.image %} {{ cat.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"#}
+                                {#                                                 alt="{{ cat.name }}">#}
+                                {#                                            <div class="product-button ">#}
+                                {#                                                <a href="{{ cat.category_set }}" title="Quick View">#}
+                                {#                                                    <i class="fas fa-eye"></i>#}
+                                {#                                                </a>#}
+                                {#                                                <a href="#" title="Add To Cart">#}
+                                {#                                                    <i class="fas fa-shopping-bag"></i>#}
+                                {#                                                </a>#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="product-info">#}
+                                {#                                            <h3 class="product-name">{{ cat.name }}</h3>#}
+                                {##}
+                                {#                                            <div class="off-info">#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
                                 <!--END ITEM-->
                             </div>
                         </div>
@@ -83,7 +84,7 @@
             </div>
         </div>
     </div>
-{#    <input id="log" type="button" value="login">#}
+    {#    <input id="log" type="button" value="login">#}
     <script>
         var toggler = document.getElementsByClassName("caret");
         console.log(toggler)
@@ -115,10 +116,10 @@
                                                  alt="${i['name']}">
                                             <div class="product-button ">
                                                 <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-eye "></i>
                                                 </a>
-                                                <a href="#" title="Add To Cart">
-                                                    <i class="fas fa-shopping-bag"></i>
+                                                <a href="#" title="Add To Cart" class="click_to_add1" product_id_cookie=${i['id']}>
+                                                    <i class="fas fa-shopping-bag click_to_add" product_id_cookie=${i['id']} ></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -134,6 +135,42 @@
                                 </div>`).appendTo($('.to_fill'))
                         console.log(i)
                     }
+
+                },
+                error: function () {
+                    console.log('error')
+                }
+            })
+        })
+
+        {#$('.click_to_add').click(function () {#}
+        {#    console.log('test')#}
+        {#    let JsonData = {'increase': 1}#}
+        {#    $.ajax({#}
+        {#        type: "GET",#}
+        {#        url: 'http://127.0.0.1:8000/order/add_cart/',#}
+        {#        data: JsonData,#}
+        {#        success: function (response) {#}
+        {#            console.log(response)#}
+        {##}
+        {#        },#}
+        {#        error: function () {#}
+        {#            console.log('error')#}
+        {#        }#}
+        {#    })#}
+
+
+        $('.click_to_add1').click(function () {
+            console.log('test')
+            let id_product = $(this).attr('product_id_cookie')
+            console.log(id_product)
+            let JsonData = {'increase': 1}
+            $.ajax({
+                type: "GET",
+                url: 'http://127.0.0.1:8000/order/add_cart/',
+                data: JsonData,
+                success: function (response) {
+                    console.log(response)
 
                 },
                 error: function () {
