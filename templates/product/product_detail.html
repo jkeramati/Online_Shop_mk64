@@ -46,19 +46,22 @@
             <div class="button">
                 <div class="button-layer"></div>
                 <button class="click_to_add1" product_id_cookie="{{ product.id }}">Add To Cart</button>
+                <div id="id_token">{% csrf_token %}</div>
             </div>
         </div>
     </div>
 
     <script>
         $('.click_to_add1').click(function () {
-            console.log('test')
             let id_product = $(this).attr('product_id_cookie')
+            let token = $('#id_token > input').val()
+            console.log(token)
             console.log(id_product)
-            let JsonData = {'id_product': id_product}
+            let count = 1
+            let JsonData = {'id_product': id_product, "csrfmiddlewaretoken": token,'count':count}
             $.ajax({
                 type: "POST",
-                url: 'http://127.0.0.1:8000/order/add_cart/',
+                url: 'http://127.0.0.1:8000/order/cartitem/',
                 data: JsonData,
                 success: function (response) {
                     console.log(response)
