@@ -10,11 +10,11 @@ from costumer.models import Address
 
 class Cart(BaseModel):
     costumer = models.ForeignKey(to=Costumer, on_delete=models.RESTRICT)
-    address = models.ForeignKey(to=Address, on_delete=models.RESTRICT)
+    address = models.ForeignKey(to=Address, on_delete=models.RESTRICT, null=True, blank=True)
     off_code = models.ForeignKey(to=OffCode, null=True, blank=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=9, choices=[('PAY', 'payed'), ('NPY', 'not_pay')])
-    total_price = models.IntegerField()
-    final_price = models.IntegerField()
+    total_price = models.IntegerField(default=0)
+    final_price = models.IntegerField(default=0)
 
     class Meta:
         unique_together = [['costumer', 'off_code']]

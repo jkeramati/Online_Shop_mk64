@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView
+from rest_framework import viewsets
 
 from order.models import Cart, CartItem
 
@@ -16,8 +17,7 @@ class CartItemListView(ListView):
     template_name = ''
 
 
-def modal_cart(request):
-    return render(request, 'order/modalcart.html')
+
 
 
 
