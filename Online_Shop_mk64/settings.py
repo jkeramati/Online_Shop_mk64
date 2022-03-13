@@ -166,6 +166,7 @@ INSTALLED_APPS = [
     'product',
     'home',
     'rosetta',
+    'django_extensions',
 ]
 
 # REST_FRAMEWORK = {

@@ -24,6 +24,7 @@
                     <div class="card-body p-0">
                         <div class="row g-0">
                             <div class="col-lg-8">
+
                                 <div class="to_fill"
                                      style="margin: 0;padding: 0;border: 0;display: flex; flex-wrap: wrap;">
                                     <div class="p-5">
@@ -32,36 +33,40 @@
                                             <h6 class="mb-0 text-muted">3 items</h6>
                                         </div>
                                         <hr class="my-4">
+                                        {% for item in items %}
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img
+                                                            src="{{ item.product.image.url }}"
+                                                            class="img-fluid rounded-3"
+                                                            alt="{{ item.product.name }}">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-muted">{{ item.product.name }}</h6>
+                                                    <h6 class="text-black mb-0">{{ item.product.product }}</h6>
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <input type="number" min="1" max="10"
+                                                           value="{{ item.number_item }}">
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">$ {{ item.product.price }}</h6>
+                                                </div>
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                    <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                                                </div>
+                                            </div>
 
-                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                                <img
-                                                        src=""
-                                                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                                            </div>
-                                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                                <h6 class="text-muted">Shirt</h6>
-                                                <h6 class="text-black mb-0">Cotton T-shirt</h6>
-                                            </div>
-                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                <input type="number" value="4" min="1" max="10">
-                                            </div>
-                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h6 class="mb-0">€ 44.00</h6>
-                                            </div>
-                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                                            </div>
-                                        </div>
-
-                                        <hr class="my-4">
-
+                                            <hr class="my-4">
+                                        {% endfor %}
                                         <div class="pt-5">
                                             <h6 class="mb-0"><a href="#!" class="text-body"><i
-                                                    class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                                                    class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="col-lg-4 bg-grey">
                                 <div class="p-5">

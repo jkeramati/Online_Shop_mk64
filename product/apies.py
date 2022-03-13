@@ -16,6 +16,13 @@ class ProductListAPI(generics.ListCreateAPIView):
         return queryset
 
 
+
+
+    # def get_queryset(self):
+    #     off_code = self.request.GET['off_code']
+    #     obj_off = OffCode.objects.get(code=off_code)
+    #     return obj_off
+
     # def get_queryset(self):
     #     cate_id = self.request.GET['category_id']
     #     print(cate_id)
@@ -31,7 +38,7 @@ class ProductListAPI(generics.ListCreateAPIView):
     #     prodcts3 = Product.objects.filter(category=cat3)
     #     products=prodcts1+prodcts2+prodcts3
 
-        # return {'data': products}
+    # return {'data': products}
     # TODO can be costume in filter product is not deleted or ...
 
 

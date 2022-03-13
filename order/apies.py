@@ -2,6 +2,7 @@
 # from django.http import request
 import json
 
+from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from rest_framework import generics, viewsets, permissions
 # from urllib3.util import request
@@ -68,18 +69,43 @@ class AddToCart(viewsets.ModelViewSet):
             return super().create(request, *args, **kwargs)
 
 
-#
-
-
 class CartItemList(ListView):
     model = CartItem
-    template_name = 'order/modalcart.html'
+    template_name = 'order/samplecart.html'
     context_object_name = 'items'
 
     def get_queryset(self):
         return CartItem.objects.filter(cart__costumer__user=self.request.user)
 
-#
+    def get_context_data(self, *, object_list=None, **kwargs):
+        total_price = 0
+        for item in CartItem.objects.filter(cart__costumer__user=self.request.user):
+            total_price += item.product.price * item.number_item
+        kwargs['total_price'] = total_price
+        kwargs['tax'] = total_price * 0.05
+        return super().get_context_data(object_list=object_list, **kwargs)
+
+
+def samplecart(requset):
+    return render(requset, 'order/modalcart.html')
+
+
+class CartUpdateAPI(viewsets.ModelViewSet):
+    serializer_class = CartSerializer
+    queryset = Cart.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        off_code = request.data['off_code']
+        id_off_code = OffCode.objects.get(code=off_code).id
+        print(id_off_code)
+        return super().update(request, *args, **kwargs)
+
+
+class CartItemDetail(generics.RetrieveDestroyAPIView):
+    serializer_class = CartItemSerializer
+    queryset = CartItem
+
+
 # def set_cart_cookie(request):
 #     id_product = request.data['id_product']
 #     count_product = int(request.data['count'])

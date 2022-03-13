@@ -16,6 +16,9 @@ class Cart(BaseModel):
     total_price = models.IntegerField(default=0)
     final_price = models.IntegerField(default=0)
 
+    def calc_total_price(self):
+        pass
+
     class Meta:
         unique_together = [['costumer', 'off_code']]
 
