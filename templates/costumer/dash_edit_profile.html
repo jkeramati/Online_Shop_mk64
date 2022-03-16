@@ -1,0 +1,187 @@
+{#{% extends 'costumer/dashboard.html' %}#}
+{% load static %}
+
+{% block extra_head %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'dashboard/table/images/icons/favicon.ico ' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main.css' %}">
+    <!--===============================================================================================-->
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputProvince">Province</label>
+                <input type="text" class="form-control border" id="inputProvince">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" class="form-control border" id="inputCity">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputStreet1">Main Street</label>
+                <input type="text" class="form-control border" id="inputStreet1">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputStreet2">Auxiliary Street</label>
+                <input type="text" class="form-control border" id="inputStreet2">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputAlley">Alley</label>
+                <input type="text" class="form-control border" id="inputAlley">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputNo">No</label>
+                <input type="text" class="form-control border" id="inputNo">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="add_new_address">Create</button>
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
+<script>
+    $('.js-pscroll').each(function () {
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
+
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        } else {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+                end = dc.length;
+            }
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    }
+
+
+    $('#add_new_address').on('click', function () {
+        let province = $('#inputProvince').val()
+        let city = $('#inputCity').val()
+        let main_st = $('#inputStreet1').val()
+        let auxiliary_st = $('#inputStreet2').val()
+        let alley = $('#inputAlley').val()
+        let no = $('#inputNo').val()
+        let cook = getCookie('csrftoken')
+        var JsonData = {
+            'province': province,
+            'city': city,
+            'main_st': main_st,
+            'auxiliary_st': auxiliary_st,
+            'alley': alley,
+            'No': no,
+        }
+        $.ajax({
+            url: '{% url 'add_address' %}',
+            type: 'POST',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": cook,
+            },
+            success: function (response) {
+                {#console.log(response)#}
+                Swal.fire(
+                    'Good job!',
+                    'You added a new address!',
+                    'success'
+                )
+            },
+            error: function (error) {
+                {#console.log(error)#}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+
+    $('.delete_address').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        console.log(item_id)
+        let cook = getCookie('csrftoken')
+        console.log('test', getCookie('csrftoken'))
+        $.ajax({
+            type: 'DELETE',
+            url: '{% url 'del_address' 0 %}'.replace('0', item_id),
+            headers: {
+                "X-CSRFToken": cook
+            },
+
+            success: function (response) {
+                console.log(response)
+                Swal.fire(
+                    'Good job!',
+                    'You Deleted a address!',
+                    'success'
+                )
+                {#removeItem()#}
+            },
+            error: function (error) {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+
+</script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/js/main.js' %}"></script>

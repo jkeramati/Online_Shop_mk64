@@ -131,9 +131,17 @@ class DeleteAddress(generics.DestroyAPIView):
     serializer_class = AddressSerializer
 
 
-class EditPersonalInfo(generics.RetrieveUpdateAPIView):
-    queryset = Costumer.objects.all()
-    serializer_class = CostumerSerializer
+class ProfileView(ListView):
+    model = Costumer
+
+    def get(self, request, *args, **kwargs):
+        costumer = Costumer.objects.filter(user=self.request.user)
+        print(costumer)
+        context = {
+            'items': costumer,
+        }
+        template_string = render_to_string(template_name='costumer/dash_edit_profile.html', context=context)
+        return JsonResponse({'costumer': template_string})
 
     # @method_decorator(csrf_exempt)
     # def dispatch(self, request, *args, **kwargs):
