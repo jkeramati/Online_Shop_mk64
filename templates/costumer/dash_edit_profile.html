@@ -24,43 +24,33 @@
 {% endblock %}
 
 {% block content %}
-
+    {% for item in items %}
     <div>
+{#    {{ item.id }}#}
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputProvince">Province</label>
-                <input type="text" class="form-control border" id="inputProvince">
+                <label for="User">Phone</label>
+                <input type="text" class="form-control border" disabled id="User" value="{{ item.user.phone }}">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control border" id="inputCity">
+                <label for="inputFname">First Name</label>
+                <input type="text" class="form-control border" id="inputFname" value="{{ item.fist_name }}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputStreet1">Main Street</label>
-                <input type="text" class="form-control border" id="inputStreet1">
+                <label for="inputLname">Last name</label>
+                <input type="text" class="form-control border" id="inputLname" value="{{ item.last_name }}">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputStreet2">Auxiliary Street</label>
-                <input type="text" class="form-control border" id="inputStreet2">
+                <label for="inputAge">Age</label>
+                <input type="number" class="form-control border" id="inputAge">
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputAlley">Alley</label>
-                <input type="text" class="form-control border" id="inputAlley">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputNo">No</label>
-                <input type="text" class="form-control border" id="inputNo">
-            </div>
-        </div>
-        <button type="button" class="btn btn-primary" id="add_new_address">Create</button>
+
+        <button type="button" class="btn btn-primary" id="edit_profile" akbar="{{ item.id }}">Edit</button>
     </div>
-
-
-
+    {% endfor %}
 
 
 
@@ -106,25 +96,22 @@
     }
 
 
-    $('#add_new_address').on('click', function () {
-        let province = $('#inputProvince').val()
-        let city = $('#inputCity').val()
-        let main_st = $('#inputStreet1').val()
-        let auxiliary_st = $('#inputStreet2').val()
-        let alley = $('#inputAlley').val()
-        let no = $('#inputNo').val()
+    $('#edit_profile').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        let first_name = $('#inputFname').val()
+        let last_name = $('#inputLname').val()
+        {#let main_st = $('#inputStreet1').val()#}
+        {#let auxiliary_st = $('#inputStreet2').val()#}
+        {#let alley = $('#inputAlley').val()#}
+        {#let no = $('#inputNo').val()#}
         let cook = getCookie('csrftoken')
         var JsonData = {
-            'province': province,
-            'city': city,
-            'main_st': main_st,
-            'auxiliary_st': auxiliary_st,
-            'alley': alley,
-            'No': no,
+            'fist_name': first_name,
+            'last_name': last_name,
         }
         $.ajax({
-            url: '{% url 'add_address' %}',
-            type: 'POST',
+            url: '{% url 'edit_profile' 0 %}'.replace('0',item_id),
+            type: 'PATCH',
             data: JsonData,
             headers: {
                 "X-CSRFToken": cook,
@@ -136,6 +123,8 @@
                     'You added a new address!',
                     'success'
                 )
+                {#$('#inputFname').value(first_name)#}
+                {#$('#inputLname').value(last_name)#}
             },
             error: function (error) {
                 {#console.log(error)#}
@@ -149,37 +138,7 @@
     })
 
 
-    $('.delete_address').on('click', function () {
-        let item_id = $(this).attr('akbar')
-        console.log(item_id)
-        let cook = getCookie('csrftoken')
-        console.log('test', getCookie('csrftoken'))
-        $.ajax({
-            type: 'DELETE',
-            url: '{% url 'del_address' 0 %}'.replace('0', item_id),
-            headers: {
-                "X-CSRFToken": cook
-            },
 
-            success: function (response) {
-                console.log(response)
-                Swal.fire(
-                    'Good job!',
-                    'You Deleted a address!',
-                    'success'
-                )
-                {#removeItem()#}
-            },
-            error: function (error) {
-                console.log(error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
-            }
-        })
-    })
 
 
 </script>

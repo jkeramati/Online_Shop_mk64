@@ -160,7 +160,7 @@
     $('#personal_info').on('click', function () {
         $.ajax({
             type: 'GET',
-            url: '{% url 'edit_profile' %}',
+            url: '{% url 'information_profile' %}',
             success: function (response) {
                     $('#to_fill').html(response['costumer'])
                     console.log(response['costumer'])

@@ -143,6 +143,11 @@ class ProfileView(ListView):
         template_string = render_to_string(template_name='costumer/dash_edit_profile.html', context=context)
         return JsonResponse({'costumer': template_string})
 
+
+class EditProfile(generics.UpdateAPIView):
+    queryset = Costumer.objects.all()
+    serializer_class = CostumerSerializer
+
     # @method_decorator(csrf_exempt)
     # def dispatch(self, request, *args, **kwargs):
     #     return super(DeleteAddress, self).dispatch(request, *args, **kwargs)
