@@ -5,15 +5,19 @@ from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, RedirectView, TemplateView, ListView
 from django.urls import reverse_lazy
 from rest_framework import generics, permissions, authentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from costumer.form import CostumerSignUpForm, CostumerLoginForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Address, Costumer
+from costumer.permission import IsOwnerPermission
 from costumer.serializer import AddressSerializer, CostumerSerializer
 from order.models import CartItem, Cart
 
@@ -112,6 +116,31 @@ class AddressAPI(ListView):
 class AddFormAddress(generics.CreateAPIView):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
+
+    def create(self, request, *args, **kwargs):
+        request.data._mutable = True
+        costumer = Costumer.objects.get(user=self.request.user)
+        # print(costumer)
+        # # print(costumer,type(costumer))
+        request.data['costumer'] = costumer.id
+        return super().create(request, *args, **kwargs)
+
+
+class DeleteAddress(generics.DestroyAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+
+class EditPersonalInfo(generics.RetrieveUpdateAPIView):
+    queryset = Costumer.objects.all()
+    serializer_class = CostumerSerializer
+
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super(DeleteAddress, self).dispatch(request, *args, **kwargs)
+
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     # def create(self, request, *args, **kwargs):
     #     # costumer = Costumer.objects.get(user=self.request.user)

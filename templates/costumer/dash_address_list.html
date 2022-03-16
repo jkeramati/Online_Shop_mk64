@@ -33,7 +33,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,8 +109,8 @@
                         <td class="cell100 column4">{{ item.alley }}</td>
                         <td class="cell100 column5">{{ item.No }}</td>
                         <td class="cell100 column6">
-                            <button type="button" class="btn btn-danger detail_cart" data-toggle="modal"
-                                    data-target="#exampleModal" akbar="{{ item.id }}">Delete
+                            <button type="button" class="btn btn-danger delete_address"
+                                    akbar="{{ item.id }}">Delete
                             </button>
                         </td>
                     </tr>
@@ -134,6 +134,8 @@
 <script src="{% static 'dashboard/table/vendor/select2/select2.min.js' %}"></script>
 <!--===============================================================================================-->
 <script src="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
 <script>
     $('.js-pscroll').each(function () {
         var ps = new PerfectScrollbar(this);
@@ -142,26 +144,25 @@
             ps.update();
         })
     });
-
-    $('.detail_cart').on('click', function () {
-        let item_id = $(this).attr('akbar')
-        console.log(item_id)
-        var JsonData = {'cart_id': item_id}
-        $.ajax({
-            type: 'GET',
-            url: '{% url 'order_item_list_in_dashboard' %}',
-            data: JsonData,
-            headers: {
-                "X-CSRFToken": '{{ csrf_token }}'
-            },
-            success: function (response) {
-                console.log(response)
-            },
-            error: function (error) {
-                console.log(error)
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        } else {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+                end = dc.length;
             }
-        })
-    })
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    }
+
 
     $('#add_new_address').on('click', function () {
         let province = $('#inputProvince').val()
@@ -170,7 +171,7 @@
         let auxiliary_st = $('#inputStreet2').val()
         let alley = $('#inputAlley').val()
         let no = $('#inputNo').val()
-        let costumer = `{{ user }}`
+        let cook = getCookie('csrftoken')
         var JsonData = {
             'province': province,
             'city': city,
@@ -178,22 +179,54 @@
             'auxiliary_st': auxiliary_st,
             'alley': alley,
             'No': no,
-            'costumer':costumer,
         }
         $.ajax({
-            type: 'POST',
             url: '{% url 'add_address' %}',
+            type: 'POST',
             data: JsonData,
             headers: {
-                "X-CSRFToken": '{{ csrf_token }}'
+                "X-CSRFToken": cook,
             },
             success: function (response) {
-                console.log(response)
+                {#console.log(response)#}
                 Swal.fire(
                     'Good job!',
                     'You added a new address!',
                     'success'
                 )
+            },
+            error: function (error) {
+                {#console.log(error)#}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+
+
+    $('.delete_address').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        console.log(item_id)
+        let cook = getCookie('csrftoken')
+        console.log('test',getCookie('csrftoken'))
+        $.ajax({
+            type: 'DELETE',
+            url: '{% url 'del_address' 0 %}'.replace('0', item_id),
+            headers: {
+                "X-CSRFToken": cook},
+
+            success: function (response) {
+                console.log(response)
+                Swal.fire(
+                    'Good job!',
+                    'You Deleted a address!',
+                    'success'
+                )
+                {#removeItem()#}
             },
             error: function (error) {
                 console.log(error)

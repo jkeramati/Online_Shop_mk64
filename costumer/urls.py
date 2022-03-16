@@ -11,7 +11,9 @@ urlpatterns = [
     path('dashboard/carthist', CartListAPI.as_view(), name='order_history'),
     path('dashboard/addresslist', AddressAPI.as_view(), name='address_list'),
     path('dashboard/addresslist/add_address', AddFormAddress.as_view(), name='add_address'),
-
+    path('dashboard/addresslist/del_address/<int:pk>', DeleteAddress.as_view(), name='del_address'),
+    path('dashboard/profile_info/<int:pk>', EditPersonalInfo.as_view(), name='edit_profile'),
+    #
     # path('Address/', AddressFormView.as_view(), name='address_form_view0'),
     # path('address1/', AddressDetailApi.as_view(), name='address_view_detail'),
     # path('address2/', AddressListApi.as_view(), name='address_view_list'),
