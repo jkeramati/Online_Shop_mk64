@@ -4,10 +4,13 @@ from costumer.views import *
 
 urlpatterns = [
     path('login/', CostumerLoginView.as_view(), name='costumer_login_view'),
-    path('logout/', logout_view, name='costumer_logout'),
     path('signup/', CostumerSignUpFormView.as_view(), name='costumer_signup_view'),
     path('signup/success', success_signUp, name='success'),
-    path('dashboard/', dashboard, name='dashboard'),
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('logout/', Logout.as_view(), name='logout'),
+    path('dashboard/carthist', CartListAPI.as_view(), name='order_history'),
+    path('dashboard/addresslist', AddressAPI.as_view(), name='address_list'),
+    path('dashboard/addresslist/add_address', AddFormAddress.as_view(), name='add_address'),
 
     # path('Address/', AddressFormView.as_view(), name='address_form_view0'),
     # path('address1/', AddressDetailApi.as_view(), name='address_view_detail'),

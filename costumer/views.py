@@ -1,17 +1,40 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
+
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.views.generic import FormView
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import FormView, RedirectView, TemplateView, ListView
 from django.urls import reverse_lazy
 from rest_framework import generics, permissions, authentication
 
-from costumer.form import CostumerSignUpForm, AddressForm, CostumerLoginForm
+from costumer.form import CostumerSignUpForm, CostumerLoginForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Address, Costumer
 from costumer.serializer import AddressSerializer, CostumerSerializer
+from order.models import CartItem, Cart
+
+
+class CartItemList(ListView):
+    model = CartItem
+    template_name = 'order/samplecart.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart__costumer__user=self.request.user)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        total_price = 0
+        for item in CartItem.objects.filter(cart__costumer__user=self.request.user):
+            total_price += item.product.price * item.number_item
+        kwargs['total_price'] = total_price
+        kwargs['tax'] = total_price * 0.05
+        kwargs['final_price'] = total_price + total_price * 0.05
+
+        return super().get_context_data(object_list=object_list, **kwargs)
 
 
 class CostumerSignUpFormView(FormView):
@@ -34,8 +57,9 @@ def success_signUp(request):
     return render(request, template_name='success.html')
 
 
-def dashboard(request):
-    return render(request, template_name='costumer/dashboard.html')
+class Dashboard(LoginRequiredMixin, TemplateView):
+    template_name = 'costumer/dashboard.html'
+    login_url = '/costumer/login/'
 
 
 class CostumerLoginView(FormView):
@@ -52,16 +76,48 @@ class CostumerLoginView(FormView):
 
 
 # class CostumerLogout(LogoutView)
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 
-def logout_view(request):
-    logout(request)
-    return redirect(to=reverse_lazy('index'))
+class CartListAPI(ListView):
+    model = Cart
+
+    # context_object_name = 'items'
+
+    def get(self, request, *args, **kwargs):
+        cart = Cart.objects.filter(costumer__user=self.request.user)
+        cartitem = CartItem.objects.filter(cart__costumer__user=self.request.user)
+        context = {
+            'items': cart,
+            'items_cart': cartitem,
+        }
+        template_string = render_to_string(template_name='costumer/dash_history_order.html', context=context)
+        return JsonResponse({'cart': template_string})
 
 
-class AddressFormView(FormView):
-    form_class = AddressForm
-    template_name = ''
+class AddressAPI(ListView):
+    model = Address
+
+    def get(self, request, *args, **kwargs):
+        address = Address.objects.filter(costumer__user=self.request.user)
+        print(address)
+        context = {
+            'items': address,
+        }
+        template_string = render_to_string(template_name='costumer/dash_address_list.html', context=context)
+        return JsonResponse({'address': template_string})
+
+
+class AddFormAddress(generics.CreateAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #     # costumer = Costumer.objects.get(user=self.request.user)
+    #     # print(costumer)
+    #     # kwargs['costumer'] = costumer
+    #     return super().create(request, *args, **kwargs)
 
 
 from .permission import *
@@ -93,3 +149,11 @@ class CostumerListApi(generics.ListAPIView):
     queryset = Costumer.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsSuperUserPermission]
     authentication_classes = [authentication.BasicAuthentication]
+
+
+class Logout(RedirectView):
+    url = reverse_lazy('index')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super().get(request, *args, **kwargs)

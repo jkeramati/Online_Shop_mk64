@@ -29,6 +29,7 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
+
     def save(self, *args, **kwargs):
         self.username = self.phone
         if User.objects.filter(id=self.id):

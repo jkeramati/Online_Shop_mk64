@@ -45,7 +45,7 @@ class CostumerSignUpForm(UserCreationForm):
     #         user.save()
     #     return user
 
-class AddressForm(ModelForm):
-    class Meta:
-        model = Address
-        fields = "__all__"
+# class AddressForm(ModelForm):
+#     class Meta:
+#         model = Address
+#         fields = "__all__"

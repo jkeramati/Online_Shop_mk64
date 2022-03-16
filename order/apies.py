@@ -1,7 +1,3 @@
-# from urllib import request
-# from django.http import request
-import json
-
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from rest_framework import generics, viewsets, permissions
@@ -12,50 +8,9 @@ from rest_framework.response import Response
 from order.serializers import *
 
 
-class CartListAPI(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CartSerializer
-    queryset = Cart.objects.all()
-    pass
-
-
-from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
-
-
-# class IsOwner(permissions.BasePermission):
-#
-#     # def has_permission(self, request, view):
-#     #     if obj.owner == request.user:
-#     #      return True
-#
-#     def has_oject_permission(self, request, view, obj):
-#         # orders = CartItem.objects.get(cart__costumer__user=request.user, cart__status='NPAY')
-#         # if request.method in permissions.SAFE_METHODS:
-#         #     return True
-#         # elif obj in orders.cartitem_set:
-#         #     return True
-#         # else:
-#         #     return False
-#         if obj.owner.id == request.user.id:
-#             return True
-#
-#
-# class AddCartItemViewSet(viewsets.ModelViewSet):
-#     serializer_class = CartItemSerializer
-#     queryset = CartItem.objects.all()
-#     authentication_classes = [BasicAuthentication]
-#     permission_classes = [IsAuthenticated, IsOwner]
-#
-#
-# class forVIEWtemplate(TemplateView):
-#     template_name = 'for_test.html'
-
 class AddToCart(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     queryset = CartItem.objects.all()
-
-    # def create(self, request, *args, **kwargs):
-    #     return super().create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
@@ -83,6 +38,8 @@ class CartItemList(ListView):
             total_price += item.product.price * item.number_item
         kwargs['total_price'] = total_price
         kwargs['tax'] = total_price * 0.05
+        kwargs['final_price'] = total_price + total_price * 0.05
+
         return super().get_context_data(object_list=object_list, **kwargs)
 
 
@@ -90,21 +47,40 @@ def samplecart(requset):
     return render(requset, 'order/modalcart.html')
 
 
-class CartUpdateAPI(viewsets.ModelViewSet):
+class CartUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartSerializer
     queryset = Cart.objects.all()
 
-    def update(self, request, *args, **kwargs):
-        off_code = request.data['off_code']
-        id_off_code = OffCode.objects.get(code=off_code).id
-        print(id_off_code)
-        return super().update(request, *args, **kwargs)
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            off_code = request.data['off_code']
+            id_off_code = OffCode.objects.get(code=off_code)
+            print(id_off_code)
+        except:
+            print('bazam dardesar')
+            return Response(status=404)
+
+        return super().partial_update(request, *args, **kwargs)
 
 
 class CartItemDetail(generics.RetrieveDestroyAPIView):
     serializer_class = CartItemSerializer
     queryset = CartItem
 
+
+class CartItemListApi(generics.ListAPIView):
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        # print(self.request.GET['cart_id'])
+        queryset = CartItem.objects.filter(cart_id=self.request.GET['cart_id'])
+        # print(queryset)
+        return queryset
+
+    # def get_queryset(self):
+    #     cart_id = self.request.data['cart_id']
+    #     queryset = CartItem.objects.filter(cart_id=cart_id)
+    #     return queryset
 
 # def set_cart_cookie(request):
 #     id_product = request.data['id_product']

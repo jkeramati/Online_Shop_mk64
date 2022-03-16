@@ -1,0 +1,212 @@
+{#{% extends 'costumer/dashboard.html' %}#}
+{% load static %}
+
+{% block extra_head %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'dashboard/table/images/icons/favicon.ico ' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main.css' %}">
+    <!--===============================================================================================-->
+{% endblock %}
+
+{% block content %}
+
+    <button type="button" class="btn btn-success add_address" data-toggle="modal"
+            data-target="#exampleModal">Add Address
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputProvince">Province</label>
+                                <input type="text" class="form-control border" id="inputProvince">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control border" id="inputCity">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputStreet1">Main Street</label>
+                                <input type="text" class="form-control border" id="inputStreet1">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputStreet2">Auxiliary Street</label>
+                                <input type="text" class="form-control border" id="inputStreet2">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputAlley">Alley</label>
+                                <input type="text" class="form-control border" id="inputAlley">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputNo">No</label>
+                                <input type="text" class="form-control border" id="inputNo">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="add_new_address">Create</button>
+                    </div>
+                </div>
+                {#                <div class="modal-footer">#}
+                {#                    <button type="button" class="btn btn-success" data-dismiss="modal">Apply#}
+                {#                    </button>#}
+                {#                </div>#}
+            </div>
+        </div>
+    </div>
+    <div class="table100 ver1 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1">City</th>
+                    <th class="cell100 column2">Main Street</th>
+                    <th class="cell100 column3">Auxiliary Street</th>
+                    <th class="cell100 column4">Alley</th>
+                    <th class="cell100 column5">No.</th>
+                    <th class="cell100 column6">Delete?</th>
+
+                </tr>
+                </thead>
+            </table>
+        </div>
+        {% for item in items %}
+
+            <div class="table100-body js-pscroll">
+                <table>
+                    <tbody>
+                    <tr class="row100 body">
+                        <td class="cell100 column1">{{ item.city }}</td>
+                        <td class="cell100 column2">{{ item.main_st }}</td>
+                        <td class="cell100 column3">{{ item.auxiliary_st }}</td>
+                        <td class="cell100 column4">{{ item.alley }}</td>
+                        <td class="cell100 column5">{{ item.No }}</td>
+                        <td class="cell100 column6">
+                            <button type="button" class="btn btn-danger detail_cart" data-toggle="modal"
+                                    data-target="#exampleModal" akbar="{{ item.id }}">Delete
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}
+
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script>
+    $('.js-pscroll').each(function () {
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
+
+    $('.detail_cart').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        console.log(item_id)
+        var JsonData = {'cart_id': item_id}
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'order_item_list_in_dashboard' %}',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    })
+
+    $('#add_new_address').on('click', function () {
+        let province = $('#inputProvince').val()
+        let city = $('#inputCity').val()
+        let main_st = $('#inputStreet1').val()
+        let auxiliary_st = $('#inputStreet2').val()
+        let alley = $('#inputAlley').val()
+        let no = $('#inputNo').val()
+        let costumer = `{{ user }}`
+        var JsonData = {
+            'province': province,
+            'city': city,
+            'main_st': main_st,
+            'auxiliary_st': auxiliary_st,
+            'alley': alley,
+            'No': no,
+            'costumer':costumer,
+        }
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'add_address' %}',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function (response) {
+                console.log(response)
+                Swal.fire(
+                    'Good job!',
+                    'You added a new address!',
+                    'success'
+                )
+            },
+            error: function (error) {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+
+</script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/js/main.js' %}"></script>

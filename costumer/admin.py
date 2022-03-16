@@ -10,7 +10,7 @@ from costumer.models import Costumer, Address
 
 
 class CostumerAdmin(admin.ModelAdmin):
-    list_display = ['user', 'fist_name', 'last_name', 'address']
+    list_display = ['user', 'fist_name', 'last_name']
     search_fields = ['user', 'last_name']
     ordering = ['user', 'last_name']
 
