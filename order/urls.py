@@ -3,7 +3,7 @@ from django.urls import path, include
 # from order.utils import set_cookie
 from rest_framework import routers
 
-from order.apies import AddToCart, CartItemList, samplecart, CartUpdateAPI, CartItemDetail, CartItemListApi
+from order.apies import AddToCart, CartItemList, CartUpdateAPI, CartItemDetail, CartItemListApi, samplecart,CartItemListCookie
 
 router = routers.DefaultRouter()
 router.register(r'cartitem', AddToCart)
@@ -15,5 +15,6 @@ urlpatterns = [
     path('cart1/', samplecart, name='order_item_list_sample'),
     path('itemdel/<int:pk>', CartItemDetail.as_view(), name='order_item_detail'),
     path('item/', CartItemListApi.as_view(), name='order_item_list_in_dashboard'),
+    path('cookie_cart/', CartItemListCookie.as_view(), name='cookie_order_item'),
 
 ]

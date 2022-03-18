@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from rest_framework import generics, viewsets, permissions
@@ -6,6 +8,7 @@ from rest_framework import generics, viewsets, permissions
 from rest_framework.response import Response
 
 from order.serializers import *
+from order.utils import set_cart_cookie, list_of_cookie_to_cartItem
 
 
 class AddToCart(viewsets.ModelViewSet):
@@ -14,6 +17,7 @@ class AddToCart(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
+            print(self.request.user)
             request.data._mutable = True
             # id_product = request.data['id_product']
             # count = request.data['count']
@@ -22,6 +26,14 @@ class AddToCart(viewsets.ModelViewSet):
             cart = Cart.objects.get_or_create(costumer=costumer[0], status='NPY')[0]
             request.data['cart'] = cart.id
             return super().create(request, *args, **kwargs)
+        elif self.request.user.is_anonymous:
+            cookie = set_cart_cookie(request)
+            # print('cookiee:', cookie)
+            response = Response(status=201)
+            response.set_cookie('cookie_product', cookie)
+            # print('get', request.COOKIES.get('cookie_product'))
+            # print('response', response)
+            return response
 
 
 class CartItemList(ListView):
@@ -30,17 +42,44 @@ class CartItemList(ListView):
     context_object_name = 'items'
 
     def get_queryset(self):
-        return CartItem.objects.filter(cart__costumer__user=self.request.user)
+        # cookie = self.request.COOKIES.get('cookie_product')
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            costumer = Costumer.objects.get(user=user)
+            cart = Cart.objects.get(costumer=costumer, status='NPY')
+            return cart.cartitem_set.all()
+        elif self.request.user.is_anonymous:
+            list_order_item = list_of_cookie_to_cartItem(self.request)
+            return list_order_item
 
     def get_context_data(self, *, object_list=None, **kwargs):
         total_price = 0
-        for item in CartItem.objects.filter(cart__costumer__user=self.request.user):
-            total_price += item.product.price * item.number_item
-        kwargs['total_price'] = total_price
-        kwargs['tax'] = total_price * 0.05
-        kwargs['final_price'] = total_price + total_price * 0.05
+        if self.request.user.is_authenticated:
+            for item in CartItem.objects.filter(cart__costumer__user=self.request.user):
+                total_price += item.product.price * item.number_item
+            kwargs['total_price'] = total_price
+            kwargs['tax'] = total_price * 0.05
+            kwargs['final_price'] = total_price + total_price * 0.05
+        elif self.request.user.is_anonymous:
+            pass
+            # for item in CartItem.objects.get():
+            #     total_price += item.product.price * item.number_item
+            # kwargs['total_price'] = total_price
+            # kwargs['tax'] = total_price * 0.05
+            # kwargs['final_price'] = total_price + total_price * 0.05
 
         return super().get_context_data(object_list=object_list, **kwargs)
+
+
+class CartItemListCookie(ListView):
+    model = CartItem
+    template_name = 'order/cart_for_cookie.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        cookie = self.request.COOKIES.get('cookie_product')
+        print('cookie for test', cookie)
+        return super().get_queryset()
 
 
 def samplecart(requset):
@@ -81,16 +120,3 @@ class CartItemListApi(generics.ListAPIView):
     #     cart_id = self.request.data['cart_id']
     #     queryset = CartItem.objects.filter(cart_id=cart_id)
     #     return queryset
-
-# def set_cart_cookie(request):
-#     id_product = request.data['id_product']
-#     count_product = int(request.data['count'])
-#     product = request.COOKIES.get('product')
-#     if product:
-#         cok_dict = json.loads(product)
-#         if id_product in cok_dict.keys():
-#             cok_dict[id_product] = cok_dict[id_product] + count_product
-#             return json.dumps(cok_dict)
-#         cok_dict[id_product] = count_product
-#         return json.dumps(cok_dict)
-#     return json.dumps({id_product: count_product})
