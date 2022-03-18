@@ -87,8 +87,8 @@
                 <thead>
                 <tr class="row100 head">
                     <th class="cell100 column1">City</th>
-                    <th class="cell100 column2">Main Street</th>
-                    <th class="cell100 column3">Auxiliary Street</th>
+                    <th class="cell100 column2">Main St</th>
+                    <th class="cell100 column3">Auxiliary St</th>
                     <th class="cell100 column4">Alley</th>
                     <th class="cell100 column5">No.</th>
                     <th class="cell100 column6">Delete?</th>
@@ -98,7 +98,6 @@
             </table>
         </div>
         {% for item in items %}
-
             <div class="table100-body js-pscroll">
                 <table>
                     <tbody>
@@ -210,6 +209,7 @@
 
     $('.delete_address').on('click', function () {
         let item_id = $(this).attr('akbar')
+        let del = $(this)
         console.log(item_id)
         let cook = getCookie('csrftoken')
         console.log('test',getCookie('csrftoken'))
@@ -220,13 +220,13 @@
                 "X-CSRFToken": cook},
 
             success: function (response) {
-                console.log(response)
+                console.log(this)
+                del.parent().parent().remove()
                 Swal.fire(
                     'Good job!',
                     'You Deleted a address!',
                     'success'
                 )
-                {#removeItem()#}
             },
             error: function (error) {
                 console.log(error)
