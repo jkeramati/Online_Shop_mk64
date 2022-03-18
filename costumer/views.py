@@ -20,6 +20,7 @@ from costumer.models import Address, Costumer
 from costumer.permission import IsOwnerPermission
 from costumer.serializer import AddressSerializer, CostumerSerializer
 from order.models import CartItem, Cart
+from .utils import send_cartItem_cookie_to_DB
 
 
 class CartItemList(ListView):
@@ -73,6 +74,8 @@ class CostumerLoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, user=form.get_user())
+        if self.request.COOKIES.get('cookie_product'):
+            send_cartItem_cookie_to_DB(self.request)
         return super().form_valid(form)
 
     def form_invalid(self, form):
