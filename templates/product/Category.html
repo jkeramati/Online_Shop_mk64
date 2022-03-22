@@ -106,6 +106,7 @@
                 url: 'http://127.0.0.1:8000/product/product_list_api/',
                 data: JsonData,
                 success: function (response) {
+                    {#if#}
                     $('.to_fill').html('')
                     for (let i of response) {
                         $(`<div class="item col-5 " style="display: flex; flex-wrap: wrap;">

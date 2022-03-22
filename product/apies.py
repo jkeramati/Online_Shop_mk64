@@ -11,9 +11,14 @@ class ProductListAPI(generics.ListCreateAPIView):
         queryset = Product.objects.all()
         cate_id = self.request.GET['category_id']
         print(cate_id)
-        queryset = queryset.filter(category_id=cate_id)
-        print(queryset[0])
-        return queryset
+        queryset1 = queryset.filter(category_id=cate_id)
+        queryset2 = queryset.filter(category__parent_id=cate_id)
+        queryset3 = queryset.filter(category__parent__parent_id=cate_id)
+        print(queryset1)
+        print(queryset2)
+        q3 = queryset1.union(queryset2, all=True)
+        q4 = q3.union(queryset3, all=True)
+        return q4
 
 
 class OffCodeDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -22,6 +27,15 @@ class OffCodeDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+
+
+class CategoryListAPI(generics.ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+    def get_queryset(self):
+        queryset = Category.objects.filter(parent=None)
+        return queryset
 
     # def get_queryset(self):
     #     off_code = self.request.GET['off_code']
@@ -50,11 +64,6 @@ class OffCodeDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProductDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-
-
-class CategoryListAPI(generics.ListCreateAPIView):
-    serializer_class = CategorySerializer
-    queryset = Product.objects.all()  # TODO can be costume in filter product is not deleted or ...
 
 
 class CategoryDetailAPI(generics.RetrieveUpdateDestroyAPIView):

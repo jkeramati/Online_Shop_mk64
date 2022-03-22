@@ -11,10 +11,13 @@ class CategoryListView(ListView):
         kwargs['cateles'] = Category.objects.all()
         return super().get_context_data(object_list=object_list, **kwargs)
 
-    # def get_queryset(self):
-    #     idd_parent = self.request.GET.get('id_parent')
-    #     print(idd_parent)
-    #     return {'data': idd_parent}
+
+# class Category
+
+# def get_queryset(self):
+#     idd_parent = self.request.GET.get('id_parent')
+#     print(idd_parent)
+#     return {'data': idd_parent}
 
 
 class CategoryDetailView(DetailView):
