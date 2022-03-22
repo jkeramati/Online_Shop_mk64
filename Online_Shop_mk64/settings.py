@@ -199,6 +199,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'product.context_processor.main_category',
                 # 'order.context.number_order_cart',
                 # 'costumer.views.CostumerLoginView',
             ],

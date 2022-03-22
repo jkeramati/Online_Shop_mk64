@@ -13,11 +13,11 @@ from product.models import Category, Product
 class Home(ListView):
     model = Category
     template_name = 'Home.html'
-    context_object_name = 'main_cat'
+    # context_object_name = 'main_cat'
 
-    def get_queryset(self):
-        queryset = Category.objects.filter(parent=None)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Category.objects.filter(parent=None)
+    #     return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         kwargs['last_product'] = Product.objects.all()[6:]
