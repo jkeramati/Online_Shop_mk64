@@ -8,6 +8,15 @@ class CategoryListView(ListView):
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        category = self.request.GET.get('category', None)
+        if category:
+            cate_obj = Category.objects.get(name=category)
+            qs1 = Product.objects.filter(category=cate_obj)
+            qs2 = Product.objects.filter(category__parent=cate_obj)
+            qs3 = Product.objects.filter(category__parent__parent=cate_obj)
+            qs4 = qs1.union(qs2, all=True)
+            qs5 = qs4.union(qs3, all=True)
+            kwargs['products'] = qs5
         kwargs['cateles'] = Category.objects.all()
         return super().get_context_data(object_list=object_list, **kwargs)
 

@@ -79,6 +79,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" aria-labelledby="logout-dropdown">
                         <p class="dropdown-item">Phone: {{ user.username }}</p>
+                        <a class="dropdown-item" href="{% url 'index' %}">Home</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
 
                     </div>

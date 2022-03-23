@@ -14,8 +14,8 @@ class ProductListAPI(generics.ListCreateAPIView):
         queryset1 = queryset.filter(category_id=cate_id)
         queryset2 = queryset.filter(category__parent_id=cate_id)
         queryset3 = queryset.filter(category__parent__parent_id=cate_id)
-        print(queryset1)
-        print(queryset2)
+        # print(queryset1)
+        # print(queryset2)
         q3 = queryset1.union(queryset2, all=True)
         q4 = q3.union(queryset3, all=True)
         return q4
