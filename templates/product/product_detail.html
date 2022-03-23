@@ -4,6 +4,7 @@
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'cart_item/item.css' %}">
+    <script src="{% static 'sweet_alert.js' %}"></script>
 
 
 {% endblock %}
@@ -55,20 +56,30 @@
             let id_product = $(this).attr('product_id_cookie')
             console.log(id_product)
             let count = 1
-            let JsonData = {'product': id_product, 'number_item':count}
+            let JsonData = {'product': id_product, 'number_item': count}
             $.ajax({
                 type: "POST",
                 url: 'http://127.0.0.1:8000/order/cartitem/',
                 data: JsonData,
-                headers:{
-                    "X-CSRFToken":'{{ csrf_token }}'
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
                     console.log(response)
+                    Swal.fire(
+                        'Good job!',
+                        'You add this Product to Cart!',
+                        'success'
+                    )
 
                 },
                 error: function (error) {
                     console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
                 }
             })
         })

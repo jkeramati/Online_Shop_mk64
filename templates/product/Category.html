@@ -4,6 +4,7 @@
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'TreeList.css' %}">
+    <script src="{% static 'sweet_alert.js' %}"></script>
 
 
 {% endblock %}
@@ -63,7 +64,7 @@
                                                     <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}" title="Quick View">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="#" title="Add To Cart">
+                                                    <a href="#" title="Add To Cart" class="add_to_cart_new" akbar="{{ item.id }}">
                                                         <i class="fas fa-shopping-bag"></i>
                                                     </a>
                                                 </div>
@@ -121,8 +122,8 @@
                                                 <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">
                                                     <i class="fas fa-eye "></i>
                                                 </a>
-                                                <a href="#" title="Add To Cart" class="click_to_add1" product_id_cookie=${i['id']}>
-                                                    <i class="fas fa-shopping-bag click_to_add" product_id_cookie=${i['id']} ></i>
+                                                <a href="#" title="Add To Cart" class="add_to_cart_new1" asqar="${i['id']}">
+                                                    <i class="fas fa-shopping-bag"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -146,38 +147,60 @@
             })
         })
 
-        {#$('.click_to_add').click(function () {#}
-        {#    console.log('test')#}
-        {#    let JsonData = {'increase': 1}#}
-        {#    $.ajax({#}
-        {#        type: "GET",#}
-        {#        url: 'http://127.0.0.1:8000/order/add_cart/',#}
-        {#        data: JsonData,#}
-        {#        success: function (response) {#}
-        {#            console.log(response)#}
-        {##}
-        {#        },#}
-        {#        error: function () {#}
-        {#            console.log('error')#}
-        {#        }#}
-        {#    })#}
-
-
-        $('.click_to_add1').click(function () {
-            console.log('test')
-            let id_product = $(this).attr('product_id_cookie')
+        $('.add_to_cart_new').click(function () {
+            let id_product = $(this).attr('akbar')
             console.log(id_product)
-            let JsonData = {'increase': 1}
+            let count = 1
+            let JsonData = {'product': id_product, 'number_item':count}
             $.ajax({
-                type: "GET",
-                url: 'http://127.0.0.1:8000/order/add_cart/',
+                type: "POST",
+                url: 'http://127.0.0.1:8000/order/cartitem/',
                 data: JsonData,
+                headers:{
+                    "X-CSRFToken":'{{ csrf_token }}'
+                },
                 success: function (response) {
                     console.log(response)
+                    Swal.fire(
+                        'Good job!',
+                        'You add this Product to Cart!',
+                        'success'
+                    )
 
                 },
-                error: function () {
-                    console.log('error')
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+        $('.add_to_cart_new1').click(function () {
+            let id_product = $(this).attr('asqar')
+            console.log(id_product)
+            let count = 1
+            let JsonData = {'product': id_product, 'number_item':count}
+            $.ajax({
+                type: "POST",
+                url: 'http://127.0.0.1:8000/order/cartitem/',
+                data: JsonData,
+                headers:{
+                    "X-CSRFToken":'{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log(response)
+                    Swal.fire(
+                        'Good job!',
+                        'You add this Product to Cart!',
+                        'success'
+                    )
+
+                },
+                error: function (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
                 }
             })
         })
