@@ -18,8 +18,9 @@
           href="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/util.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main2.css' %}">
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'cart_item/samplecart.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -47,7 +48,7 @@
                 <table>
                     <tbody>
                     <tr class="row100 body">
-                        <td class="cell100 column1"  >{{ item.create_time }}</td>
+                        <td class="cell100 column1">{{ item.create_time }}</td>
                         <td class="cell100 column2">{{ item.address }}</td>
                         <td class="cell100 column3">{{ item.off_code }}</td>
                         <td class="cell100 column4">{{ item.total_price }}</td>
@@ -67,8 +68,9 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        ....
+                                    <div class="modal-body" >
+                                        <div id="to_fill"></div>
+                                        ...
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close
@@ -127,7 +129,7 @@
     $('.detail_cart').on('click', function () {
         let item_id = $(this).attr('akbar')
         console.log(item_id)
-        var JsonData={'cart_id':item_id}
+        var JsonData = {'cart_id': item_id}
         $.ajax({
             type: 'GET',
             url: '{% url 'order_item_list_in_dashboard' %}',
@@ -137,9 +139,25 @@
             },
             success: function (response) {
                 console.log(response)
-                {#console.log(response)#}
-                {#console.log(response)#}
-                {#console.log(response)#}
+                $('#to_fill').html('')
+                for (let i of response) {
+                    $(`
+<div class="product">
+            <div class="product-image">
+                <img src="${i['image']}">
+            </div>
+            <div class="product-details">
+                <p class="product-description">Product Name: ${i['product']}</p>
+            </div>
+            <div class="product-price">${i['number_item']}</div>
+            <div class="product-quantity">
+                <input type="number" value="${i['number_item']}" min="1">
+            </div>
+            {#<div class="product-line-price">{{ item.product.price }}</div>#}
+        </div>
+
+`).appendTo($('#to_fill'))
+                }
             },
             error: function (error) {
                 console.log(error)

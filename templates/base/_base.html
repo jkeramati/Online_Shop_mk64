@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     {#    <script src="{% static 'jssource.js' %}"></script>#}
     <script src="{% static 'ajax.js' %}"></script>
@@ -16,6 +17,12 @@
 
     {% block extra_head %}{% endblock %}
 </head>
+<style>
+    body {
+        font-family: 'Vazir', serif;
+        font-weight: normal;
+    }
+</style>
 <body>
 {% block body %}
     {% include 'base/_navbar.html' %}

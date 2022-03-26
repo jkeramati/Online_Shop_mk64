@@ -151,7 +151,7 @@
             url: '{% url 'order_history' %}',
             success: function (response) {
                     $('#to_fill').html(response['cart'])
-                    console.log(response['cart'])
+                    {#console.log(response['cart'])#}
             },
             error: function (error) {
 

@@ -50,6 +50,9 @@ class CartItemList(ListView):
             return cart.cartitem_set.all()
         elif self.request.user.is_anonymous:
             list_order_item = list_of_cookie_to_cartItem(self.request)
+            # if list_order_item == 1:
+            #     return render(self.request, template_name='404.html')
+            # else:
             return list_order_item
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -105,6 +108,11 @@ class CartUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
 class CartItemDetail(generics.RetrieveDestroyAPIView):
     serializer_class = CartItemSerializer
     queryset = CartItem
+
+    def destroy(self, request, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            ...
+        return super().destroy(request, *args, **kwargs)
 
 
 class CartItemListApi(generics.ListAPIView):

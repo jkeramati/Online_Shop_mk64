@@ -1,0 +1,9 @@
+/*@font-face {*/
+/*  font-family: Vazir;*/
+/*  src: url(fonts/Vazir.woff) format('woff');*/
+/*}*/
+ @font-face {
+  font-family: 'Vazir';
+  src: local('Vazir'), url(fonts/Vazir.woff) format('woff');
+  /*src: local({% static 'fonts/abc.ttf' %});*/
+}
