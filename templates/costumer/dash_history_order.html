@@ -42,6 +42,27 @@
                 </thead>
             </table>
         </div>
+        {#    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"#}
+        {#                             aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+        {#                            <div class="modal-dialog" role="document">#}
+        {#                                <div class="modal-content">#}
+        {#                                    <div class="modal-header">#}
+        {#                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
+        {#                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+        {#                                            <span aria-hidden="true">&times;</span>#}
+        {#                                        </button>#}
+        {#                                    </div>#}
+        {#                                    <div class="modal-body">#}
+        {#                                        <div id="to_fill"><h1>to fill salam</h1></div>#}
+        {#                                        ...#}
+        {#                                    </div>#}
+        {#                                    <div class="modal-footer">#}
+        {#                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close#}
+        {#                                        </button>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                        </div>#}
         {% for item in items %}
 
             <div class="table100-body js-pscroll">
@@ -54,35 +75,29 @@
                         <td class="cell100 column4">{{ item.total_price }}</td>
                         <td class="cell100 column5">{{ item.final_price }}</td>
                         <td class="cell100 column5">
-                            <button type="button" class="btn btn-success detail_cart" data-toggle="modal"
-                                    data-target="#exampleModal" akbar="{{ item.id }}">Detail
+
+                            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ item.id }}" aria-expanded="false"
+                                    aria-controls="collapseExample" akbar="{{ item.id }}">
+                                Detail
                             </button>
+
                         </td>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body" >
-                                        <div id="to_fill"></div>
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                    </tbody>
+                    <div class="collapse" id="collapse{{ item.id }}">
+                        <div class="card card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                            richardson ad
+                            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+                            sapiente ea proident.
                         </div>
+                    </div>
 
 
                     </tr>
-                    </tbody>
+
                 </table>
             </div>
         {% endfor %}
@@ -139,25 +154,48 @@
             },
             success: function (response) {
                 console.log(response)
-                $('#to_fill').html('')
+                let fill = $('#to_fill')
+                {#fill.empty()#}
                 for (let i of response) {
-                    $(`
-<div class="product">
-            <div class="product-image">
-                <img src="${i['image']}">
-            </div>
-            <div class="product-details">
-                <p class="product-description">Product Name: ${i['product']}</p>
-            </div>
-            <div class="product-price">${i['number_item']}</div>
-            <div class="product-quantity">
-                <input type="number" value="${i['number_item']}" min="1">
-            </div>
-            {#<div class="product-line-price">{{ item.product.price }}</div>#}
-        </div>
+                    console.log(i['product'])
+                    let id_product = i['product']
+                    {#let JsonData1={'product_id':id_product}#}
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'product_dashboard' 0 %}'.replace('0', id_product),
+                        headers: {
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            console.log(response)
+                            {#$(`<h1>salam ajax<h1>`).appendTo(fill)#}
+                            {#                $(`#}
+                            {#<div class="product">#}
+                            {#            <div class="product-image">#}
+                            {#                <img src="${i['image']}">#}
+                            {#            </div>#}
+                            {#            <div class="product-details">#}
+                            {#                <p class="product-description">Product Name: ${i['price']}</p>#}
+                            {#            </div>#}
+                            {#            <div class="product-price">${i['price']}</div>#}
+                            {#            <div class="product-quantity">#}
+                            {#                <input type="number" value="${i['price']}" min="1">#}
+                            {#            </div>#}
+                            {#<div class="product-line-price">{{ item.product.price }}</div>#}
+                            {#        </div>#}
+                            {##}
+                            {#`).appendTo($('#to_fill'))#}
+                            {#            }#}
 
-`).appendTo($('#to_fill'))
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+
+
+                    })
                 }
+
             },
             error: function (error) {
                 console.log(error)

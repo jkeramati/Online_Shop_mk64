@@ -166,7 +166,9 @@
                         'You add this Product to Cart!',
                         'success'
                     )
-
+                    let count=$('#main_number_basket').html()
+                    count=Number(count)
+                    $('#main_number_basket').html(count+1)
                 },
                 error: function (error) {
                     console.log(error)

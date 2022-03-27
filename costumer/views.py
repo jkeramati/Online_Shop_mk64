@@ -20,6 +20,8 @@ from costumer.models import Address, Costumer
 from costumer.permission import IsOwnerPermission
 from costumer.serializer import AddressSerializer, CostumerSerializer
 from order.models import CartItem, Cart
+from product.models import Product
+from product.serializers import ProductSerializer
 from .utils import send_cartItem_cookie_to_DB
 
 
@@ -163,6 +165,12 @@ class EditProfile(generics.UpdateAPIView):
     #     # print(costumer)
     #     # kwargs['costumer'] = costumer
     #     return super().create(request, *args, **kwargs)
+
+
+class ProductForDashboard(generics.RetrieveAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
 
 
 from .permission import *

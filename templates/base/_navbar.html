@@ -148,6 +148,7 @@
                     <i class="fa fa-language pointer-event" style='font-size:24px; cursor: pointer'
                        aria-hidden="true" data-toggle="dropdown"><span class="caret"></span></i>
                     <ul class="dropdown-menu">
+
                         <li><a href="http://127.0.0.1:8000/fa/" style="color: black" class="font-weight-bold">فارسی <img
                                 src="{% static 'Home/ir.svg' %}" width="20px" height="20px" alt="Farsi"></a></li>
                         <li><a href="http://127.0.0.1:8000/en/" style="color: black" class="font-weight-bold">English
@@ -171,7 +172,7 @@
                     <i class="fas fa-shopping-cart" style='font-size:24px'>
 
                         <!--NUMBER OF PRODUCTS IN CART-->
-                        <span class="num-cart-product">2</span>
+                        <span class="num-cart-product" id="main_number_basket">{{ number_basket }}</span>
                     </i>
                 </a>
 

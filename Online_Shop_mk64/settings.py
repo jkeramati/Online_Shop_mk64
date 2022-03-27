@@ -200,6 +200,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'product.context_processor.main_category',
+                'product.context_processor2.count_basket',
                 # 'order.context.number_order_cart',
                 # 'costumer.views.CostumerLoginView',
             ],

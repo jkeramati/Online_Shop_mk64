@@ -111,7 +111,7 @@ class CartItemDetail(generics.RetrieveDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         if self.request.user.is_anonymous:
-            ...
+            print('yesssssaaa')
         return super().destroy(request, *args, **kwargs)
 
 

@@ -69,9 +69,14 @@
                     Swal.fire(
                         'Good job!',
                         'You add this Product to Cart!',
-                        'success'
+                        'success',
                     )
-
+                    let count=$('#main_number_basket').html()
+                    count=Number(count)
+                    {#console.log(count)#}
+                    {#console.log(typeof(count))#}
+                    $('#main_number_basket').html(count+1)
+                    {#console.log($('#main_number_basket').html())#}
                 },
                 error: function (error) {
                     console.log(error)
