@@ -9,15 +9,23 @@ from rest_framework import generics, viewsets, permissions
 from rest_framework.response import Response
 
 from order.serializers import *
-from order.utils import set_cart_cookie, list_of_cookie_to_cartItem
+from order.utils import set_cart_cookie, list_of_cookie_to_cartItem, delete_item_in_cookie
 
 
 class AddToCart(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     queryset = CartItem.objects.all()
 
-    def perform_create(self, serializer):
-        super().perform_create(serializer)
+    def destroy(self, request, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            product_id = self.request.data['product_id']
+            # print(product_id)
+            json_for_set_in_cookie = delete_item_in_cookie(self.request, product_id)
+            response = Response(status=201)
+            response.set_cookie('cookie_product', json_for_set_in_cookie)
+            return response
+        else:
+            return super().destroy(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         product_id = self.request.data['product']
@@ -25,10 +33,10 @@ class AddToCart(viewsets.ModelViewSet):
             if CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user, cart__status='NPY'):
                 cart_item = CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user,
                                                  cart__status='NPY')
-                print('show number item', cart_item.number_item)
+                # print('show number item', cart_item.number_item)
                 cart_item.number_item += 1
                 cart_item.save()
-                print('2', cart_item.number_item)
+                # print('2', cart_item.number_item)
                 return HttpResponse('updated')
             else:
                 print(self.request.user)

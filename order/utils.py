@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from requests import Response
 
 from order.models import CartItem
 
@@ -33,3 +34,11 @@ def list_of_cookie_to_cartItem(request):
         cart_item = CartItem(product_id=int(product_id), number_item=count)
         order_item_list.append(cart_item)
     return order_item_list
+
+
+def delete_item_in_cookie(request, pk):
+    cookie_dict = request.COOKIES.get('cookie_product')
+    json_cook = json.loads(cookie_dict)
+    if pk in json_cook.keys():
+        del json_cook[str(pk)]
+        return json.dumps(json_cook)

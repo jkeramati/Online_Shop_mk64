@@ -96,7 +96,8 @@
                     </div>
                     <div class="product-price">{{ item.product.price }}</div>
                     <div class="product-quantity">
-                        <input type="number" value="{{ item.number_item }}" min="1">
+                        <input type="number" class="change_number_product" akbar="{{ item.id }}"
+                               asqar="{{ item.product.id }}" value="{{ item.number_item }}" min="1">
                     </div>
                     <div class="product-removal" akbar="{{ item.id }}" asqar="{{ item.product.id }}">
                         <button class="remove-product">
@@ -277,60 +278,49 @@
         $('.remove-product').on('click', function () {
             let item_id = $(this).parent().attr('akbar')
             let product_id = $(this).parent().attr('asqar')
-            {#console.log(document.cookie)#}
-            {#console.log(document.cookie['0'])#}
-            {#var ca = document.cookie.split(';');#}
-            {#console.log(document.cookie[cookie_product])#}
-            {#console.log(ca)#}
-            {#var c = ca[1]#}
-            {#console.log(c)#}
-            {#var b = c.substring(16)#}
-            {#console.log(b)#}
-            {#var d = b.split('\\054')#}
-            {#console.log(d)#}
-            {#console.log(item_id)#}
             var th_is = $(this)
             {#console.log(th_is)#}
-            if (item_id === 'None') {
-                {#console.log('None')#}
-                $.ajax({
-                    type: 'DELETE',
-                    url: "{% url 'order_item_list' %}?product_id={{ product_id }}",
-                    headers: {
-                        "X-CSRFToken": '{{ csrf_token }}'
-                    },
-                    success: function (response) {
+            $.ajax({
+                type: 'DELETE',
+                url: "{% url 'cartitem-list' %}" + `${item_id}`,
+                data: {'product_id': product_id},
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
 
-                        removeItem(th_is);
-
-
-                    },
-                    error: function (error) {
-                        {#console.log(error)#}
-                    }
-                })
-
-            } else {
-                console.log('Not None')
-                $.ajax({
-                    type: 'DELETE',
-                    url: '{% url 'order_item_detail' 0 %}'.replace('0', item_id),
-                    headers: {
-                        "X-CSRFToken": '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-
-                        removeItem(th_is);
-
-
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    }
-                })
-            }
-
+                    removeItem(th_is);
+                },
+                error: function (error) {
+                    {#console.log(error)#}
+                }
+            })
         })
+
+        $('.change_number_product').change(function () {
+            let number_item = $(this).val()
+            console.log(number_item)
+            let item_id = $(this).attr('akbar')
+            console.log(item_id)
+            let product_id = $(this).attr('asqar')
+            console.log(product_id)
+
+            $.ajax({
+                type: 'PATCH',
+                url: "{% url 'cartitem-list' %}" + `${item_id}`,
+                data: {'product_id': product_id},
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+
+                },
+                error: function (error) {
+                    {#console.log(error)#}
+                }
+            })
+        })
+
 
     </script>
 {% endblock %}
