@@ -1,5 +1,6 @@
 import json
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from rest_framework import generics, viewsets, permissions
@@ -15,17 +16,30 @@ class AddToCart(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     queryset = CartItem.objects.all()
 
+    def perform_create(self, serializer):
+        super().perform_create(serializer)
+
     def create(self, request, *args, **kwargs):
+        product_id = self.request.data['product']
         if self.request.user.is_authenticated:
-            print(self.request.user)
-            request.data._mutable = True
-            # id_product = request.data['id_product']
-            # count = request.data['count']
-            user = request.user
-            costumer = Costumer.objects.get_or_create(user=user)
-            cart = Cart.objects.get_or_create(costumer=costumer[0], status='NPY')[0]
-            request.data['cart'] = cart.id
-            return super().create(request, *args, **kwargs)
+            if CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user, cart__status='NPY'):
+                cart_item = CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user,
+                                                 cart__status='NPY')
+                print('show number item', cart_item.number_item)
+                cart_item.number_item += 1
+                cart_item.save()
+                print('2', cart_item.number_item)
+                return HttpResponse('updated')
+            else:
+                print(self.request.user)
+                request.data._mutable = True
+                # id_product = request.data['id_product']
+                # count = request.data['count']
+                user = request.user
+                costumer = Costumer.objects.get_or_create(user=user)
+                cart = Cart.objects.get_or_create(costumer=costumer[0], status='NPY')[0]
+                request.data['cart'] = cart.id
+                return super().create(request, *args, **kwargs)
         elif self.request.user.is_anonymous:
             cookie = set_cart_cookie(request)
             # print('cookiee:', cookie)
