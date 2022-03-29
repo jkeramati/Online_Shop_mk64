@@ -40,6 +40,12 @@ class ProductDetailView(DetailView):
     template_name = 'product/product_detail.html'
     context_object_name = 'product'
 
+    # def get_context_data(self, **kwargs):
+    #     id_product = kwargs['id']
+    #     print(id_product)
+    #     kwargs['discounted_price'] = Product.price
+    #     return super().get_context_data(**kwargs)
+
 
 class ProductListView(ListView):
     model = Product

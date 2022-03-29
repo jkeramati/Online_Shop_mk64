@@ -60,7 +60,8 @@ class AddToCart(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         product_id = self.request.data['product']
         if self.request.user.is_authenticated:
-            if CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user, cart__status='NPY'):
+            try:
+                # CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user, cart__status='NPY')
                 cart_item = CartItem.objects.get(product_id=product_id, cart__costumer__user=self.request.user,
                                                  cart__status='NPY')
                 # print('show number item', cart_item.number_item)
@@ -68,7 +69,7 @@ class AddToCart(viewsets.ModelViewSet):
                 cart_item.save()
                 # print('2', cart_item.number_item)
                 return HttpResponse('updated')
-            else:
+            except:
                 print(self.request.user)
                 request.data._mutable = True
                 # id_product = request.data['id_product']
@@ -110,11 +111,10 @@ class CartItemList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         total_price = 0
         if self.request.user.is_authenticated:
-            for item in CartItem.objects.filter(cart__costumer__user=self.request.user):
-                total_price += item.product.price * item.number_item
+            for item in CartItem.objects.filter(cart__costumer__user=self.request.user, cart__status='NPY'):
+                total_price += item.total_cartitem_price
             kwargs['total_price'] = total_price
-            kwargs['tax'] = total_price * 0.05
-            kwargs['final_price'] = total_price + total_price * 0.05
+            kwargs['final_price'] = total_price
         elif self.request.user.is_anonymous:
             pass
             # for item in CartItem.objects.get():
@@ -147,14 +147,16 @@ class CartUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         try:
-            off_code = request.data['off_code']
-            id_off_code = OffCode.objects.get(code=off_code)
-            print(id_off_code)
-        except:
-            print('bazam dardesar')
-            return Response(status=404)
+            off_code = self.request.data['off_code']
+            my_off_code = OffCode.objects.get(code=off_code)
+            ID_off_code = my_off_code.id
+            request.data._mutable = True
+            request.data['off_code'] = ID_off_code
+            return super().partial_update(request, *args, **kwargs)
 
-        return super().partial_update(request, *args, **kwargs)
+        except:
+            # print('bazam dardesar')
+            return Response(status=400)
 
 
 class CartItemDetail(generics.RetrieveDestroyAPIView):

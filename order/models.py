@@ -16,6 +16,7 @@ class Cart(BaseModel):
     total_price = models.IntegerField(default=0)
     final_price = models.IntegerField(default=0)
 
+    @property
     def calc_total_price(self):
         pass
 
@@ -27,3 +28,7 @@ class CartItem(BaseModel):
     cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     number_item = models.IntegerField(default=1)
+
+    @property
+    def total_cartitem_price(self):
+        return self.product.price_after_discount*self.number_item

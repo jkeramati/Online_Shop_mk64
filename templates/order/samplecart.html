@@ -79,7 +79,8 @@
             <div class="column-labels">
                 <label class="product-image">Image</label>
                 <label class="product-details">Product</label>
-                <label class="product-price">Price</label>
+{#                <label class="product-price">Price</label>#}
+                <label class="product-price">Price with discount</label>
                 <label class="product-quantity">Quantity</label>
                 <label class="product-removal">Remove</label>
                 <label class="product-line-price">Total</label>
@@ -94,7 +95,8 @@
                         <div class="brand-title">Brand: {{ item.product.brand.name }}</div>
                         <p class="product-description">Product Name: {{ item.product.name }}</p>
                     </div>
-                    <div class="product-price">{{ item.product.price }}</div>
+{#                    <div class="product-price">{{ item.product.price }}</div>#}
+                    <div class="product-price">{{ item.product.price_after_discount }}</div>
                     <div class="product-quantity">
                         <input type="number" class="change_number_product" akbar="{{ item.id }}"
                                asqar="{{ item.product.id }}" value="{{ item.number_item }}" min="1">
@@ -104,7 +106,7 @@
                             Remove
                         </button>
                     </div>
-                    <div class="product-line-price">{{ item.product.price }}</div>
+                    <div class="product-line-price">{{ item.total_cartitem_price }}</div>
                 </div>
                 <div class="cart_id" style="display: none;" cart_id="{{ item.cart.id }}"></div>
             {% endfor %}
@@ -113,10 +115,10 @@
                     <label>Subtotal</label>
                     <div class="totals-value" id="cart-subtotal" value="{{ total_price }}">{{ total_price }}</div>
                 </div>
-                <div class="totals-item">
-                    <label>Tax (5%)</label>
-                    <div class="totals-value" id="cart-tax">{{ tax }}</div>
-                </div>
+{#                <div class="totals-item">#}
+{#                    <label>Tax (5%)</label>#}
+{#                    <div class="totals-value" id="cart-tax">3</div>#}
+{#                </div>#}
                 <div class="totals-item">
                     <label>Off Code: </label>
                     <div class="totals-value" id="cart-shipping">15.00</div>
@@ -130,7 +132,7 @@
                 </div>
             </div>
 
-            <button id="final" class="checkout">Apply Final Change</button>
+            <button id="final" class="checkout my-2" >Apply Final Change</button>
 
 
         </div>
@@ -214,7 +216,9 @@
         /* Remove item from cart */
         $('#off_code').click(function () {
             var off = $('#off_code1').val()
-            var cart_id = $('.cart_id').attr('cart_id')
+            var cart_id = Number( $('.cart_id').attr('cart_id'))
+
+            console.log(typeof(cart_id))
             console.log(off)
             console.log((cart_id))
             let JsonData = {'off_code': off};
@@ -232,7 +236,6 @@
                         if (resp.code === off) {
                             console.log('yesss')
                             $("#cart-shipping").html(shipping.toFixed(2));
-
                         }
                     }
                 }

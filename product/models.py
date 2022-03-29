@@ -14,6 +14,7 @@ class Product(BaseModel):
     description = models.TextField(null=True, blank=True)
     discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True, blank=True)
     image = models.FileField(null=True, default=None, blank=True, upload_to='product/')
+    stock = models.IntegerField(default=1)
 
     class Meta:
         verbose_name = _('product')
@@ -21,6 +22,13 @@ class Product(BaseModel):
 
     def __str__(self):
         return f"{self.name} with {self.price}$ and {self.category} category"
+
+    @property
+    def price_after_discount(self):
+        if self.discount:
+            return self.discount.discounted_price(int(self.price))
+        else:
+            return self.price
 
     @property
     def url_image_set(self):
@@ -79,6 +87,20 @@ class BaseDiscount(BaseModel):
 
     class Meta:
         abstract = True
+
+    def discounted_price(self, price: int) -> int:
+        """
+        Calculate the price after discount
+        :param price: product price
+        :return: discounted price
+        """
+        if self.type_disc == 'PRI':
+            if price < self.value * 2:
+                # More discount than price
+                return price
+            return int(price - int(self.value))
+        elif self.type_disc == "PER":
+            return price - int((self.value / 100) * price)
 
 
 class Discount(BaseDiscount):

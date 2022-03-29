@@ -9,6 +9,15 @@
 
 {% endblock %}
 {% block content %}
+    <style>
+        .deals-value .amount {
+            text-decoration: line-through;
+        }
+
+        .woocommerce-Price-currencySymbol {
+            margin-right: 10px;
+        }
+    </style>
     <div style="display: flex;align-items: center; justify-content: center; flex-direction: column">
         <div class="product-card">
             <div class="logo-cart">
@@ -41,7 +50,15 @@
                     </div>
                 </div>
                 <div class="price">
-                    <span class="price_num">${{ product.price }}</span>
+                    {% if  not product.discount %}
+                        <span class="price_num">${{ product.price }}</span>
+                    {% else %}
+                        {#                        <span class="price_num">${{ product.price }}</span>#}
+                        <p class="deals-value"><span><span
+                                class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
+                        </p>
+                        <span class="price_num">${{ product.price_after_discount }}</span>
+                    {% endif %}
                 </div>
             </div>
             <div class="button">
@@ -71,11 +88,11 @@
                         'You add this Product to Cart!',
                         'success',
                     )
-                    let count=$('#main_number_basket').html()
-                    count=Number(count)
+                    let count = $('#main_number_basket').html()
+                    count = Number(count)
                     {#console.log(count)#}
                     {#console.log(typeof(count))#}
-                    $('#main_number_basket').html(count+1)
+                    $('#main_number_basket').html(count + 1)
                     {#console.log($('#main_number_basket').html())#}
                 },
                 error: function (error) {
