@@ -9,12 +9,42 @@ from rest_framework import generics, viewsets, permissions
 from rest_framework.response import Response
 
 from order.serializers import *
-from order.utils import set_cart_cookie, list_of_cookie_to_cartItem, delete_item_in_cookie
+from order.utils import set_cart_cookie, list_of_cookie_to_cartItem, delete_item_in_cookie, update_item_in_cookie
 
 
 class AddToCart(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     queryset = CartItem.objects.all()
+
+    # def update(self, request, *args, **kwargs):
+    #     if self.request.user.is_anonymous:
+    #         product_id = self.request.data['product_id']
+    #         count = self.request.data['count']
+    #         # print(product_id)
+    #         json_for_set_in_cookie = update_item_in_cookie(self.request, product_id, count)
+    #         response = Response(status=201)
+    #         response.set_cookie('cookie_product', json_for_set_in_cookie)
+    #         return response
+    #     else:
+    #         print('inja count', self.request.data['count'])
+    #         kwargs['partial'] = True
+    #         print(kwargs['cart'])
+    #         print(kwargs['number_item'])
+    #         print(kwargs['product'])
+    #         kwargs['number_item'] = self.request.data['count']
+    #         return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            product_id = self.request.data['product']
+            count = self.request.data['number_item']
+            # print(product_id)
+            json_for_set_in_cookie = update_item_in_cookie(self.request, product_id, count)
+            response = Response(status=201)
+            response.set_cookie('cookie_product', json_for_set_in_cookie)
+            return response
+        else:
+            return super().partial_update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         if self.request.user.is_anonymous:

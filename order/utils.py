@@ -42,3 +42,11 @@ def delete_item_in_cookie(request, pk):
     if pk in json_cook.keys():
         del json_cook[str(pk)]
         return json.dumps(json_cook)
+
+
+def update_item_in_cookie(request, pk, new_count):
+    cookie_dict = request.COOKIES.get('cookie_product')
+    json_cook = json.loads(cookie_dict)
+    if pk in json_cook.keys():
+        json_cook[str(pk)] = int(new_count)
+        return json.dumps(json_cook)

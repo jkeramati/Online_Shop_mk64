@@ -307,8 +307,8 @@
 
             $.ajax({
                 type: 'PATCH',
-                url: "{% url 'cartitem-list' %}" + `${item_id}`,
-                data: {'product_id': product_id},
+                url: "{% url 'cartitem-detail' 0 %}".replace('0',item_id),
+                data: {'product': product_id, 'number_item': number_item},
                 headers: {
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
