@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="{% static 'mini_carosel/css/style.css' %}">
 {% endblock %}
 {% block content %}
+    <style>
+        .deals-value .amount {
+            text-decoration: line-through;
+        }
+
+        .woocommerce-Price-currencySymbol {
+            margin-right: 10px;
+        }
+    </style>
     <ul id="#adaptive" class="cs-hidden">
         <!--BOX 1-->
         <li class="item-a">
@@ -55,7 +64,16 @@
                                         <h3>
                                             <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}">{{ item.name }}</a>
                                         </h3>
-                                        <span>{{ item.price }} $</span>
+                                        {% if  not item.discount %}
+                                            <span class="price_num">${{ item.price }}</span>
+                                        {% else %}
+                                            {#                        <span class="price_num">${{ product.price }}</span>#}
+                                            <p class="deals-value"><span><span
+                                                    class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ item.price }}</span></span>
+                                            </p>
+                                            <span class="price_num">${{ item.price_after_discount }}</span>
+                                        {% endif %}
+{#                                        <span>{{ item.price }} $</span>#}
                                     </div>
                                 </div>
                             </div>

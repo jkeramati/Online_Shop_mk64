@@ -1,0 +1,92 @@
+
+
+{% load static %}
+
+{% for item in products %}
+    <!--STRT ITEM-->
+    <div class="item " style="display: flex; flex-wrap: wrap;">
+        <div class="product shadow-sm">
+            <div class="product-thumb">
+                <img class="pro-thumb-img click-to-product" akbar="{{ item.id }}"
+                     src="{% if item.image %} {{ item.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"
+                     alt="{{ item.name }}">
+                <div class="product-button ">
+                    <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}"
+                       title="Quick View">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="#" title="Add To Cart" class="add_to_cart_new"
+                       akbar="{{ item.id }}">
+                        <i class="fas fa-shopping-bag"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">{{ item.name }}</h3>
+                {% if  not item.discount %}
+                    <span class="price_num">${{ item.price }}</span>
+                {% else %}
+                    {#                        <span class="price_num">${{ product.price }}</span>#}
+                    <p class="deals-value"><span><span
+                            class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ item.price }}</span></span>
+                    </p>
+                    <span class="price_num">${{ item.price_after_discount }}</span>
+                {% endif %}
+                {#                                                <h3 class="product-name">{{ item.price }}</h3>#}
+                <div class="off-info">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END ITEM-->
+{% endfor %}
+<script>
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        } else {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+                end = dc.length;
+            }
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    }
+    $('.add_to_cart_new').click(function () {
+        let id_product = $(this).attr('akbar')
+        let cook = getCookie('csrftoken')
+        console.log(id_product)
+        let count = 1
+        let JsonData = {'product': id_product, 'number_item': count}
+        $.ajax({
+            type: "POST",
+            url: 'http://127.0.0.1:8000/order/cartitem/',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": cook
+            },
+            success: function (response) {
+                console.log(response)
+                Swal.fire(
+                    'Good job!',
+                    'You add this Product to Cart!',
+                    'success'
+                )
+                let count = $('#main_number_basket').html()
+                count = Number(count)
+                $('#main_number_basket').html(count + 1)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    })
+</script>

@@ -25,8 +25,8 @@ def set_cart_cookie(request):
 # utiles for set list of majazi order item
 def list_of_cookie_to_cartItem(request):
     cookie_dict = request.COOKIES.get('cookie_product')
-    print(cookie_dict)
-    if cookie_dict == None:
+    print('zzz', cookie_dict)
+    if cookie_dict == {} or None:
         return 1
     json_cook = json.loads(cookie_dict)
     order_item_list = []

@@ -1,5 +1,9 @@
+import generics as generics
+from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
+from rest_framework import generics
+from .serializers import *
 
 
 class CategoryListView(ListView):
@@ -53,6 +57,32 @@ class ProductListView(ListView):
     context_object_name = 'productles'
 
 
+class OffCodeCheck(generics.RetrieveAPIView):
+    serializer_class = OffCodeSerializer
+    queryset = OffCode.objects.all()
+
+
+class ProductListViewForSinglePage(ListView):
+    model = Product
+
+    def get(self, request, *args, **kwargs):
+        queryset = Product.objects.all()
+        category_id = self.request.GET.get('category_id', None)
+        print(category_id)
+        queryset1 = queryset.filter(category_id=category_id)
+        queryset2 = queryset.filter(category__parent_id=category_id)
+        queryset3 = queryset.filter(category__parent__parent_id=category_id)
+        # print(queryset1)
+        # print(queryset2)
+        q3 = queryset1.union(queryset2, all=True)
+        q4 = q3.union(queryset3, all=True)
+        context = {
+            'products': q4
+        }
+        template_string = render_to_string(template_name='product/Category_detail_product.html', context=context)
+        return JsonResponse({'products': template_string})
+
+
 import mixin as mixin
 
 from django.http import JsonResponse, HttpResponse
@@ -63,7 +93,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
 from product.models import Product, Category
-from product.serializers import ProductSerializer
+from product.serializers import ProductSerializer, OffCodeSerializer
 from django.utils.translation import gettext as _
 
 # def my_view(request):

@@ -3,7 +3,8 @@ from django.urls import path, include
 
 # from product.views import ContactFormView, my_view
 from product.apies import *
-from product.views import CategoryListView, CategoryDetailView, ProductDetailView, ProductListView
+from product.views import CategoryListView, CategoryDetailView, ProductDetailView, ProductListView, OffCodeCheck, \
+    ProductListViewForSinglePage
 
 urlpatterns = [
     path('', CategoryListView.as_view(), name='category_list'),
@@ -12,6 +13,9 @@ urlpatterns = [
     path('product_list_api/', ProductListAPI.as_view(), name='product_list_api'),
     path('product_detail/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
     path('offcode/<int:pk>', OffCodeDetail.as_view(), name='off_code_detail'),
+    path('offcode_check/<int:pk>', OffCodeCheck.as_view(), name='off_code_check'),
+    path('product_list_render/', ProductListViewForSinglePage.as_view(), name='product_list_render'),
+
     # path('off_code/', OffCodeAPI.as_view(), name='off_code'),
 
 

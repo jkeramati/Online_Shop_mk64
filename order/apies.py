@@ -100,12 +100,18 @@ class CartItemList(ListView):
             user = self.request.user
             costumer = Costumer.objects.get(user=user)
             cart = Cart.objects.get(costumer=costumer, status='NPY')
+            print('count',cart.cartitem_set.all().count())
+            if cart.cartitem_set.all().count()==0:
+                return 1
             return cart.cartitem_set.all()
         elif self.request.user.is_anonymous:
             list_order_item = list_of_cookie_to_cartItem(self.request)
             # if list_order_item == 1:
             #     return render(self.request, template_name='404.html')
             # else:
+            if list_order_item == []:
+                return 1
+            print('aaa', list_order_item)
             return list_order_item
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -116,12 +122,12 @@ class CartItemList(ListView):
             kwargs['total_price'] = total_price
             kwargs['final_price'] = total_price
         elif self.request.user.is_anonymous:
-            pass
-            # for item in CartItem.objects.get():
-            #     total_price += item.product.price * item.number_item
-            # kwargs['total_price'] = total_price
-            # kwargs['tax'] = total_price * 0.05
-            # kwargs['final_price'] = total_price + total_price * 0.05
+            list_order_item = list_of_cookie_to_cartItem(self.request)
+            print('ooo', list_order_item)
+            for item in list_order_item:
+                total_price += item.total_cartitem_price
+            kwargs['total_price'] = total_price
+            kwargs['final_price'] = total_price
 
         return super().get_context_data(object_list=object_list, **kwargs)
 

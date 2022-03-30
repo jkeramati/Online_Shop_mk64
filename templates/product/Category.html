@@ -9,6 +9,15 @@
 
 {% endblock %}
 {% block content %}
+    <style>
+        .deals-value .amount {
+            text-decoration: line-through;
+        }
+
+        .woocommerce-Price-currencySymbol {
+            margin-right: 10px;
+        }
+    </style>
     <h1 class="product-title">Category Item</h1>
     <div class="container-fluid">
         <div class="row">
@@ -50,29 +59,41 @@
                 <section class="product-list">
                     <div class="container">
                         <div class="row">
-                            <div class="to_fill "
+                            <div class="to_fill"
                                  style="margin: 0;padding: 0;border: 0;display: flex; flex-wrap: wrap;">
                                 {% for item in products %}
                                     <!--STRT ITEM-->
                                     <div class="item " style="display: flex; flex-wrap: wrap;">
-                                        <div class="product">
+                                        <div class="product shadow-sm">
                                             <div class="product-thumb">
                                                 <img class="pro-thumb-img click-to-product" akbar="{{ item.id }}"
                                                      src="{% if item.image %} {{ item.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"
                                                      alt="{{ item.name }}">
                                                 <div class="product-button ">
-                                                    <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}" title="Quick View">
+                                                    <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}"
+                                                       title="Quick View">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="#" title="Add To Cart" class="add_to_cart_new" akbar="{{ item.id }}">
+                                                    <a href="#" title="Add To Cart" class="add_to_cart_new"
+                                                       akbar="{{ item.id }}">
                                                         <i class="fas fa-shopping-bag"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                             <div class="product-info">
                                                 <h3 class="product-name">{{ item.name }}</h3>
-
+                                                {% if  not item.discount %}
+                                                    <span class="price_num">${{ item.price }}</span>
+                                                {% else %}
+                                                    {#                        <span class="price_num">${{ product.price }}</span>#}
+                                                    <p class="deals-value"><span><span
+                                                            class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ item.price }}</span></span>
+                                                    </p>
+                                                    <span class="price_num">${{ item.price_after_discount }}</span>
+                                                {% endif %}
+                                                {#                                                <h3 class="product-name">{{ item.price }}</h3>#}
                                                 <div class="off-info">
+
                                                 </div>
                                             </div>
                                         </div>
@@ -100,64 +121,64 @@
             });
         }
 
-        $('.parent').click(function () {
-            var par = $(this).attr('cate_id')
-            console.log(par)
-            let JsonData = {'category_id': par};
-            $.ajax({
-                type: "GET",
-                url: 'http://127.0.0.1:8000/product/product_list_api/',
-                data: JsonData,
-                success: function (response) {
+{#        $('.parent').click(function () {#}
+{#            var par = $(this).attr('cate_id')#}
+{#            console.log(par)#}
+{#            let JsonData = {'category_id': par};#}
+{#            $.ajax({#}
+{#                type: "GET",#}
+{#                url: 'http://127.0.0.1:8000/product/product_list_api/',#}
+{#                data: JsonData,#}
+{#                success: function (response) {#}
                     {#if#}
-                    $('.to_fill').html('')
-                    for (let i of response) {
-                        $(`<div class="item col-5 " style="display: flex; flex-wrap: wrap;">
-                                    <div class="product shadow-sm">
-                                        <div class="product-thumb">
-                                            <img class="pro-thumb-img click-to-product"
-                                                 src="${i['image']}"
-                                                 alt="${i['name']}">
-                                            <div class="product-button ">
-                                                <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">
-                                                    <i class="fas fa-eye "></i>
-                                                </a>
-                                                <a href="#" title="Add To Cart" class="add_to_cart_new1" asqar="${i['id']}">
-                                                    <i class="fas fa-shopping-bag"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product-info">
+{#                    $('.to_fill').html('')#}
+{#                    for (let i of response) {#}
+{#                        $(`<div class="item col-5 " style="display: flex; flex-wrap: wrap;">#}
+{#                                    <div class="product shadow-sm">#}
+{#                                        <div class="product-thumb">#}
+{#                                            <img class="pro-thumb-img click-to-product"#}
+{#                                                 src="${i['image']}"#}
+{#                                                 alt="${i['name']}">#}
+{#                                            <div class="product-button ">#}
+{#                                                <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">#}
+{#                                                    <i class="fas fa-eye "></i>#}
+{#                                                </a>#}
+{#                                                <a href="#" title="Add To Cart" class="add_to_cart_new1" asqar="${i['id']}">#}
+{#                                                    <i class="fas fa-shopping-bag"></i>#}
+{#                                                </a>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="product-info">#}
 {#                                            <h3 class="product-name">${i['brand']['name']}</h3>#}
-                                            <h3 class="product-name">${i['name']}</h3>
-                                            <h3 class="product-name">${i['price']}</h3>
-
-                                            <div class="off-info">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`).appendTo($('.to_fill'))
-                        console.log(i)
-                    }
-
-                },
-                error: function () {
-                    console.log('error')
-                }
-            })
-        })
+{#                                            <h3 class="product-name">${i['name']}</h3>#}
+{#                                            <h3 class="product-name">${i['price']}</h3>#}
+{##}
+{#                                            <div class="off-info">#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>`).appendTo($('.to_fill'))#}
+{#                        console.log(i)#}
+{#                    }#}
+{##}
+{#                },#}
+{#                error: function () {#}
+{#                    console.log('error')#}
+{#                }#}
+{#            })#}
+{#        })#}
 
         $('.add_to_cart_new').click(function () {
             let id_product = $(this).attr('akbar')
             console.log(id_product)
             let count = 1
-            let JsonData = {'product': id_product, 'number_item':count}
+            let JsonData = {'product': id_product, 'number_item': count}
             $.ajax({
                 type: "POST",
                 url: 'http://127.0.0.1:8000/order/cartitem/',
                 data: JsonData,
-                headers:{
-                    "X-CSRFToken":'{{ csrf_token }}'
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
                     console.log(response)
@@ -166,9 +187,9 @@
                         'You add this Product to Cart!',
                         'success'
                     )
-                    let count=$('#main_number_basket').html()
-                    count=Number(count)
-                    $('#main_number_basket').html(count+1)
+                    let count = $('#main_number_basket').html()
+                    count = Number(count)
+                    $('#main_number_basket').html(count + 1)
                 },
                 error: function (error) {
                     console.log(error)
@@ -179,13 +200,13 @@
             let id_product = $(this).attr('asqar')
             console.log(id_product)
             let count = 1
-            let JsonData = {'product': id_product, 'number_item':count}
+            let JsonData = {'product': id_product, 'number_item': count}
             $.ajax({
                 type: "POST",
                 url: 'http://127.0.0.1:8000/order/cartitem/',
                 data: JsonData,
-                headers:{
-                    "X-CSRFToken":'{{ csrf_token }}'
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
                     console.log(response)
@@ -194,6 +215,29 @@
                         'You add this Product to Cart!',
                         'success'
                     )
+                },
+                error: function (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
+                }
+            })
+        })
+        $('.parent').click(function () {
+            var par = $(this).attr('cate_id')
+            console.log(par)
+            let JsonData = {'category_id': par};
+            $.ajax({
+                type: "GET",
+                url: '{% url 'product_list_render' %}',
+                data: JsonData,
+                success: function (response) {
+                    $('.to_fill').html('')
+                    $('.to_fill').html(response['products'])
+                    {#console.log(response['products'])#}
                 },
                 error: function (error) {
                     console.log(error)

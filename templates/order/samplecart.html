@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'sweet_alert.js' %}"></script>
 
 {% endblock %}
 <style>
@@ -79,7 +80,7 @@
             <div class="column-labels">
                 <label class="product-image">Image</label>
                 <label class="product-details">Product</label>
-{#                <label class="product-price">Price</label>#}
+                {#                <label class="product-price">Price</label>#}
                 <label class="product-price">Price with discount</label>
                 <label class="product-quantity">Quantity</label>
                 <label class="product-removal">Remove</label>
@@ -95,7 +96,7 @@
                         <div class="brand-title">Brand: {{ item.product.brand.name }}</div>
                         <p class="product-description">Product Name: {{ item.product.name }}</p>
                     </div>
-{#                    <div class="product-price">{{ item.product.price }}</div>#}
+                    {#                    <div class="product-price">{{ item.product.price }}</div>#}
                     <div class="product-price">{{ item.product.price_after_discount }}</div>
                     <div class="product-quantity">
                         <input type="number" class="change_number_product" akbar="{{ item.id }}"
@@ -115,24 +116,37 @@
                     <label>Subtotal</label>
                     <div class="totals-value" id="cart-subtotal" value="{{ total_price }}">{{ total_price }}</div>
                 </div>
-{#                <div class="totals-item">#}
-{#                    <label>Tax (5%)</label>#}
-{#                    <div class="totals-value" id="cart-tax">3</div>#}
-{#                </div>#}
-                <div class="totals-item">
-                    <label>Off Code: </label>
-                    <div class="totals-value" id="cart-shipping">15.00</div>
-                    <input id="off_code1" type="text">
-                    <button id="off_code" type="button" class="btn btn-danger">Apply</button>
+                {#                <div class="totals-item">#}
+                {#                    <label>Tax (5%)</label>#}
+                {#                    <div class="totals-value" id="cart-tax">3</div>#}
+                {#                </div>#}
+                {% if user.is_authenticated %}
+                    <div class="totals-item">
+                        <label>Off Code: </label>
+                        <div class="totals-value" id="cart-shipping" babaii="0">0</div>
+                        <input id="off_code1" type="text">
+                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">Apply</button>
+                    </div>
+                {% else %}
+                    <div class="totals-item">
+                        <label>Off Code: </label>
+                        <div class="totals-value" id="cart-shipping" babaii="0">0</div>
+                        <input id="off_code1" type="text" disabled>
+                        <button id="off_code" type="button" class="btn btn-danger" disabled>Apply</button>
+                    </div>
 
-                </div>
+                {% endif %}
+
                 <div class="totals-item totals-item-total">
                     <label>Grand Total</label>
                     <div class="totals-value" id="cart-total" value="{{ final_price }}">{{ final_price }}</div>
                 </div>
             </div>
-
-            <button id="final" class="checkout my-2" >Apply Final Change</button>
+            {% if user.is_authenticated %}
+                <button id="final" class="checkout my-2">Apply Final Change</button>
+            {% else %}
+                <button id="final" class="checkout my-2"><a href="{% url 'costumer_login_view' %}">Login</a></button>
+            {% endif %}
 
 
         </div>
@@ -145,7 +159,7 @@
         {#java script to handle front price#}
         /* Set rates + misc */
         var taxRate = 0.05;
-        var shippingRate = 15.0;
+        {#var shippingRate = Number($('#cart-shipping').attr('babaii'));#}
         var fadeTime = 300;
 
         function removeItem(removeButton) {
@@ -174,15 +188,31 @@
             });
 
             /* Calculate totals */
-            var tax = subtotal * taxRate;
-            var shipping = subtotal > 0 ? shippingRate : 0;
-            var total = subtotal + tax - shipping;
+            {#var tax = subtotal * taxRate;#}
+            {#var shipping = subtotal > 0 ? shippingRate : 0;#}
+            var type=$('#off_code').attr('type_attr')
+            var value=Number($('#off_code').attr('value_attr'))
+
+
+            var shipping = Number($('#cart-shipping').attr('babaii'));
+            if (type){
+                if (type==='PER'){
+                    let value_after_off= subtotal*value/100
+                    $('#cart-shipping').attr('babaii',value_after_off)
+                }else if(type==='PRI') {
+                    if (subtotal<2*value){
+                        $('#cart-shipping').attr('babaii',0)
+                    }
+                }
+            }
+
+            var total = subtotal - shipping;
 
             /* Update totals display */
             $(".totals-value").fadeOut(fadeTime, function () {
                 $("#cart-subtotal").html(subtotal.toFixed(2));
                 $("#cart-subtotal").attr('value', subtotal);
-                $("#cart-tax").html(tax.toFixed(2));
+                {#$("#cart-tax").html(tax.toFixed(2));#}
                 $("#cart-shipping").html(shipping.toFixed(2));
                 $("#cart-total").html(total.toFixed(2));
                 $("#cart-total").attr('value', total);
@@ -216,9 +246,9 @@
         /* Remove item from cart */
         $('#off_code').click(function () {
             var off = $('#off_code1').val()
-            var cart_id = Number( $('.cart_id').attr('cart_id'))
+            var cart_id = Number($('.cart_id').attr('cart_id'))
 
-            console.log(typeof(cart_id))
+            console.log(typeof (cart_id))
             console.log(off)
             console.log((cart_id))
             let JsonData = {'off_code': off};
@@ -230,19 +260,59 @@
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
-                    console.log(response)
-                    for (let resp of response) {
-                        console.log(resp.code)
-                        if (resp.code === off) {
-                            console.log('yesss')
-                            $("#cart-shipping").html(shipping.toFixed(2));
+                    {#console.log(response)#}
+                    Swal.fire(
+                        'Good job!',
+                        'Your OffCode Apply!',
+                        'success',
+                    )
+                    {#console.log(response['off_code'])#}
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'off_code_check' 0 %}'.replace('0', response['off_code']),
+                        headers: {
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            console.log(response['type_disc'])
+                            console.log(response['value'])
+                            if (response['type_disc'] === 'PER') {
+                                let subtotal = Number($('#cart-subtotal').html())
+                                {#console.log(subtotal)#}
+                                let value = Number(response['value'])
+                                {#console.log(value)#}
+                                let calc_disc = subtotal * value / 100
+                                console.log(calc_disc)
+                                $('#cart-shipping').attr('babaii', calc_disc)
+                                $('#cart-shipping').html(calc_disc)
+                                $('#cart-total').html(subtotal - calc_disc)
+                                $('#off_code').attr('type_attr',response['type_disc'])
+                                $('#off_code').attr('value_attr',value)
+                            } else {
+                                let value2 = Number(response['value'])
+                                let subtotal2 = Number($('#cart-subtotal').html())
+                                $('#cart-shipping').attr('babaii', value2)
+                                $('#cart-shipping').html(value2)
+                                $('#cart-total').html(subtotal2 - value2)
+                                $('#off_code').attr('type_attr',response['type_disc'])
+                                $('#off_code').attr('value_attr',value2)
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
                         }
-                    }
+                    })
+
+
                 }
                 ,
                 error: function (error) {
                     console.log(error)
-                    alert('in chieeeeeeeeeeeeeee')
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'This OffCode is Not Valid!',
+                    })
                 }
 
             })
@@ -310,7 +380,7 @@
 
             $.ajax({
                 type: 'PATCH',
-                url: "{% url 'cartitem-detail' 0 %}".replace('0',item_id),
+                url: "{% url 'cartitem-detail' 0 %}".replace('0', item_id),
                 data: {'product': product_id, 'number_item': number_item},
                 headers: {
                     "X-CSRFToken": '{{ csrf_token }}'
