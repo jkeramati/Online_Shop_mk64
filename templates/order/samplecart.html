@@ -125,7 +125,8 @@
                         <label>Off Code: </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
                         <input id="off_code1" type="text">
-                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">Apply</button>
+                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">Apply
+                        </button>
                     </div>
                 {% else %}
                     <div class="totals-item">
@@ -161,6 +162,7 @@
         var taxRate = 0.05;
         {#var shippingRate = Number($('#cart-shipping').attr('babaii'));#}
         var fadeTime = 300;
+        var raw_number_item = 0;
 
         function removeItem(removeButton) {
             console.log('mashti hazf shod')
@@ -190,18 +192,20 @@
             /* Calculate totals */
             {#var tax = subtotal * taxRate;#}
             {#var shipping = subtotal > 0 ? shippingRate : 0;#}
-            var type=$('#off_code').attr('type_attr')
-            var value=Number($('#off_code').attr('value_attr'))
+            var type = $('#off_code').attr('type_attr')
+            var value = Number($('#off_code').attr('value_attr'))
 
 
             var shipping = Number($('#cart-shipping').attr('babaii'));
-            if (type){
-                if (type==='PER'){
-                    let value_after_off= subtotal*value/100
-                    $('#cart-shipping').attr('babaii',value_after_off)
-                }else if(type==='PRI') {
-                    if (subtotal<2*value){
-                        $('#cart-shipping').attr('babaii',0)
+            if (type) {
+                if (type === 'PER') {
+                    let value_after_off = subtotal * value / 100
+                    $('#cart-shipping').attr('babaii', value_after_off)
+                    shipping = Number($('#cart-shipping').attr('babaii'));
+                } else if (type === 'PRI') {
+                    if (subtotal < 2 * value) {
+                        $('#cart-shipping').attr('babaii', 0)
+                        shipping = Number($('#cart-shipping').attr('babaii'));
                     }
                 }
             }
@@ -286,16 +290,16 @@
                                 $('#cart-shipping').attr('babaii', calc_disc)
                                 $('#cart-shipping').html(calc_disc)
                                 $('#cart-total').html(subtotal - calc_disc)
-                                $('#off_code').attr('type_attr',response['type_disc'])
-                                $('#off_code').attr('value_attr',value)
+                                $('#off_code').attr('type_attr', response['type_disc'])
+                                $('#off_code').attr('value_attr', value)
                             } else {
                                 let value2 = Number(response['value'])
                                 let subtotal2 = Number($('#cart-subtotal').html())
                                 $('#cart-shipping').attr('babaii', value2)
                                 $('#cart-shipping').html(value2)
                                 $('#cart-total').html(subtotal2 - value2)
-                                $('#off_code').attr('type_attr',response['type_disc'])
-                                $('#off_code').attr('value_attr',value2)
+                                $('#off_code').attr('type_attr', response['type_disc'])
+                                $('#off_code').attr('value_attr', value2)
                             }
                         },
                         error: function (error) {
@@ -361,7 +365,11 @@
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
-
+                    let number_item_before = th_is.parent().parent().children('div.product-quantity').children('input.change_number_product').val()
+                    console.log(number_item_before)
+                    let count = $('#main_number_basket').html()
+                    let new_count = Number(count) - Number(number_item_before)
+                    $('#main_number_basket').html(new_count)
                     removeItem(th_is);
                 },
                 error: function (error) {
@@ -369,15 +377,17 @@
                 }
             })
         })
+        $(".change_number_product").on('focus', function () {
+            let number_item_before = $(this).val()
+            let count = $('#main_number_basket').html()
+            count = Number(count)
+            raw_number_item = count - number_item_before
+        })
 
         $('.change_number_product').change(function () {
             let number_item = $(this).val()
-            console.log(number_item)
             let item_id = $(this).attr('akbar')
-            console.log(item_id)
             let product_id = $(this).attr('asqar')
-            console.log(product_id)
-
             $.ajax({
                 type: 'PATCH',
                 url: "{% url 'cartitem-detail' 0 %}".replace('0', item_id),
@@ -386,6 +396,8 @@
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
+                    let new_count = Number(raw_number_item) + Number(number_item)
+                    $('#main_number_basket').html(new_count)
 
                 },
                 error: function (error) {

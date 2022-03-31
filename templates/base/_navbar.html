@@ -48,6 +48,7 @@
                                     </div>
                                 {% endfor %}
 
+
                                 {#                                <div class="list-item text-center">#}
                                 {#                                    <a href="#">#}
                                 {#                                        <img class="show-img"#}
@@ -86,6 +87,12 @@
 
                             </div>
 
+                        </li>
+                        <li>
+                            <a href="{% url 'category_list' %}"> {% trans "Product" %} </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'category_list' %}"> {% trans "About Us" %} </a>
                         </li>
                         {#                        <li class="menu-item-has-children">#}
                         {#                            <!--SALE LABEL-->#}
