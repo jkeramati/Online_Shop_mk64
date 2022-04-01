@@ -121,6 +121,7 @@ class CartItemList(ListView):
                 total_price += item.total_cartitem_price
             kwargs['total_price'] = total_price
             kwargs['final_price'] = total_price
+            kwargs['address'] = Address.objects.filter(costumer__user=self.request.user)
         elif self.request.user.is_anonymous:
             list_order_item = list_of_cookie_to_cartItem(self.request)
             if not list_order_item == 1:
@@ -189,3 +190,8 @@ class CartItemListApi(generics.ListAPIView):
     #     cart_id = self.request.data['cart_id']
     #     queryset = CartItem.objects.filter(cart_id=cart_id)
     #     return queryset
+
+
+class ToNextStepCart(generics.RetrieveUpdateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer

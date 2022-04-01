@@ -143,6 +143,16 @@
                     <div class="totals-value" id="cart-total" value="{{ final_price }}">{{ final_price }}</div>
                 </div>
             </div>
+
+            <select class="form-control form-control-sm totals-item" aria-label="Default select example" id="address_id"
+                    style="float: right; width: 50%;margin-left: 30rem">
+                <option selected>Select an address</option>
+                {% for add in address %}
+                    <option value="{{ add.id }}">{{ add }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
             {% if user.is_authenticated %}
                 <button id="final" class="checkout my-2">Apply Final Change</button>
             {% else %}
@@ -327,20 +337,26 @@
         $('#final').on('click', function () {
             var total_price = $("#cart-subtotal").attr('value')
             var final_price = $("#cart-total").attr('value')
+            var address_id=$("#address_id").val()
+            console.log(address_id)
             var cart_id = $('.cart_id').attr('cart_id')
             console.log(total_price)
             console.log(final_price)
-            let JsonData1 = {'total_price': total_price, 'final_price': final_price};
+            let JsonData1 = {'total_price': total_price, 'final_price': final_price,'address':address_id};
             $.ajax({
                 type: 'PATCH',
-                url: 'http://127.0.0.1:8000/order/cartdetail/PK/'.replace('PK', cart_id),
-                {#url: '{% url 'cartdetail' 0 %}'.replace('0', cart_id),#}
+                url: '{% url 'next_to_dashboard_cart' 0 %}'.replace('0', cart_id),
                 data: JsonData1,
                 headers: {
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
                 success: function (response) {
                     console.log(response)
+                    Swal.fire(
+                        'Thanks for your Shopping!',
+                        '',
+                        'success',
+                    )
 
                 },
                 error: function (error) {
