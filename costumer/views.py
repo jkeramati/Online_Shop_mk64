@@ -75,6 +75,10 @@ class CostumerLoginView(FormView):
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
+        url = self.request.GET.get('link', None)
+        print('url:', url)
+        if url:
+            self.success_url = url
         login(self.request, user=form.get_user())
         if self.request.COOKIES.get('cookie_product'):
             send_cartItem_cookie_to_DB(self.request)
@@ -170,7 +174,6 @@ class EditProfile(generics.UpdateAPIView):
 class ProductForDashboard(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-
 
 
 from .permission import *

@@ -26,14 +26,15 @@ def set_cart_cookie(request):
 def list_of_cookie_to_cartItem(request):
     cookie_dict = request.COOKIES.get('cookie_product')
     print('zzz', cookie_dict)
-    if cookie_dict == {} or None:
+    try:
+        json_cook = json.loads(cookie_dict)
+        order_item_list = []
+        for product_id, count in json_cook.items():
+            cart_item = CartItem(product_id=int(product_id), number_item=count)
+            order_item_list.append(cart_item)
+        return order_item_list
+    except:
         return 1
-    json_cook = json.loads(cookie_dict)
-    order_item_list = []
-    for product_id, count in json_cook.items():
-        cart_item = CartItem(product_id=int(product_id), number_item=count)
-        order_item_list.append(cart_item)
-    return order_item_list
 
 
 def delete_item_in_cookie(request, pk):
