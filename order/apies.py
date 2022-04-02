@@ -99,8 +99,11 @@ class CartItemList(ListView):
         if self.request.user.is_authenticated:
             user = self.request.user
             costumer = Costumer.objects.get(user=user)
-            cart = Cart.objects.get(costumer=costumer, status='NPY')
-            print('count', cart.cartitem_set.all().count())
+            try:
+                cart = Cart.objects.get(costumer=costumer, status='NPY')
+                print('count', cart.cartitem_set.all().count())
+            except:
+                return 1
             if cart.cartitem_set.all().count() == 0:
                 return 1
             return cart.cartitem_set.all()
@@ -195,3 +198,60 @@ class CartItemListApi(generics.ListAPIView):
 class ToNextStepCart(generics.RetrieveUpdateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        request.data._mutable = True
+        total_price_user = int(float(self.request.data['total_price']))
+        final_price_user = int(float(self.request.data['final_price']))
+        off_code_id = self.request.data['off_code']
+        print(off_code_id, type(off_code_id))
+        total_price_admin = 0
+        for item in CartItem.objects.filter(cart__costumer__user=self.request.user, cart__status='NPY'):
+            total_price_admin += item.total_cartitem_price
+
+        if off_code_id:
+            off_code_id = int(off_code_id)
+            off_obj = OffCode.objects.filter(pk=off_code_id)[0]
+            print('off_obj', off_obj)
+            final_price_admin = off_obj.discounted_price(total_price_admin)
+            print('final_user', final_price_user)
+            print('final_admin', final_price_admin)
+            print(final_price_user == final_price_admin)
+            if final_price_user == final_price_admin:
+                request.data['status'] = 'PAY'
+                return super().partial_update(request, *args, **kwargs)
+            else:
+                return HttpResponse(status=401)
+        else:
+            print('total-ad', total_price_admin)
+            print('total-us', total_price_user)
+            print('total-us', final_price_user)
+            print(total_price_admin == final_price_user)
+            if total_price_admin == final_price_user:
+                request.data['status'] = 'PAY'
+                return super().partial_update(request, *args, **kwargs)
+            else:
+                return HttpResponse(status=402)
+        # try:
+        #     print('offId',off_code_id)
+        #     off_obj = OffCode.objects.get(pk=off_code_id)
+        #     discount_calc = off_obj.discounted_price(total_price_admin)
+        #     final_price_admin = total_price_admin - discount_calc
+        #     print('final_user', final_price_user)
+        #     print('final_admin', final_price_admin)
+        #     print(final_price_user == final_price_admin)
+        #     if final_price_user == final_price_admin:
+        #         request.data['status'] = 'PAY'
+        #         return super().partial_update(request, *args, **kwargs)
+        #     else:
+        #         return HttpResponse(status=401)
+        # except:
+        #     print('total-ad', total_price_admin)
+        #     print('total-us', total_price_user)
+        #     print('total-us', final_price_user)
+        #     print(total_price_admin == final_price_user)
+        #     if total_price_admin == final_price_user:
+        #         request.data['status'] = 'PAY'
+        #         return super().partial_update(request, *args, **kwargs)
+        #     else:
+        #         return HttpResponse(status=402)

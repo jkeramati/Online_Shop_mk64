@@ -30,7 +30,6 @@ urlpatterns = [
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
@@ -39,8 +38,6 @@ urlpatterns += i18n_patterns(
     path('order/', include('order.urls')),
     path('product/', include('product.urls')),
 
-    # اگر این مقدار وارد نشود یا برابر مقدار صحیح قرار گیرد
-    # می بایست زبان اصلی و پیشفرض پروژه را نیز در آدرس ها قرار دهیم
-    # /fa/ , /en/ , ....
     prefix_default_language=False,
 )
+handler404 = 'home.views.error_404'

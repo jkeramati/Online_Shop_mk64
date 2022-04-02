@@ -12,6 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
     <script src="{% static 'sweet_alert.js' %}"></script>
 
 {% endblock %}
@@ -124,7 +127,7 @@
                     <div class="totals-item">
                         <label>Off Code: </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
-                        <input id="off_code1" type="text">
+                        <input id="off_code1" type="text" id_off_code="">
                         <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">Apply
                         </button>
                     </div>
@@ -132,8 +135,8 @@
                     <div class="totals-item">
                         <label>Off Code: </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
-                        <input id="off_code1" type="text" disabled>
-                        <button id="off_code" type="button" class="btn btn-danger" disabled>Apply</button>
+                        <input type="text" disabled>
+                        <button type="button" class="btn btn-danger" disabled>Apply</button>
                     </div>
 
                 {% endif %}
@@ -288,6 +291,7 @@
                             "X-CSRFToken": '{{ csrf_token }}'
                         },
                         success: function (response) {
+                            $('#off_code1').attr('id_off_code', response['id'])
                             console.log(response['type_disc'])
                             console.log(response['value'])
                             if (response['type_disc'] === 'PER') {
@@ -335,14 +339,21 @@
 
         {#to set final price and total price in data base cart view: CartUpdateAPI #}
         $('#final').on('click', function () {
-            var total_price = $("#cart-subtotal").attr('value')
-            var final_price = $("#cart-total").attr('value')
-            var address_id=$("#address_id").val()
-            console.log(address_id)
+            var total_price = Number($("#cart-subtotal").html())
+            var final_price = Number($("#cart-total").html())
+            var address_id = $("#address_id").val()
+            var off_code_id = $('#off_code1').attr('id_off_code')
+            console.log(off_code_id, typeof (off_code_id))
+            {#console.log(address_id)#}
             var cart_id = $('.cart_id').attr('cart_id')
-            console.log(total_price)
-            console.log(final_price)
-            let JsonData1 = {'total_price': total_price, 'final_price': final_price,'address':address_id};
+            {#console.log(total_price)#}
+            {#console.log(final_price)#}
+            let JsonData1 = {
+                'total_price': total_price,
+                'final_price': final_price,
+                'address': address_id,
+                'off_code': off_code_id
+            };
             $.ajax({
                 type: 'PATCH',
                 url: '{% url 'next_to_dashboard_cart' 0 %}'.replace('0', cart_id),

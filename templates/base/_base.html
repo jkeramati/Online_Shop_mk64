@@ -1,4 +1,8 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +22,30 @@
     {% block extra_head %}{% endblock %}
 </head>
 <style>
-    body {
-        font-family: 'Vazir', serif;
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
         font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
     }
 </style>
 <body>

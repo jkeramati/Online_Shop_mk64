@@ -8,7 +8,12 @@ def count_basket(request):
     if request.user.is_authenticated:
         cart = Cart.objects.filter(costumer__user=request.user, status='NPY')
         print('cart:', cart)
-        cart_item = CartItem.objects.filter(cart=cart[0])
+        try:
+            cart_item = CartItem.objects.filter(cart=cart[0])
+        except:
+            return {
+                'number_basket': 0
+            }
         print('cart_item:', cart_item)
         count = 0
         for item in cart_item:
