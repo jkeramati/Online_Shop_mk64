@@ -23,7 +23,42 @@
         padding: 0.25rem;
     }
 
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+
+    .deals-value .amount {
+        text-decoration: line-through;
+    }
+
+    .woocommerce-Price-currencySymbol {
+        margin-right: 10px;
+    }
 </style>
+
+
 {% block content %}
     {% if items == 1 %}
         <style>
@@ -71,12 +106,12 @@
         </style>
         <div id="main">
             <div class="fof">
-                <h1>{% trans "Basket Is Empty" %}</h1>
+                <h1 style="font-family: Vazir,serif">{% trans "Basket Is Empty" %}</h1>
             </div>
         </div>
 
     {% else %}
-        <h1>Shopping Cart</h1>
+        <h3 style="font-family: Vazir,serif">{% trans "Shopping Cart" %}</h3>
 
         <div class="shopping-cart">
 
@@ -84,10 +119,10 @@
                 <label class="product-image">Image</label>
                 <label class="product-details">Product</label>
                 {#                <label class="product-price">Price</label>#}
-                <label class="product-price">Price with discount</label>
-                <label class="product-quantity">Quantity</label>
+                <label class="product-price">{% trans "Price with discount" %}</label>
+                <label class="product-quantity">{% trans "Quantity" %}</label>
                 <label class="product-removal">Remove</label>
-                <label class="product-line-price">Total</label>
+                <label class="product-line-price">{% trans "Total" %}</label>
             </div>
 
             {% for item in items %}
@@ -96,8 +131,8 @@
                         <img src="{{ item.product.image.url }}">
                     </div>
                     <div class="product-details">
-                        <div class="brand-title">Brand: {{ item.product.brand.name }}</div>
-                        <p class="product-description">Product Name: {{ item.product.name }}</p>
+                        <div class="brand-title">{% trans "Brand: " %} {{ item.product.brand.name }}</div>
+                        <p class="product-description">{% trans "Name: " %} {{ item.product.name }}</p>
                     </div>
                     {#                    <div class="product-price">{{ item.product.price }}</div>#}
                     <div class="product-price">{{ item.product.price_after_discount }}</div>
@@ -106,8 +141,8 @@
                                asqar="{{ item.product.id }}" value="{{ item.number_item }}" min="1">
                     </div>
                     <div class="product-removal" akbar="{{ item.id }}" asqar="{{ item.product.id }}">
-                        <button class="remove-product">
-                            Remove
+                        <button class="remove-product" style="font-family: Vazir,serif">
+                            {% trans "Remove" %}
                         </button>
                     </div>
                     <div class="product-line-price">{{ item.total_cartitem_price }}</div>
@@ -116,7 +151,7 @@
             {% endfor %}
             <div class="totals">
                 <div class="totals-item">
-                    <label>Subtotal</label>
+                    <label>{% trans "Subtotal" %}</label>
                     <div class="totals-value" id="cart-subtotal" value="{{ total_price }}">{{ total_price }}</div>
                 </div>
                 {#                <div class="totals-item">#}
@@ -125,31 +160,31 @@
                 {#                </div>#}
                 {% if user.is_authenticated %}
                     <div class="totals-item">
-                        <label>Off Code: </label>
+                        <label>{% trans "Off Code:" %} </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
                         <input id="off_code1" type="text" id_off_code="">
-                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">Apply
+                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">{% trans "Apply" %}
                         </button>
                     </div>
                 {% else %}
                     <div class="totals-item">
-                        <label>Off Code: </label>
+                        <label>{% trans "Off Code:" %} </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
                         <input type="text" disabled>
-                        <button type="button" class="btn btn-danger" disabled>Apply</button>
+                        <button type="button" class="btn btn-danger" disabled>{% trans "Apply" %}</button>
                     </div>
 
                 {% endif %}
 
                 <div class="totals-item totals-item-total">
-                    <label>Grand Total</label>
+                    <label>{% trans "Grand Total" %}</label>
                     <div class="totals-value" id="cart-total" value="{{ final_price }}">{{ final_price }}</div>
                 </div>
             </div>
 
             <select class="form-control form-control-sm totals-item" aria-label="Default select example" id="address_id"
                     style="float: right; width: 50%;margin-left: 30rem">
-                <option selected>Select an address</option>
+                <option selected>{% trans "Select an address" %}</option>
                 {% for add in address %}
                     <option value="{{ add.id }}">{{ add }}</option>
                 {% endfor %}
@@ -157,9 +192,9 @@
             <br>
 
             {% if user.is_authenticated %}
-                <button id="final" class="checkout my-2">Apply Final Change</button>
+                <button id="final" class="checkout my-2" style="background-color: #2f89fc">{% trans "Apply Final Change" %}</button>
             {% else %}
-                <button id="final" class="checkout my-2"><a href="{% url 'costumer_login_view' %}">Login</a></button>
+                <button id="final" class="checkout my-2" style="background-color: #2f89fc"><a href="{% url 'costumer_login_view' %}">{% trans "Login" %}</a></button>
             {% endif %}
 
 

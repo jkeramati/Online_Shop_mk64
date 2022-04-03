@@ -1,5 +1,6 @@
 {% extends 'base/_base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Home | Shopping{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -15,6 +16,33 @@
 {% endblock %}
 {% block content %}
     <style>
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
         .deals-value .amount {
             text-decoration: line-through;
         }
@@ -33,9 +61,9 @@
                 <div class="slider-text-container">
 
                     <div class="f-slider-text">
-                        <span>Limited Offer</span>
-                        <strong>30% OFF <br> In <font>New Product</font></strong>
-                        <a href="{% url "category_list" %}" class="f-slider-btn">Shop Now</a>
+                        <span>{% trans "Limited Offer" %}</span>
+                        <strong>30% OFF <br> In <font>{% trans "New Product" %}</font></strong>
+                        <a href="{% url "category_list" %}" class="f-slider-btn">{% trans "Shop Now" %}</a>
                     </div>
 
                 </div>
@@ -49,7 +77,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2 class="heading-section mb-5 pb-md-4">Latest Product</h2>
+                    <h2 class="heading-section mb-5 pb-md-4" style="font-family: Vazir,serif">{% trans "Latest Product" %}</h2>
                 </div>
                 <div class="col-md-12">
                     <div class="featured-carousel owl-carousel">
@@ -76,7 +104,7 @@
                                             </p>
                                             <span class="price_num">${{ item.price_after_discount }}</span>
                                         {% endif %}
-{#                                        <span>{{ item.price }} $</span>#}
+                                        {#                                        <span>{{ item.price }} $</span>#}
                                     </div>
                                 </div>
                             </div>

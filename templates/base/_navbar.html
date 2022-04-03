@@ -1,9 +1,9 @@
 {% load static %}
 {% load i18n %}
-<header class="header">
+<header class="header" style="background-color: #12cc94">
 
     <!--UPPER BAR-->
-    <div class="social-call">
+    <div class="social-call" style="background-color: #12cc94">
         <div class="social">
             <a href="https://github.com/jkeramati"><i class="fab fa-github"></i></a>
             <a href="https://github.com/jkeramati"><i class="fab fa-linkedin"></i></a>
@@ -11,14 +11,14 @@
             <a href="https://t.me/jalaloddinkeramati"><i class="fab fa-google-plus"></i></a>
         </div>
         <div class="phone">
-            <span>{% trans "Call" %} +98 912 453 9005</span>
+            <span> <span>+98 912 453 9005</span> {% trans "Call" %}</span>
         </div>
     </div>
     <!--END OF UPPER BAR-->
     <div class="container">
         <div class="row v-center">
             <div class="header-item item-left">
-                <div class="logo"><a href="{% url 'index' %}">Digital SHOP</a></div>
+                <div class="logo" ><a href="{% url 'index' %}" style="font-family: 'Sitka Banner' ,serif">Digital SHOP</a></div>
             </div>
             <div class="header-item item-center">
                 <div class="menu-overlay"></div>
@@ -89,7 +89,7 @@
 
                         </li>
                         <li>
-                            <a href="{% url 'category_list' %}"> {% trans "Product" %} </a>
+                            <a href="{% url 'category_list' %}"> {% trans "Products" %} </a>
                         </li>
                         <li>
                             <a href="{% url 'category_list' %}"> {% trans "About Us" %} </a>
@@ -171,8 +171,9 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'dashboard' %}"> <i class="far fa-user" style='font-size:24px'></i></a>
                 {% else %}
-                    <a href="{% url 'costumer_login_view' %}?link={{ request.path }}" class="user"><i class='fas fa-sign-in-alt'
-                                                                              style='font-size:24px'></i></a>
+                    <a href="{% url 'costumer_login_view' %}?link={{ request.path }}" class="user"><i
+                            class='fas fa-sign-in-alt'
+                            style='font-size:24px'></i></a>
                 {% endif %}
 
                 <a href="{% url 'order_item_list' %}">
@@ -184,9 +185,9 @@
                 </a>
 
 
-                <div class="mobile-menu-trigger">
-                    <span></span>
-                </div>
+                {#                <div class="mobile-menu-trigger">#}
+                {#                    <span></span>#}
+                {#                </div>#}
             </div>
         </div>
     </div>

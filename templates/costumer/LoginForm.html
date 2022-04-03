@@ -1,4 +1,8 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,21 +15,56 @@
 
 </head>
 <body>
+<style>
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+</style>
 <div class="wrapper">
     <div class="container">
         <div class="col-left">
             <div class="login-text">
-                <h2>LogIn</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget eros dapibus, ultricies tellus
-                    vitae, consectetur tortor. Etiam rutrum placerat
+{#                <h2 style="text-align: center">{% trans "LogIn" %}</h2>#}
+                {% if LANGUAGE_CODE == 'en' %}
+                    <p style="text-align: justify">
+                        {% else %}
+                    <p style="text-align: end">
+                {% endif %}
+                {% trans "WELCOME" %} <br>
+                <br>
+                {% trans "We are very proud to be your host..." %} <br>
+                <br>
+                {% trans "In this page you can login and known as user authenticated." %}
+
                 </p>
-                <a class="btn" href="{% url 'index' %}">Back Home</a>
+                <a class="btn" href="{% url 'index' %}">{% trans "Back Home" %}</a>
             </div>
         </div>
         <div class="col-right">
             <div class="login-form">
-                <h2>Login</h2>
+                <h2 style="text-align: center">{% trans "Login" %}</h2>
                 {% for error in form.errors.values %}
                     <button type="button" class="close" data-dismiss="alert">x</button>
                     {{ error.0 }}
@@ -34,11 +73,11 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <p>
-                        <input class="btn" type="submit" value="LogIn">
+                        <input class="btn" type="submit" value={% trans "LogIn" %}>
                     </p>
                 </form>
                 <p>
-                    <a href="{% url 'costumer_signup_view' %}">Create an account?</a>
+                    <a href="{% url 'costumer_signup_view' %}">{% trans "Create an account" %}</a>
                 </p>
             </div>
         </div>

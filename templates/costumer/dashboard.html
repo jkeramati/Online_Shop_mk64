@@ -23,15 +23,61 @@
 
 </head>
 <body>
+<style>
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+
+    .deals-value .amount {
+        text-decoration: line-through;
+    }
+
+    .woocommerce-Price-currencySymbol {
+        margin-right: 10px;
+    }
+    .list-group-item{
+        background-color: azure!important;
+    }
+    .list-group{
+        box-shadow: black;
+    }
+    .list-group-item-action{
+        color: blue;
+    }
+
+</style>
 <div class="container-fluid">
     <div class="row">
         <!-- sidebar -->
-        <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-white shadow-sm sidebar" id="sidebar">
+        <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-white shadow-sm sidebar" id="sidebar" style="background-color: azure !important;">
             <h1 class="text-primary d-flex my-4 justify-content-center"><img src="{% static 'shopping.png' %}"
                                                                              alt="logo" width="75" height="75"></h1>
-            <div class="list-group rounded-0">
+            <div class="list-group rounded-0" >
                 <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center"
-                        data-toggle="collapse" data-target="#sale-collapse">
+                        data-toggle="collapse" data-target="#sale-collapse" >
                     <div>
                         <span class="bi bi-box"></span>
                         <span class="ml-2">{% trans "Profile" %}</span>
@@ -43,7 +89,8 @@
                         <a href="#" class="list-group-item list-group-item-action border-0 pl-5 personal-info"
                            id="personal_info">
                             {% trans "Personal Info" %}</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 address" id="address">{% trans "Address" %}</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
+                           id="address">{% trans "Address" %}</a>
                     </div>
                 </div>
 
@@ -71,7 +118,7 @@
         <!-- note: in the layout margin auto is the key as sidebar is fixed -->
         <div class="col-md-9 col-lg-10 ml-md-auto px-0">
             <!-- top nav -->
-            <nav class="w-100 d-flex px-4 py-2 mb-4 shadow-sm sticky" style="position: sticky;">
+            <nav class="w-100 d-flex px-4 py-2 mb-4 shadow-sm sticky" style="position: sticky; background-color: azure">
                 <!-- close sidebar -->
                 <button class="btn py-0 d-lg-none" id="open-sidebar">
                     <span class="bi bi-list text-primary h3"></span>

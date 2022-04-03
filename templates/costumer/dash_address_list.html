@@ -1,6 +1,6 @@
 {#{% extends 'costumer/dashboard.html' %}#}
 {% load static %}
-
+{% load i18n %}
 {% block extra_head %}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--===============================================================================================-->
@@ -24,16 +24,52 @@
 {% endblock %}
 
 {% block content %}
+    <style>
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
+        .deals-value .amount {
+            text-decoration: line-through;
+        }
+
+        .woocommerce-Price-currencySymbol {
+            margin-right: 10px;
+        }
+    </style>
 
     <button type="button" class="btn btn-success add_address" data-toggle="modal"
-            data-target="#exampleModal">Add Address
+            data-target="#exampleModal">{% trans "Add Address" %}
     </button>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Add Address" %}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -43,35 +79,35 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputProvince">Province</label>
+                                <label for="inputProvince" style="font-family: Vazir,serif ">{% trans "Province" %}</label>
                                 <input type="text" class="form-control border" id="inputProvince">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputCity">City</label>
+                                <label for="inputCity" style="font-family: Vazir,serif ">{% trans "City" %}</label>
                                 <input type="text" class="form-control border" id="inputCity">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputStreet1">Main Street</label>
+                                <label for="inputStreet1" style="font-family: Vazir,serif ">{% trans "Main Street" %}</label>
                                 <input type="text" class="form-control border" id="inputStreet1">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputStreet2">Auxiliary Street</label>
+                                <label for="inputStreet2" style="font-family: Vazir,serif ">{% trans "Auxiliary Street" %}</label>
                                 <input type="text" class="form-control border" id="inputStreet2">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputAlley">Alley</label>
+                                <label for="inputAlley" style="font-family: Vazir,serif ">{% trans "Alley" %}</label>
                                 <input type="text" class="form-control border" id="inputAlley">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputNo">No</label>
+                                <label for="inputNo" style="font-family: Vazir,serif ">{% trans "No" %}</label>
                                 <input type="text" class="form-control border" id="inputNo">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" id="add_new_address">Create</button>
+                        <button type="button" class="btn btn-primary" id="add_new_address" style="font-family: Vazir,serif ">{% trans "Create" %}</button>
                     </div>
                 </div>
                 {#                <div class="modal-footer">#}
@@ -86,12 +122,12 @@
             <table>
                 <thead>
                 <tr class="row100 head">
-                    <th class="cell100 column1">City</th>
-                    <th class="cell100 column2">Main St</th>
-                    <th class="cell100 column3">Auxiliary St</th>
-                    <th class="cell100 column4">Alley</th>
-                    <th class="cell100 column5">No.</th>
-                    <th class="cell100 column6">Delete?</th>
+                    <th class="cell100 column1" style="font-family: Vazir,serif ">{% trans "City" %}</th>
+                    <th class="cell100 column2" style="font-family: Vazir,serif ">{% trans "Main St" %}</th>
+                    <th class="cell100 column3" style="font-family: Vazir,serif ">{% trans "Auxiliary St" %}</th>
+                    <th class="cell100 column4" style="font-family: Vazir,serif ">{% trans "Alley" %}</th>
+                    <th class="cell100 column5" style="font-family: Vazir,serif ">{% trans "No." %}</th>
+                    <th class="cell100 column6" style="font-family: Vazir,serif ">{% trans "Delete?" %}</th>
 
                 </tr>
                 </thead>
@@ -109,7 +145,7 @@
                         <td class="cell100 column5">{{ item.No }}</td>
                         <td class="cell100 column6">
                             <button type="button" class="btn btn-danger delete_address"
-                                    akbar="{{ item.id }}">Delete
+                                    akbar="{{ item.id }}">{% trans "Delete" %}
                             </button>
                         </td>
                     </tr>
@@ -143,6 +179,7 @@
             ps.update();
         })
     });
+
     function getCookie(name) {
         var dc = document.cookie;
         var prefix = name + "=";
@@ -206,18 +243,18 @@
     })
 
 
-
     $('.delete_address').on('click', function () {
         let item_id = $(this).attr('akbar')
         let del = $(this)
         console.log(item_id)
         let cook = getCookie('csrftoken')
-        console.log('test',getCookie('csrftoken'))
+        console.log('test', getCookie('csrftoken'))
         $.ajax({
             type: 'DELETE',
             url: '{% url 'del_address' 0 %}'.replace('0', item_id),
             headers: {
-                "X-CSRFToken": cook},
+                "X-CSRFToken": cook
+            },
 
             success: function (response) {
                 console.log(this)

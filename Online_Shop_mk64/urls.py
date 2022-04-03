@@ -40,4 +40,4 @@ urlpatterns += i18n_patterns(
 
     prefix_default_language=False,
 )
-handler404 = 'home.views.error_404'
+# handler404 = 'home.views.error_404'

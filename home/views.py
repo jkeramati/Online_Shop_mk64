@@ -26,6 +26,6 @@ class Home(ListView):
         return super().get_context_data(object_list=object_list, **kwargs)
 
 
-def error_404(request, exception):
-    # data = {}
-    return render(request, '404.html')
+# def error_404(request, exception):
+#     # data = {}
+#     return render(request, '404.html')
