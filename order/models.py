@@ -1,3 +1,4 @@
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.db import models
 from core.models import *
 from costumer.models import Costumer
@@ -13,8 +14,8 @@ class Cart(BaseModel):
     address = models.ForeignKey(to=Address, on_delete=models.RESTRICT, null=True, blank=True)
     off_code = models.ForeignKey(to=OffCode, null=True, blank=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=9, choices=[('PAY', 'payed'), ('NPY', 'not_pay')])
-    total_price = models.IntegerField(default=0)
-    final_price = models.IntegerField(default=0)
+    total_price = models.FloatField(default=0)
+    final_price = models.FloatField(default=0)
 
     @property
     def calc_total_price(self):
@@ -22,6 +23,11 @@ class Cart(BaseModel):
 
     class Meta:
         unique_together = [['costumer', 'off_code']]
+        # error_messages = {
+        #     NON_FIELD_ERRORS: {
+        #         'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+        #     }
+        # }
 
 
 class CartItem(BaseModel):

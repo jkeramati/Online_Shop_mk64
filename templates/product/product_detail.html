@@ -1,5 +1,7 @@
 {% extends 'base/_base.html' %}
 {% load static %}
+{% load i18n %}
+
 {% block title %}Product{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -10,6 +12,32 @@
 {% endblock %}
 {% block content %}
     <style>
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
         .deals-value .amount {
             text-decoration: line-through;
         }
@@ -18,7 +46,7 @@
             margin-right: 10px;
         }
     </style>
-    <div style="display: flex;align-items: center; justify-content: center; flex-direction: column">
+    <div class="py-4" style="display: flex;align-items: center; justify-content: center; flex-direction: column">
         <div class="product-card">
             <div class="logo-cart">
                 <img src="{{ product.brand.image.url }}"
@@ -36,18 +64,18 @@
                      src="{{ product.image.url }}"
                      alt="blue">
             </div>
-            <div class="shoe-details">
+            <div class="shoe-details" style="text-align: center">
                 <span class="shoe_name">{{ product.name }}</span>
-                <p>{{ product.description }}</p>
+{#                <p>{{ product.description }} description for product</p>#}
             </div>
             <div class="color-price">
                 <div class="color-option">
-                    <span class="color">Color:</span>
-                    <div class="circles">
-                        <span class="circle blue active" id="blue"></span>
-                        <span class="circle pink " id="pink"></span>
-                        <span class="circle yellow " id="yellow"></span>
-                    </div>
+                    <span class="color">{% trans "Price: " %}</span>
+{#                    <div class="circles">#}
+{#                        <span class="circle blue active" id="blue"></span>#}
+{#                        <span class="circle pink " id="pink"></span>#}
+{#                        <span class="circle yellow " id="yellow"></span>#}
+{#                    </div>#}
                 </div>
                 <div class="price">
                     {% if  not product.discount %}
@@ -63,7 +91,7 @@
             </div>
             <div class="button">
                 <div class="button-layer"></div>
-                <button class="click_to_add1" product_id_cookie="{{ product.id }}">Add To Cart</button>
+                <button class="click_to_add1" product_id_cookie="{{ product.id }}">{% trans "Add To Cart" %}</button>
             </div>
         </div>
     </div>
@@ -84,9 +112,9 @@
                 success: function (response) {
                     console.log(response)
                     Swal.fire(
-                        'Good job!',
-                        'You add this Product to Cart!',
-                        'success',
+                        "{% trans 'Good job!' %}",
+                        "{% trans 'Added to Cart!' %}",
+                        'success'
                     )
                     let count = $('#main_number_basket').html()
                     count = Number(count)
@@ -98,8 +126,8 @@
                 error: function (error) {
                     console.log(error)
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
+                        icon: "{% trans 'error' %}",
+                        title: "{% trans 'Oops...' %}",
                         text: 'Something went wrong!',
                     })
                 }

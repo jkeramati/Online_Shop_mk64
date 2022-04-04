@@ -165,9 +165,16 @@ class CartUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
             request.data['off_code'] = ID_off_code
             return super().partial_update(request, *args, **kwargs)
 
-        except:
-            # print('bazam dardesar')
-            return Response(status=400)
+        except Exception as e:
+            print(e)
+            print(type(e))
+            print(vars(e).values())
+            print(vars(e)['detail']['non_field_errors'][0])
+            print('bazam dardesar')
+            if vars(e)['detail']['non_field_errors'][0] == "The fields costumer, off_code must make a unique set.":
+                return Response('unique', status=400)
+
+            return Response('Error in run off code', status=400)
 
 
 class CartItemDetail(generics.RetrieveDestroyAPIView):
@@ -201,8 +208,8 @@ class ToNextStepCart(generics.RetrieveUpdateAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         request.data._mutable = True
-        total_price_user = int(float(self.request.data['total_price']))
-        final_price_user = int(float(self.request.data['final_price']))
+        total_price_user = float(self.request.data['total_price'])
+        final_price_user = float(self.request.data['final_price'])
         off_code_id = self.request.data['off_code']
         print(off_code_id, type(off_code_id))
         total_price_admin = 0

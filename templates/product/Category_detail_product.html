@@ -1,7 +1,33 @@
 
-
+{#<style>#}
+{#     @font-face {#}
+{#            font-family: Vazir;#}
+{#            font-style: normal;#}
+{#            font-weight: normal;#}
+{#            src: url({% static 'fonts/Vazir.eot'%});#}
+{#            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),#}
+{#            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),#}
+{#            url({% static 'fonts/Vazir.woff'%}) format('woff'),#}
+{#            url({% static 'fonts/Vazir.ttf'%}) format('truetype');#}
+{#        }#}
+{##}
+{#        @font-face {#}
+{#            font-family: Vazir;#}
+{#            font-style: normal;#}
+{#            font-weight: bold;#}
+{#            src: url({% static 'fonts/Vazir-Bold.eot'%});#}
+{#            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),#}
+{#            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),#}
+{#            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),#}
+{#            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');#}
+{#        }#}
+{##}
+{#        * {#}
+{#            font-family: 'Vazir', Arial, sans-serif;#}
+{#        }#}
+{#</style>#}
 {% load static %}
-
+{% load i18n %}
 {% for item in products %}
     <!--STRT ITEM-->
     <div class="item " style="display: flex; flex-wrap: wrap;">
@@ -60,6 +86,7 @@
         //return unescape(dc.substring(begin + prefix.length, end));
         return decodeURI(dc.substring(begin + prefix.length, end));
     }
+
     $('.add_to_cart_new').click(function () {
         let id_product = $(this).attr('akbar')
         let cook = getCookie('csrftoken')
@@ -76,8 +103,8 @@
             success: function (response) {
                 console.log(response)
                 Swal.fire(
-                    'Good job!',
-                    'You add this Product to Cart!',
+                    "{% trans 'Good job!' %}",
+                    "{% trans 'Added to Cart!' %}",
                     'success'
                 )
                 let count = $('#main_number_basket').html()
@@ -86,6 +113,11 @@
             },
             error: function (error) {
                 console.log(error)
+                Swal.fire({
+                    icon: "{% trans 'error' %}",
+                    title: "{% trans 'Oops...' %}",
+                    text: 'Something went wrong!',
+                })
             }
         })
     })

@@ -163,7 +163,8 @@
                         <label>{% trans "Off Code:" %} </label>
                         <div class="totals-value" id="cart-shipping" babaii="0">0</div>
                         <input id="off_code1" type="text" id_off_code="">
-                        <button id="off_code" type="button" class="btn btn-danger" type_attr="" value_attr="">{% trans "Apply" %}
+                        <button id="off_code" type="button" class="btn btn-danger" type_attr=""
+                                value_attr="">{% trans "Apply" %}
                         </button>
                     </div>
                 {% else %}
@@ -184,17 +185,22 @@
 
             <select class="form-control form-control-sm totals-item" aria-label="Default select example" id="address_id"
                     style="float: right; width: 50%;margin-left: 30rem">
-                <option selected>{% trans "Select an address" %}</option>
+                {#                <option selected>{% trans "Select an address" %}</option>#}
+                <option selected value="{{ address.0.id }}">{{ address.0 }}</option>
                 {% for add in address %}
-                    <option value="{{ add.id }}">{{ add }}</option>
+                    {% if forloop.counter0 != 0 %}
+                        <option value="{{ add.id }}">{{ add }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
             <br>
 
             {% if user.is_authenticated %}
-                <button id="final" class="checkout my-2" style="background-color: #2f89fc">{% trans "Apply Final Change" %}</button>
+                <button id="final" class="checkout my-2"
+                        style="background-color: #2f89fc">{% trans "Apply Final Change" %}</button>
             {% else %}
-                <button id="final" class="checkout my-2" style="background-color: #2f89fc"><a href="{% url 'costumer_login_view' %}">{% trans "Login" %}</a></button>
+                <button id="final" class="checkout my-2" style="background-color: #2f89fc"><a
+                        href="{% url 'costumer_login_view' %}">{% trans "Login" %}</a></button>
             {% endif %}
 
 
@@ -352,7 +358,8 @@
                             }
                         },
                         error: function (error) {
-                            console.log(error)
+                            console.log(error.message)
+                            console.log(error[0])
                         }
                     })
 
@@ -361,6 +368,8 @@
                 ,
                 error: function (error) {
                     console.log(error)
+                    console.log(error.message)
+                    console.log(error[0])
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

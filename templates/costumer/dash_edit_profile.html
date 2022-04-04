@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-    {% for item in items %}
+    {% for item in costumer %}
     <div>
 {#    {{ item.id }}#}
         <div class="form-row">
@@ -43,8 +43,8 @@
                 <input type="text" class="form-control border" id="inputLname" value="{{ item.last_name }}">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputAge">{% trans "Age" %}</label>
-                <input type="number" class="form-control border" id="inputAge">
+                <label for="inputAge">{% trans "Password" %}</label>
+                <input type="number" class="form-control border" id="inputAge" value="{{ item.user.password }}">
             </div>
         </div>
 
@@ -119,8 +119,8 @@
             success: function (response) {
                 {#console.log(response)#}
                 Swal.fire(
-                    'Good job!',
-                    'You added a new address!',
+                    "{% trans 'Good job!' %}",
+                    '{% trans 'You edit profile user!' %}',
                     'success'
                 )
                 $('#inputFname').value(first_name)

@@ -1,6 +1,9 @@
 {% extends 'base/_base.html' %}
 {% load static %}
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 {% block title %}Product{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -11,6 +14,32 @@
 {% endblock %}
 {% block content %}
     <style>
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
         .deals-value .amount {
             text-decoration: line-through;
         }
@@ -71,11 +100,22 @@
                                                      src="{% if item.image %} {{ item.image.url }} {% else %} {% static 'default/shop-basket-icon-orange-sticker-vector-1789934.jpg' %} {% endif %}"
                                                      alt="{{ item.name }}">
                                                 <div class="product-button" style="cursor: pointer">
-                                                    <a href="http://127.0.0.1:8000/product/product_detail/{{ item.id }}"
-                                                       title="Quick View">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a title="Add To Cart" class="add_to_cart_new"
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                        <a
+                                                                href="http://127.0.0.1:8000/en/product/product_detail/{{ item.id }}"
+
+                                                                title={% trans "Quick View" %}>
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a
+                                                                href="http://127.0.0.1:8000/fa/product/product_detail/{{ item.id }}"
+
+                                                                title={% trans "Quick View" %}>
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                    <a title={% trans "Add To Cart" %} class="add_to_cart_new"
                                                        akbar="{{ item.id }}">
                                                         <i class="fas fa-shopping-bag"></i>
                                                     </a>
@@ -184,8 +224,8 @@
                 success: function (response) {
                     console.log(response)
                     Swal.fire(
-                        'Good job!',
-                        'You add this Product to Cart!',
+                        "{% trans 'Good job!' %}",
+                        "{% trans 'Added to Cart!' %}",
                         'success'
                     )
                     let count = $('#main_number_basket').html()
@@ -194,6 +234,12 @@
                 },
                 error: function (error) {
                     console.log(error)
+                    Swal.fire({
+                        icon: "{% trans 'error' %}",
+                        title: "{% trans 'Oops...' %}",
+                        text: 'Something went wrong!',
+                    })
+
                 }
             })
         })
@@ -212,16 +258,16 @@
                 success: function (response) {
                     console.log(response)
                     Swal.fire(
-                        'Good job!',
-                        'You add this Product to Cart!',
+                        "{% trans 'Good job!' %}",
+                        "{% trans 'Added to Cart!' %}",
                         'success'
                     )
                 },
                 error: function (error) {
                     console.log(error)
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
+                        icon: "{% trans 'error' %}",
+                        title: "{% trans 'Oops...' %}",
                         text: 'Something went wrong!',
                     })
                 }

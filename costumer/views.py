@@ -13,7 +13,7 @@ from rest_framework import generics, permissions, authentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from costumer.form import CostumerSignUpForm, CostumerLoginForm
+from costumer.form import CostumerSignUpForm, CostumerLoginForm, ChangePasswordForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Address, Costumer
@@ -88,6 +88,11 @@ class CostumerLoginView(FormView):
         return super().form_invalid(form)
 
 
+class ChangePasswordFormView(FormView):
+    form_class = ChangePasswordForm
+    template_name = 'costumer/dash_change_password.html'
+
+
 # class CostumerLogout(LogoutView)
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -147,7 +152,7 @@ class ProfileView(ListView):
         costumer = Costumer.objects.filter(user=self.request.user)
         print(costumer)
         context = {
-            'items': costumer,
+            'costumer': costumer,
         }
         template_string = render_to_string(template_name='costumer/dash_edit_profile.html', context=context)
         return JsonResponse({'costumer': template_string})

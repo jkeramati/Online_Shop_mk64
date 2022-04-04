@@ -144,7 +144,7 @@
                         <td class="cell100 column4">{{ item.alley }}</td>
                         <td class="cell100 column5">{{ item.No }}</td>
                         <td class="cell100 column6">
-                            <button type="button" class="btn btn-danger delete_address"
+                            <button type="button" class="btn btn-danger delete_address" style="font-family: Vazir,serif"
                                     akbar="{{ item.id }}">{% trans "Delete" %}
                             </button>
                         </td>
@@ -226,16 +226,16 @@
             success: function (response) {
                 {#console.log(response)#}
                 Swal.fire(
-                    'Good job!',
-                    'You added a new address!',
+                    "{% trans 'Good job!' %}",
+                    "{% trans 'You added a new address!' %}",
                     'success'
                 )
             },
             error: function (error) {
                 {#console.log(error)#}
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
+                    icon: "{% trans 'error' %}",
+                    title: "{% trans 'Oops...' %}",
                     text: 'Something went wrong!',
                 })
             }
@@ -260,16 +260,16 @@
                 console.log(this)
                 del.parent().parent().remove()
                 Swal.fire(
-                    'Good job!',
-                    'You Deleted a address!',
+                    "{% trans 'Good job!' %}",
+                    "{% trans 'You deleted an address!' %}",
                     'success'
                 )
             },
             error: function (error) {
                 console.log(error)
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
+                    icon: "{% trans 'error' %}",
+                    title: "{% trans 'Oops...' %}",
                     text: 'Something went wrong!',
                 })
             }

@@ -1,10 +1,15 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Costumer, Address
 from core.models import User
+
+
+class ChangePasswordForm(PasswordChangeForm):
+    class Meta:
+        model = User
 
 
 class CostumerLoginForm(AuthenticationForm):
