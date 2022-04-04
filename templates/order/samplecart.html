@@ -363,18 +363,26 @@
                         }
                     })
 
-
-                }
-                ,
+                },
                 error: function (error) {
                     console.log(error)
-                    console.log(error.message)
-                    console.log(error[0])
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'This OffCode is Not Valid!',
-                    })
+                    if (error['responseJSON'] === 'unique') {
+                        Swal.fire({
+                            icon: "{% trans 'error' %}",
+                            title: "{% trans 'Oops...' %}",
+                            text: 'Repetitious Off Code!',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: '{% trans 'error' %}',
+                            title: '{% trans 'Oops...' %}',
+                            text: '{% trans 'This OffCode is Not Valid!' %}',
+                        })
+                    }
+
+                    {#console.log(error['responseJSON'])#}
+                    {#console.log(error[0])#}
+
                 }
 
             })

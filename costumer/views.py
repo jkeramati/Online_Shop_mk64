@@ -90,7 +90,17 @@ class CostumerLoginView(FormView):
 
 class ChangePasswordFormView(FormView):
     form_class = ChangePasswordForm
-    template_name = 'costumer/dash_change_password.html'
+    template_name = 'costumer/dash_edit_profile.html'
+    success_url = '/dashboard/'
+
+    def form_invalid(self, form):
+        print('invalid')
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        print('valid')
+        form.save()
+        return super().form_valid(form)
 
 
 # class CostumerLogout(LogoutView)

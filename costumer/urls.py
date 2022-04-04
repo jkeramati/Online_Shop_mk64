@@ -16,6 +16,7 @@ urlpatterns = [
     path('dashboard/profile_info/edit_profile/<int:pk>', EditProfile.as_view(), name='edit_profile'),
     path('dashboard/profile_info/changepass', ChangePasswordFormView.as_view(), name='change_password'),
     path('dashboard/product_list/<int:pk>', ProductForDashboard.as_view(), name='product_dashboard'),
+
     #
     # path('Address/', AddressFormView.as_view(), name='address_form_view0'),
     # path('address1/', AddressDetailApi.as_view(), name='address_view_detail'),

@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+
 JAZZMIN_SETTINGS = {
-    "site_logo":"shopping.png",
+    "site_logo": "shopping.png",
 
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "Shop admin",
@@ -36,7 +37,7 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # model admin to link to (Permissions checked against model)
         {"model": "user.User"},
@@ -131,7 +132,6 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True
 }
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 # from django.conf.global_settings import LANGUAGES
@@ -201,14 +201,13 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'product.context_processor.main_category',
                 'product.context_processor2.count_basket',
+                'home.context_processor.contact_send_email',
                 # 'order.context.number_order_cart',
                 # 'costumer.views.CostumerLoginView',
             ],
         },
     },
 ]
-
-
 
 WSGI_APPLICATION = 'Online_Shop_mk64.wsgi.application'
 
@@ -327,3 +326,10 @@ LOGGING = {
     }
 }
 # APPEND_SLASH=False
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ali.mashhadi.shop@gmail.com'
+EMAIL_HOST_PASSWORD = 'akbar@1355'
