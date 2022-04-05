@@ -26,7 +26,7 @@ class Home(ListView):
     #     return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        kwargs['last_product'] = Product.objects.all()[6:]
+        kwargs['last_product'] = Product.objects.order_by('-create_time')[:6]
         return super().get_context_data(object_list=object_list, **kwargs)
 
 
@@ -46,5 +46,5 @@ class ContactEmailFormView(FormView):
         text = form.cleaned_data['text']
         send_mail(subject, text, email, ['ali.mashhadi.shop@gmail.com', email])
         if form.is_valid():
-            messages.success(self.request, _('Form submission successful'))
+            messages.success(self.request, _('Your message has been received'))
         return super().form_valid(form)

@@ -1,6 +1,6 @@
 {#{% extends 'costumer/dashboard.html' %}#}
 {% load static %}
-
+{% load i18n %}
 {% block extra_head %}
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="{% static 'dashboard/table/images/icons/favicon.ico ' %}"/>
@@ -24,275 +24,302 @@
 {% endblock %}
 
 {% block content %}
+    <style>
 
-    <div class="container">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Employee
-                </div>
-                <div class="panel-body">
-                    <table class="table table-condensed table-striped">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Fist Name</th>
-                            <th>Last Name</th>
-                            <th>City</th>
-                            <th>State</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
 
-                        <tbody>
-                        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-                            <td>
-                                <button class="btn btn-default btn-xs"><span
-                                        class="glyphicon glyphicon-eye-open"></span></button>
-                            </td>
-                            <td>Carlos</td>
-                            <td>Mathias</td>
-                            <td>Leme</td>
-                            <td>SP</td>
-                            <td>new</td>
-                        </tr>
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
 
-                        <tr>
-                            <td colspan="12" class="hiddenRow">
-                                <div class="accordian-body collapse" id="demo1">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr class="info">
-                                            <th>Job</th>
-                                            <th>Company</th>
-                                            <th>Salary</th>
-                                            <th>Date On</th>
-                                            <th>Date off</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                        <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo10">
-                                            <td><a href="#">Enginner Software</a></td>
-                                            <td>Google</td>
-                                            <td>U$8.00000</td>
-                                            <td> 2016/09/27</td>
-                                            <td> 2017/09/27</td>
-                                            <td>
-                                                <a href="#" class="btn btn-default btn-sm">
-                                                    <i class="glyphicon glyphicon-cog"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="12" class="hiddenRow">
-                                                <div class="accordian-body collapse" id="demo10">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                        <tr>
-                                                            <td><a href="#"> XPTO 1</a></td>
-                                                            <td>XPTO 2</td>
-                                                            <td>Obs</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>item 1</th>
-                                                            <th>item 2</th>
-                                                            <th>item 3</th>
-                                                            <th>item 4</th>
-                                                            <th>item 5</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>item 1</td>
-                                                            <td>item 2</td>
-                                                            <td>item 3</td>
-                                                            <td>item 4</td>
-                                                            <td>item 5</td>
-                                                            <td>
-                                                                <a href="#" class="btn btn-default btn-sm">
-                                                                    <i class="glyphicon glyphicon-cog"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Scrum Master</td>
-                                            <td>Google</td>
-                                            <td>U$8.00000</td>
-                                            <td> 2016/09/27</td>
-                                            <td> 2017/09/27</td>
-                                            <td><a href="#" class="btn btn-default btn-sm">
-                                                <i class="glyphicon glyphicon-cog"></i>
-                                            </a>
-                                            </td>
-                                        </tr>
-
-
-                                        <tr>
-                                            <td>Back-end</td>
-                                            <td>Google</td>
-                                            <td>U$8.00000</td>
-                                            <td> 2016/09/27</td>
-                                            <td> 2017/09/27</td>
-                                            <td><a href="#" class="btn btn-default btn-sm">
-                                                <i class="glyphicon glyphicon-cog"></i>
-                                            </a>
-                                            </td>
-                                        </tr>
-
-
-                                        <tr>
-                                            <td>Front-end</td>
-                                            <td>Google</td>
-                                            <td>U$8.00000</td>
-                                            <td> 2016/09/27</td>
-                                            <td> 2017/09/27</td>
-                                            <td><a href="#" class="btn btn-default btn-sm">
-                                                <i class="glyphicon glyphicon-cog"></i>
-                                            </a>
-                                            </td>
-                                        </tr>
-
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </td>
-                        </tr>
-
-
-                        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                            <td>
-                                <button class="btn btn-default btn-xs"><span
-                                        class="glyphicon glyphicon-eye-open"></span></button>
-                            </td>
-                            <td>Silvio</td>
-                            <td>Santos</td>
-                            <td>São Paulo</td>
-                            <td>SP</td>
-                            <td> new</td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="hiddenRow">
-                                <div id="demo2" class="accordian-body collapse">Demo2</div>
-                            </td>
-                        </tr>
-                        <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
-                            <td>
-                                <button class="btn btn-default btn-xs"><span
-                                        class="glyphicon glyphicon-eye-open"></span></button>
-                            </td>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>Dracena</td>
-                            <td>SP</td>
-                            <td> New</td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="hiddenRow">
-                                <div id="demo3" class="accordian-body collapse">Demo3 sadasdasdasdasdas</div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-
-
-
-    {#    <div class="table100 ver1 m-b-110">#}
-    {#        <div class="table100-head">#}
-    {#            <table>#}
-    {#                <thead>#}
-    {#                <tr class="row100 head">#}
-    {#                    <th class="cell100 column1">Time</th>#}
-    {#                    <th class="cell100 column2">Address</th>#}
-    {#                    <th class="cell100 column3">Off Code</th>#}
-    {#                    <th class="cell100 column4">Total Price</th>#}
-    {#                    <th class="cell100 column5">Final Price</th>#}
-    {#                    <th class="cell100 column6">Detail</th>#}
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+    </style>
+    {#    <div class="container">#}
+    {#        <div class="col-md-12">#}
+    {#            <div class="panel panel-default">#}
+    {#                <div class="panel-heading">#}
+    {#                    Employee#}
+    {#                </div>#}
+    {#                <div class="panel-body">#}
+    {#                    <table class="table table-condensed table-striped">#}
+    {#                        <thead>#}
+    {#                        <tr>#}
+    {#                            <th></th>#}
+    {#                            <th>Fist Name</th>#}
+    {#                            <th>Last Name</th>#}
+    {#                            <th>City</th>#}
+    {#                            <th>State</th>#}
+    {#                            <th>Status</th>#}
+    {#                        </tr>#}
+    {#                        </thead>#}
     {##}
-    {#                </tr>#}
-    {#                </thead>#}
-    {#            </table>#}
-    {#        </div>#}
-    {#    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"#}
-    {#                             aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-    {#                            <div class="modal-dialog" role="document">#}
-    {#                                <div class="modal-content">#}
-    {#                                    <div class="modal-header">#}
-    {#                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
-    {#                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
-    {#                                            <span aria-hidden="true">&times;</span>#}
-    {#                                        </button>#}
-    {#                                    </div>#}
-    {#                                    <div class="modal-body">#}
-    {#                                        <div id="to_fill"><h1>to fill salam</h1></div>#}
-    {#                                        ...#}
-    {#                                    </div>#}
-    {#                                    <div class="modal-footer">#}
-    {#                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close#}
-    {#                                        </button>#}
-    {#                                    </div>#}
+    {#                        <tbody>#}
+    {#                        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>Carlos</td>#}
+    {#                            <td>Mathias</td>#}
+    {#                            <td>Leme</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td>new</td>#}
+    {#                        </tr>#}
+    {##}
+    {#                        <tr>#}
+    {#                            <td colspan="12" class="hiddenRow">#}
+    {#                                <div class="accordian-body collapse" id="demo1">#}
+    {#                                    <table class="table table-striped">#}
+    {#                                        <thead>#}
+    {#                                        <tr class="info">#}
+    {#                                            <th>Job</th>#}
+    {#                                            <th>Company</th>#}
+    {#                                            <th>Salary</th>#}
+    {#                                            <th>Date On</th>#}
+    {#                                            <th>Date off</th>#}
+    {#                                            <th>Action</th>#}
+    {#                                        </tr>#}
+    {#                                        </thead>#}
+    {##}
+    {#                                        <tbody>#}
+    {##}
+    {#                                        <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo10">#}
+    {#                                            <td><a href="#">Enginner Software</a></td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td>#}
+    {#                                                <a href="#" class="btn btn-default btn-sm">#}
+    {#                                                    <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                                </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td colspan="12" class="hiddenRow">#}
+    {#                                                <div class="accordian-body collapse" id="demo10">#}
+    {#                                                    <table class="table table-striped">#}
+    {#                                                        <thead>#}
+    {#                                                        <tr>#}
+    {#                                                            <td><a href="#"> XPTO 1</a></td>#}
+    {#                                                            <td>XPTO 2</td>#}
+    {#                                                            <td>Obs</td>#}
+    {#                                                        </tr>#}
+    {#                                                        <tr>#}
+    {#                                                            <th>item 1</th>#}
+    {#                                                            <th>item 2</th>#}
+    {#                                                            <th>item 3</th>#}
+    {#                                                            <th>item 4</th>#}
+    {#                                                            <th>item 5</th>#}
+    {#                                                            <th>Actions</th>#}
+    {#                                                        </tr>#}
+    {#                                                        </thead>#}
+    {#                                                        <tbody>#}
+    {#                                                        <tr>#}
+    {#                                                            <td>item 1</td>#}
+    {#                                                            <td>item 2</td>#}
+    {#                                                            <td>item 3</td>#}
+    {#                                                            <td>item 4</td>#}
+    {#                                                            <td>item 5</td>#}
+    {#                                                            <td>#}
+    {#                                                                <a href="#" class="btn btn-default btn-sm">#}
+    {#                                                                    <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                                                </a>#}
+    {#                                                            </td>#}
+    {#                                                        </tr>#}
+    {#                                                        </tbody>#}
+    {#                                                    </table>#}
+    {##}
+    {#                                                </div>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Scrum Master</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Back-end</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Front-end</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        </tbody>#}
+    {#                                    </table>#}
+    {##}
     {#                                </div>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#        {% for item in items %}#}
-    {##}
-    {#            <div class="table100-body js-pscroll">#}
-    {#                <table>#}
-    {#                    <tbody>#}
-    {#                    <tr class="row100 body">#}
-    {#                        <td class="cell100 column1">{{ item.create_time }}</td>#}
-    {#                        <td class="cell100 column2">{{ item.address }}</td>#}
-    {#                        <td class="cell100 column3">{{ item.off_code }}</td>#}
-    {#                        <td class="cell100 column4">{{ item.total_price }}</td>#}
-    {#                        <td class="cell100 column5">{{ item.final_price }}</td>#}
-    {#                        <td class="cell100 column5">#}
-    {##}
-    {#                            <button class="btn btn-primary detail_cart" type="button" data-toggle="collapse"#}
-    {#                                    data-target="#collapse{{ item.id }}" aria-expanded="false"#}
-    {#                                    aria-controls="collapseExample" akbar="{{ item.id }}">#}
-    {#                                Detail#}
-    {#                            </button>#}
-    {##}
-    {#                        </td>#}
+    {#                            </td>#}
+    {#                        </tr>#}
     {##}
     {##}
-    {#                    </tbody>#}
-    {#                    </tr>#}
-    {#                    <tr>#}
-    {#                        <div class="collapse" id="collapse{{ item.id }}">#}
-    {#                            <div class="card card-body">#}
-    {#                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry#}
-    {#                                richardson ad#}
-    {#                                squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt#}
-    {#                                sapiente ea proident.#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </tr>#}
+    {#                        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>Silvio</td>#}
+    {#                            <td>Santos</td>#}
+    {#                            <td>São Paulo</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td> new</td>#}
+    {#                        </tr>#}
+    {#                        <tr>#}
+    {#                            <td colspan="6" class="hiddenRow">#}
+    {#                                <div id="demo2" class="accordian-body collapse">Demo2</div>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                        <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>John</td>#}
+    {#                            <td>Doe</td>#}
+    {#                            <td>Dracena</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td> New</td>#}
+    {#                        </tr>#}
+    {#                        <tr>#}
+    {#                            <td colspan="6" class="hiddenRow">#}
+    {#                                <div id="demo3" class="accordian-body collapse">Demo3 sadasdasdasdasdas</div>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                        </tbody>#}
+    {#                    </table>#}
+    {#                </div>#}
     {##}
-    {#                </table>#}
     {#            </div>#}
-    {#        {% endfor %}#}
+    {##}
+    {#        </div>#}
     {#    </div>#}
+
+
+
+
+    <div class="table100 ver1 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1" style="font-family: Vazir,serif">{% trans "Time" %}</th>
+                    <th class="cell100 column2" style="font-family: Vazir,serif">{% trans "Address" %}</th>
+                    <th class="cell100 column3" style="font-family: Vazir,serif">{% trans "Off Code" %}</th>
+                    <th class="cell100 column4" style="font-family: Vazir,serif">{% trans "Total Price" %}</th>
+                    <th class="cell100 column5" style="font-family: Vazir,serif">{% trans "Final Price" %}</th>
+                    <th class="cell100 column6" style="font-family: Vazir,serif">{% trans "Detail" %}</th>
+
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="to_fill"><h1>to fill salam</h1></div>
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for item in items %}
+
+            <div class="table100-body js-pscroll">
+                <table>
+                    <tbody>
+                    <tr class="row100 body">
+                        <td class="cell100 column1">{{ item.create_time }}</td>
+                        <td class="cell100 column2">{{ item.address }}</td>
+                        <td class="cell100 column3">{{ item.off_code }}</td>
+                        <td class="cell100 column4">{{ item.total_price }}</td>
+                        <td class="cell100 column5">{{ item.final_price }}</td>
+                        <td class="cell100 column5">
+
+                            <button class="btn btn-primary detail_cart" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ item.id }}" aria-expanded="false"
+                                    aria-controls="collapseExample" akbar="{{ item.id }}">
+                                Detail
+                            </button>
+
+                        </td>
+
+
+                    </tbody>
+                    </tr>
+                    <tr>
+                        <div class="collapse" id="collapse{{ item.id }}">
+                            <div class="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                richardson ad
+                                squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+                                sapiente ea proident.
+                            </div>
+                        </div>
+                    </tr>
+
+                </table>
+            </div>
+        {% endfor %}
+    </div>
 
 
     {% if is_paginated %}

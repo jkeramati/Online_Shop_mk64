@@ -12,7 +12,7 @@ from home.form import ContactEmailForm
 #         return super().get_context_data(**kwargs)
 
 def contact_send_email(request):
-    print('contact email form', ContactEmailForm())
+    # print('contact email form', ContactEmailForm())
     return {
-        'form': ContactEmailForm()
+        'mail': ContactEmailForm()
     }

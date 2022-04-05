@@ -1,7 +1,9 @@
 {% extends 'base/_base.html' %}
 {% load static %}
 {% load i18n %}
-
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 {% block title %}Product{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -64,30 +66,53 @@
                      src="{{ product.image.url }}"
                      alt="blue">
             </div>
-            <div class="shoe-details" style="text-align: center">
+            <div class="shoe-details" style="text-align: center;margin: 4rem">
                 <span class="shoe_name">{{ product.name }}</span>
-{#                <p>{{ product.description }} description for product</p>#}
+                {#                <p>{{ product.description }} description for product</p>#}
             </div>
             <div class="color-price">
-                <div class="color-option">
-                    <span class="color">{% trans "Price: " %}</span>
-{#                    <div class="circles">#}
-{#                        <span class="circle blue active" id="blue"></span>#}
-{#                        <span class="circle pink " id="pink"></span>#}
-{#                        <span class="circle yellow " id="yellow"></span>#}
-{#                    </div>#}
-                </div>
-                <div class="price">
-                    {% if  not product.discount %}
-                        <span class="price_num">${{ product.price }}</span>
-                    {% else %}
-                        {#                        <span class="price_num">${{ product.price }}</span>#}
-                        <p class="deals-value"><span><span
-                                class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
-                        </p>
-                        <span class="price_num">${{ product.price_after_discount }}</span>
-                    {% endif %}
-                </div>
+                {% if languages == "en" %}
+                    <div class="color-option">
+                        <span class="color">{% trans "Price: " %}</span>
+                        {#                    <div class="circles">#}
+                        {#                        <span class="circle blue active" id="blue"></span>#}
+                        {#                        <span class="circle pink " id="pink"></span>#}
+                        {#                        <span class="circle yellow " id="yellow"></span>#}
+                        {#                    </div>#}
+                    </div>
+                    <div class="price">
+                        {% if  not product.discount %}
+                            <span class="price_num">${{ product.price }}</span>
+                        {% else %}
+                            {#                        <span class="price_num">${{ product.price }}</span>#}
+                            <p class="deals-value"><span><span
+                                    class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
+                            </p>
+                            <span class="price_num">${{ product.price_after_discount }}</span>
+                        {% endif %}
+                    </div>
+
+                {% else %}
+                    <div class="price">
+                        {% if  not product.discount %}
+                            <span class="price_num">${{ product.price }}</span>
+                        {% else %}
+                            {#                        <span class="price_num">${{ product.price }}</span>#}
+                            <p class="deals-value"><span><span
+                                    class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
+                            </p>
+                            <span class="price_num">${{ product.price_after_discount }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="color-option">
+                        <span class="color">{% trans "Price: " %}</span>
+                        {#                    <div class="circles">#}
+                        {#                        <span class="circle blue active" id="blue"></span>#}
+                        {#                        <span class="circle pink " id="pink"></span>#}
+                        {#                        <span class="circle yellow " id="yellow"></span>#}
+                        {#                    </div>#}
+                    </div>
+                {% endif %}
             </div>
             <div class="button">
                 <div class="button-layer"></div>

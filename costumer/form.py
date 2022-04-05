@@ -7,9 +7,24 @@ from costumer.models import Costumer, Address
 from core.models import User
 
 
-class ChangePasswordForm(PasswordChangeForm):
-    class Meta:
-        model = User
+# class ChangePasswordForm(PasswordChangeForm):
+#     class Meta:
+#         model = User
+#         field_order = ['old_password', 'new_password1', 'new_password2']
+#
+#         help_texts = {
+#             'old_password': _("Old password"),
+#             'new_password1': _("New password"),
+#             'new_password2': _("Confirm password"),
+#         }
+
+    # def __init__(self, user, *args, **kwargs):
+    #     self.user = user
+    #     super(ChangePasswordForm, self).__init__(user, *args, **kwargs)
+    #     for field in self.fields.items():
+    #         field[1].widget.attrs['placeholder'] = self.Meta.help_texts[field[0]]
+    #         for visible in self.visible_fields():
+    #             visible.field.widget.attrs['class'] = 'form-control'
 
 
 class CostumerLoginForm(AuthenticationForm):

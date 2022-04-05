@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
+# from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
-
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -13,7 +15,8 @@ from rest_framework import generics, permissions, authentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from costumer.form import CostumerSignUpForm, CostumerLoginForm, ChangePasswordForm
+from core.models import User
+from costumer.form import CostumerSignUpForm, CostumerLoginForm
 from django.utils.translation import gettext_lazy as _
 
 from costumer.models import Address, Costumer
@@ -89,9 +92,21 @@ class CostumerLoginView(FormView):
 
 
 class ChangePasswordFormView(FormView):
-    form_class = ChangePasswordForm
-    template_name = 'costumer/dash_edit_profile.html'
-    success_url = '/dashboard/'
+    form_class = PasswordChangeForm
+    template_name = 'costumer/dash_change_password.html'
+    success_url = reverse_lazy('index')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'pass': PasswordChangeForm(user=self.request.user)
+        }
+        template_string = render_to_string(template_name='costumer/dash_change_password.html', context=context)
+        return JsonResponse({'password': template_string})
 
     def form_invalid(self, form):
         print('invalid')
@@ -99,8 +114,22 @@ class ChangePasswordFormView(FormView):
 
     def form_valid(self, form):
         print('valid')
+        if form.is_valid():
+            messages.success(self.request, _('Your password successfully changed!'))
         form.save()
         return super().form_valid(form)
+
+
+# class ChangePasswordFormView(ListView):
+#     model = User
+#
+#
+#     def get(self, request, *args, **kwargs):
+#         context = {
+#             'pass': ChangePasswordForm(),
+#         }
+#         template_string = render_to_string(template_name='costumer/dash_edit_profile.html', context=context)
+#         return JsonResponse({'password': template_string})
 
 
 # class CostumerLogout(LogoutView)
