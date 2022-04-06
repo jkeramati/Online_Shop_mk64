@@ -12,6 +12,7 @@ urlpatterns = [
     path('dashboard/addresslist', AddressAPI.as_view(), name='address_list'),
     path('dashboard/addresslist/add_address', AddFormAddress.as_view(), name='add_address'),
     path('dashboard/addresslist/del_address/<int:pk>', DeleteAddress.as_view(), name='del_address'),
+    path('dashboard/addresslist/edit_address/<int:pk>', EditAddress.as_view(), name='edit_address'),
     path('dashboard/profile_info/', ProfileView.as_view(), name='information_profile'),
     path('dashboard/profile_info/edit_profile/<int:pk>', EditProfile.as_view(), name='edit_profile'),
     path('dashboard/profile_info/changepass', ChangePasswordFormView.as_view(), name='change_password'),

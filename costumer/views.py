@@ -184,6 +184,17 @@ class DeleteAddress(generics.DestroyAPIView):
     serializer_class = AddressSerializer
 
 
+class EditAddress(generics.UpdateAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        request.data._mutable = True
+        costumer = Costumer.objects.get(user=self.request.user)
+        request.data['costumer'] = costumer.id
+        return super().partial_update(request, *args, **kwargs)
+
+
 class ProfileView(ListView):
     model = Costumer
 

@@ -58,13 +58,16 @@
     .woocommerce-Price-currencySymbol {
         margin-right: 10px;
     }
-    .list-group-item{
-        background-color: azure!important;
+
+    .list-group-item {
+        background-color: azure !important;
     }
-    .list-group{
+
+    .list-group {
         box-shadow: black;
     }
-    .list-group-item-action{
+
+    .list-group-item-action {
         color: blue;
     }
 
@@ -72,12 +75,13 @@
 <div class="container-fluid">
     <div class="row">
         <!-- sidebar -->
-        <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-white shadow-sm sidebar" id="sidebar" style="background-color: azure !important;">
+        <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-white shadow-sm sidebar" id="sidebar"
+             style="background-color: azure !important;">
             <h1 class="text-primary d-flex my-4 justify-content-center"><img src="{% static 'shopping.png' %}"
                                                                              alt="logo" width="75" height="75"></h1>
-            <div class="list-group rounded-0" >
+            <div class="list-group rounded-0">
                 <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center"
-                        data-toggle="collapse" data-target="#sale-collapse" >
+                        data-toggle="collapse" data-target="#sale-collapse">
                     <div>
                         <span class="bi bi-box"></span>
                         <span class="ml-2">{% trans "Profile" %}</span>
@@ -86,13 +90,15 @@
                 </button>
                 <div class="collapse" id="sale-collapse" data-parent="#sidebar">
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 personal-info"
-                           id="personal_info">
-                            {% trans "Personal Info" %}</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
-                           id="address">{% trans "Address" %}</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
-                           id="password">{% trans "Change Password" %}</a>
+                        <ul style="list-style-type: none">
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 personal-info"
+                                   id="personal_info">
+                                {% trans "Personal Info" %}</a></li>
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
+                                   id="address">{% trans "Address" %}</a></li>
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
+                                   id="password">{% trans "Change Password" %}</a></li>
+                        </ul>
                     </div>
                 </div>
 
@@ -105,12 +111,15 @@
                     <span class="bi bi-chevron-down small"></span>
                 </button>
                 <div class="collapse" id="purchase-collapse" data-parent="#sidebar">
+
                     <div class="list-group">
-{#                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 recent-order"#}
-{#                           id="recent_order">{% trans "Recent Order" %}</a>#}
-                        <a href="#"
-                           class="list-group-item list-group-item-action border-0 pl-5 history-order"
-                           id="history_order">{% trans "History of Orders" %}</a>
+                        <ul style="list-style-type: none">
+                            {#                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 recent-order"#}
+                            {#                           id="recent_order">{% trans "Recent Order" %}</a>#}
+                            <li><a href="#"
+                                   class="list-group-item list-group-item-action border-0 pl-5 history-order"
+                                   id="history_order">{% trans "History of Orders" %}</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -191,7 +200,7 @@
             url: '{% url 'address_list' %}',
             success: function (response) {
                 $('#to_fill').html(response['address'])
-                console.log(response['address'])
+                {#console.log(response['address'])#}
             },
             error: function (error) {
 
@@ -231,7 +240,7 @@
             url: '{% url 'information_profile' %}',
             success: function (response) {
                 $('#to_fill').html(response['costumer'])
-                console.log(response['costumer'])
+                {#console.log(response['costumer'])#}
             },
             error: function (error) {
 

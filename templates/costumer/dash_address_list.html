@@ -79,7 +79,8 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputProvince" style="font-family: Vazir,serif ">{% trans "Province" %}</label>
+                                <label for="inputProvince"
+                                       style="font-family: Vazir,serif ">{% trans "Province" %}</label>
                                 <input type="text" class="form-control border" id="inputProvince">
                             </div>
                             <div class="form-group col-md-6">
@@ -89,11 +90,13 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputStreet1" style="font-family: Vazir,serif ">{% trans "Main Street" %}</label>
+                                <label for="inputStreet1"
+                                       style="font-family: Vazir,serif ">{% trans "Main Street" %}</label>
                                 <input type="text" class="form-control border" id="inputStreet1">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputStreet2" style="font-family: Vazir,serif ">{% trans "Auxiliary Street" %}</label>
+                                <label for="inputStreet2"
+                                       style="font-family: Vazir,serif ">{% trans "Auxiliary Street" %}</label>
                                 <input type="text" class="form-control border" id="inputStreet2">
                             </div>
                         </div>
@@ -107,7 +110,8 @@
                                 <input type="text" class="form-control border" id="inputNo">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" id="add_new_address" style="font-family: Vazir,serif ">{% trans "Create" %}</button>
+                        <button type="button" class="btn btn-primary" id="add_new_address"
+                                style="font-family: Vazir,serif ">{% trans "Create" %}</button>
                     </div>
                 </div>
                 {#                <div class="modal-footer">#}
@@ -128,6 +132,7 @@
                     <th class="cell100 column4" style="font-family: Vazir,serif ">{% trans "Alley" %}</th>
                     <th class="cell100 column5" style="font-family: Vazir,serif ">{% trans "No." %}</th>
                     <th class="cell100 column6" style="font-family: Vazir,serif ">{% trans "Delete?" %}</th>
+                    <th class="cell100 column7" style="font-family: Vazir,serif ">{% trans "Edit?" %}</th>
 
                 </tr>
                 </thead>
@@ -148,11 +153,75 @@
                                     akbar="{{ item.id }}">{% trans "Delete" %}
                             </button>
                         </td>
+                        <td class="cell100 column7">
+                            <button type="button" class="btn btn-info " data-toggle="modal"
+                                    data-target="#exampleModal{{ item.id }}">{% trans "Edit" %}
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="modal fade" id="exampleModal{{ item.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{% trans "Edit Address" %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+
+                            <div class="form-row row-11">
+                                <div class="form-group col-md-6 sec-11">
+                                    <label for="inputProvince"
+                                           style="font-family: Vazir,serif ">{% trans "Province" %}</label>
+                                    <input type="text" class="form-control border " value="{{ item.province }}">
+                                </div>
+                                <div class="form-group col-md-6 sec-12 ">
+                                    <label for="inputCity" style="font-family: Vazir,serif ">{% trans "City" %}</label>
+                                    <input type="text" class="form-control border" value="{{ item.city }}">
+                                </div>
+                            </div>
+                            <div class="form-row row-12">
+                                <div class="form-group col-md-6 sec-11">
+                                    <label for="inputStreet1"
+                                           style="font-family: Vazir,serif ">{% trans "Main Street" %}</label>
+                                    <input type="text" class="form-control border" id="inputStreet3" value="{{ item.main_st }}">
+                                </div>
+                                <div class="form-group col-md-6 sec-12">
+                                    <label for="inputStreet2"
+                                           style="font-family: Vazir,serif ">{% trans "Auxiliary Street" %}</label>
+                                    <input type="text" class="form-control border" id="inputStreet4" value="{{ item.auxiliary_st }}">
+                                </div>
+                            </div>
+                            <div class="form-row row-13">
+                                <div class="form-group col-md-6 sec-11">
+                                    <label for="inputAlley"
+                                           style="font-family: Vazir,serif ">{% trans "Alley" %}</label>
+                                    <input type="text" class="form-control border" id="inputAlley2" value="{{ item.alley }}">
+                                </div>
+                                <div class="form-group col-md-6 sec-12">
+                                    <label for="inputNo" style="font-family: Vazir,serif ">{% trans "No" %}</label>
+                                    <input type="text" class="form-control border" id="inputNo2" value="{{ item.No }}">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary edit_address" asqar="{{ item.id }}"
+                                    style="font-family: Vazir,serif ">{% trans "Apply" %}</button>
+                        </div>
+                    </div>
+                    {#                <div class="modal-footer">#}
+                    {#                    <button type="button" class="btn btn-success" data-dismiss="modal">Apply#}
+                    {#                    </button>#}
+                    {#                </div>#}
+                </div>
+            </div>
+        </div>
         {% endfor %}
+
     </div>
 
 
@@ -262,6 +331,61 @@
                 Swal.fire(
                     "{% trans 'Good job!' %}",
                     "{% trans 'You deleted an address!' %}",
+                    'success'
+                )
+            },
+            error: function (error) {
+                console.log(error)
+                Swal.fire({
+                    icon: "{% trans 'error' %}",
+                    title: "{% trans 'Oops...' %}",
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+    $('.edit_address').on('click', function () {
+        let item_id = $(this).attr('asqar')
+        let edit = $(this)
+        let province=edit.parent().children('div.row-11').children('div.sec-11').children('input').val()
+        let city=edit.parent().children('div.row-11').children('div.sec-12').children('input').val()
+        let main_st=edit.parent().children('div.row-12').children('div.sec-11').children('input').val()
+        let auxi_st=edit.parent().children('div.row-12').children('div.sec-12').children('input').val()
+        let alley=edit.parent().children('div.row-13').children('div.sec-11').children('input').val()
+        let no=edit.parent().children('div.row-13').children('div.sec-12').children('input').val()
+
+        {#console.log(province)#}
+        {#console.log(city)#}
+        {#console.log(main_st)#}
+        {#console.log(auxi_st)#}
+        {#console.log(alley)#}
+        {#console.log(auxi_st)#}
+        {#console.log(no)#}
+        var JsonData = {
+            'province': province,
+            'city': city,
+            'main_st': main_st,
+            'auxiliary_st': auxi_st,
+            'alley': alley,
+            'No': no
+        }
+
+        let cook = getCookie('csrftoken')
+        console.log('test', getCookie('csrftoken'))
+        $.ajax({
+            type: 'PATCH',
+            data: JsonData,
+            url: '{% url 'edit_address' 0 %}'.replace('0', item_id),
+            headers: {
+                "X-CSRFToken": cook
+            },
+
+            success: function (response) {
+                console.log(this)
+                Swal.fire(
+                    "{% trans 'Good job!' %}",
+                    "{% trans 'You Edit this address!' %}",
                     'success'
                 )
             },
