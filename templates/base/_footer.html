@@ -1,5 +1,8 @@
 {% load static %}
-
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,9 +17,15 @@
         <div class="row">
             <div class="col-md-9 py-5">
                 <div class="row">
-                    <div class="col-md-4 mb-md-0 mb-4">
-                        <h2 class="footer-heading">About us</h2>
-                        <p>This a Shopping project for final of Maktab Shrif Python-Django Bootcamp.</p>
+                    <div class="col-md-11 mb-md-0 mb-4">
+                        {% if LANGUAGE_CODE == 'en' %}
+                            <h2 class="footer-heading">{% trans "About us" %}</h2>
+                            <p>{% trans "This a Shopping project for final of Maktab Shrif Python-Django Bootcamp." %}</p>
+                        {% else %}
+                            <h2 class="footer-heading"
+                                style="font-family: Vazir,serif;text-align: end">{% trans "About us" %}</h2>
+                            <p style="text-align: end">{% trans "This a Shopping project for final of Maktab Shrif Python-Django Bootcamp." %}</p>
+                        {% endif %}
                         <ul class="ftco-footer-social p-0">
                             <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top"
                                                         title="GitHub"><span class="ion-logo-github"></span></a></li>
@@ -28,41 +37,41 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-8">
-                        <div class="row justify-content-center">
-                            <div class="col-md-12 col-lg-9">
-                                <div class="row">
-                                    <div class="col-md-4 mb-md-0 mb-4">
-                                        <h2 class="footer-heading">Discover</h2>
-                                        <ul class="list-unstyled">
-                                            <li><a href="#" class="py-1 d-block">Buy &amp; Sell</a></li>
-                                            <li><a href="#" class="py-1 d-block">Merchant</a></li>
-                                            <li><a href="#" class="py-1 d-block">Giving back</a></li>
-                                            <li><a href="#" class="py-1 d-block">Help &amp; Support</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-4 mb-md-0 mb-4">
-                                        <h2 class="footer-heading">About</h2>
-                                        <ul class="list-unstyled">
-                                            <li><a href="#" class="py-1 d-block">Staff</a></li>
-                                            <li><a href="#" class="py-1 d-block">Team</a></li>
-                                            <li><a href="#" class="py-1 d-block">Careers</a></li>
-                                            <li><a href="#" class="py-1 d-block">Blog</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-4 mb-md-0 mb-4">
-                                        <h2 class="footer-heading">Resources</h2>
-                                        <ul class="list-unstyled">
-                                            <li><a href="#" class="py-1 d-block">Security</a></li>
-                                            <li><a href="#" class="py-1 d-block">Global</a></li>
-                                            <li><a href="#" class="py-1 d-block">Charts</a></li>
-                                            <li><a href="#" class="py-1 d-block">Privacy</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{#                    <div class="col-md-8" >#}
+{#                        <div class="row justify-content-center">#}
+{#                            <div class="col-md-12 col-lg-9">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 mb-md-0 mb-4">#}
+                                        {#                                        <h2 class="footer-heading">Discover</h2>#}
+                                        {#                                        <ul class="list-unstyled">#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Buy &amp; Sell</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Merchant</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Giving back</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Help &amp; Support</a></li>#}
+                                        {#                                        </ul>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 mb-md-0 mb-4">#}
+                                        {#                                        <h2 class="footer-heading">{% trans 'About' %}</h2>#}
+                                        {#                                        <ul class="list-unstyled">#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Staff</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Team</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Careers</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Blog</a></li>#}
+                                        {#                                        </ul>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 mb-md-0 mb-4">#}
+                                        {#                                        <h2 class="footer-heading">Resources</h2>#}
+                                        {#                                        <ul class="list-unstyled">#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Security</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Global</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Charts</a></li>#}
+                                        {#                                            <li><a href="#" class="py-1 d-block">Privacy</a></li>#}
+                                        {#                                        </ul>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
                 </div>
                 <div class="row mt-md-5">
                     <div class="col-md-12">
@@ -75,11 +84,13 @@
                 </div>
             </div>
             <div class="col-md-3 py-md-5 py-4 aside-stretch-right pl-lg-5">
-                <h2 class="footer-heading footer-heading-white">Contact us</h2>
+                <h2 class="footer-heading footer-heading-white"
+                    style="font-family: Vazir,serif">{% trans "Contact us" %}</h2>
                 {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %} style="color: white"> {{ message }} </li>
+                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}
+                                                       style="color: white"> {{ message }} </li>
                         {% endfor %}
                     </ul>
                 {% endif %}
@@ -104,7 +115,7 @@
                         {#                                  placeholder="Message"></textarea>#}
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="form-control submit px-3">Send</button>
+                        <button type="submit" class="form-control submit px-3">{% trans "Send" %}</button>
                     </div>
                 </form>
             </div>

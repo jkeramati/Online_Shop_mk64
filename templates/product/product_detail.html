@@ -68,7 +68,7 @@
             </div>
             <div class="shoe-details" style="text-align: center;margin: 4rem">
                 <span class="shoe_name">{{ product.name }}</span>
-                {#                <p>{{ product.description }} description for product</p>#}
+                <p>{% trans "Description:" %} {{ product.description }}  </p>
             </div>
             <div class="color-price">
                 {% if languages == "en" %}

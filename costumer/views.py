@@ -143,8 +143,8 @@ class CartListAPI(ListView):
     # context_object_name = 'items'
 
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.filter(costumer__user=self.request.user)
-        cartitem = CartItem.objects.filter(cart__costumer__user=self.request.user)
+        cart = Cart.objects.filter(costumer__user=self.request.user, status="PAY")
+        cartitem = CartItem.objects.filter(cart__costumer__user=self.request.user, cart__status="PAY")
         context = {
             'items': cart,
             'items_cart': cartitem,

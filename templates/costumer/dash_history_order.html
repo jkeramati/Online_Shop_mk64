@@ -296,8 +296,8 @@
 
                             <button class="btn btn-primary detail_cart" type="button" data-toggle="collapse"
                                     data-target="#collapse{{ item.id }}" aria-expanded="false"
-                                    aria-controls="collapseExample" akbar="{{ item.id }}">
-                                Detail
+                                    aria-controls="collapseExample" akbar="{{ item.id }}" style="font-family: Vazir,serif">
+                                {% trans "Detail" %}
                             </button>
 
                         </td>
@@ -307,7 +307,7 @@
                     </tr>
                     <tr>
                         <div class="collapse" id="collapse{{ item.id }}">
-                            <div class="card card-body">
+                            <div class="card card-body" id="to_fill{{ item.id }}">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                                 richardson ad
                                 squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
@@ -362,6 +362,9 @@
     $('.detail_cart').on('click', function () {
         let item_id = $(this).attr('akbar')
         console.log(item_id)
+        let fill = `#to_fill${item_id}`
+        console.log(fill)
+        {#console.log(typeof(fill))#}
         var JsonData = {'cart_id': item_id}
         $.ajax({
             type: 'GET',
@@ -372,7 +375,8 @@
             },
             success: function (response) {
                 console.log(response)
-                let fill = $('#to_fill')
+                $(fill).html('')
+                {#let fill = $('#to_fil')#}
                 {#fill.empty()#}
                 for (let i of response) {
                     console.log(i['product'])
@@ -386,6 +390,27 @@
                         },
                         success: function (response) {
                             console.log(response)
+                            $(`
+                            <div class="product">
+                                        <div class="product-image">
+                                            <img src="${response['image']}">
+                                        </div>
+                                        <div class="product-details">
+                                            <p class="product-description">Product Name: ${response['name']}</p>
+                                            <p class="product-description">Quantity: ${i['number_item']}</p>
+                                        </div>
+                                        <div class="product-price"> Price of Unit: ${response['price']} $</div>
+                                        {#<div class="product-quantity">#}
+                                        {#    <input type="number" value="${i['number_item']}" min="1">#}
+                                        {#</div>#}
+                            {#<div class="product-line-price">{{ item.product.price }}</div>#}
+                                    </div>
+
+
+
+`).appendTo($(fill))
+
+
                             {#$(`<h1>salam ajax<h1>`).appendTo(fill)#}
                             {#                $(`#}
                             {#<div class="product">#}

@@ -11,7 +11,7 @@
             <a href="https://t.me/jalaloddinkeramati"><i class="fab fa-google-plus"></i></a>
         </div>
         <div class="phone">
-            <span> <span>+98 912 453 9005</span> {% trans "Call" %}</span>
+            <span> <span>+98 912 453 9006</span> {% trans "Call" %}</span>
         </div>
     </div>
     <!--END OF UPPER BAR-->
@@ -91,9 +91,9 @@
                         <li>
                             <a href="{% url 'category_list' %}"> {% trans "Products" %} </a>
                         </li>
-                        <li>
-                            <a href="{% url 'category_list' %}"> {% trans "About Us" %} </a>
-                        </li>
+{#                        <li>#}
+{#                            <a href="{% url 'category_list' %}"> {% trans "About Us" %} </a>#}
+{#                        </li>#}
                         {#                        <li class="menu-item-has-children">#}
                         {#                            <!--SALE LABEL-->#}
                         {#                            <div class="sale-design">#}
@@ -165,9 +165,9 @@
 
 
                 </div>
-                <a href="#" class="search">
-                    <i class="fas fa-search" style='font-size:24px'></i>
-                </a>
+{#                <a href="#" class="search">#}
+{#                    <i class="fas fa-search" style='font-size:24px'></i>#}
+{#                </a>#}
                 {% if user.is_authenticated %}
                     <a href="{% url 'dashboard' %}"> <i class="far fa-user" style='font-size:24px'></i></a>
                 {% else %}
