@@ -1,0 +1,58 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    {#    <script src="{% static 'jssource.js' %}"></script>#}
+    <script src="{% static 'ajax.js' %}"></script>
+    {#    <script src="{% static 'alpine.js' %}"></script>#}
+    <script src="{% static 'foot/js/popper.js' %}"></script>
+    <script src="{% static 'foot/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'foot/js/main.js' %}"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<style>
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+</style>
+<body>
+{% block body %}
+    {% include 'base/_navbar.html' %}
+    {% block content %}{% endblock %}
+    {% include 'base/_footer.html' %}
+{% endblock %}
+</body>
+</html>

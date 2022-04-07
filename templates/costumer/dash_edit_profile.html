@@ -1,0 +1,217 @@
+{#{% extends 'costumer/dashboard.html' %}#}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'dashboard/table/images/icons/favicon.ico ' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main.css' %}">
+    <!--===============================================================================================-->
+{% endblock %}
+
+{% block content %}
+    {% for item in costumer %}
+        <div>
+            {#    {{ item.id }}#}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="User">{% trans "Phone" %}</label>
+                    <input type="text" class="form-control border" disabled id="User" value="{{ item.user.phone }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputFname">{% trans "First Name" %}</label>
+                    <input type="text" class="form-control border" id="inputFname" value="{{ item.fist_name }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputLname">{% trans "Last name" %}</label>
+                    <input type="text" class="form-control border" id="inputLname" value="{{ item.last_name }}">
+                </div>
+                {#            <div class="form-group col-md-6">#}
+                {#                <label for="inputAge">{% trans "Password" %}</label>#}
+                {#                <input type="number" class="form-control border" id="inputAge" value="{{ item.user.password }}">#}
+                {#            </div>#}
+{#                <button type="button" class="btn btn-success add_address" data-toggle="modal"#}
+{#                        data-target="#exampleModal">{% trans "Change Password" %}#}
+{#                </button>#}
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{% trans "Change Password" %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+{#                                                            <p>{{ form.phone }}</p>#}
+{#                                                            <p>{{ form.password1 }}</p>#}
+{#                                                            <p>{{ form.password2 }}</p>#}
+
+                                        <p>
+                                            <input class="btn" type="submit" value={% trans "Apply" %}>
+                                        </p>
+                                    </form>
+
+                                    {#                                    <div class="form-row">#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputProvince"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "Province" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputProvince">#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputCity"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "City" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputCity">#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                    {#                                    <div class="form-row">#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputStreet1"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "Main Street" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputStreet1">#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputStreet2"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "Auxiliary Street" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputStreet2">#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                    {#                                    <div class="form-row">#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputAlley"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "Alley" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputAlley">#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="form-group col-md-6">#}
+                                    {#                                            <label for="inputNo"#}
+                                    {#                                                   style="font-family: Vazir,serif ">{% trans "No" %}</label>#}
+                                    {#                                            <input type="text" class="form-control border" id="inputNo">#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+{#                                    <button type="button" class="btn btn-primary" id="add_new_address"#}
+{#                                            style="font-family: Vazir,serif ">{% trans "Aplly" %}</button>#}
+                                </div>
+                            </div>
+                            {#                <div class="modal-footer">#}
+                            {#                    <button type="button" class="btn btn-success" data-dismiss="modal">Apply#}
+                            {#                    </button>#}
+                            {#                </div>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="edit_profile" akbar="{{ item.id }}">Edit</button>
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
+<script>
+    $('.js-pscroll').each(function () {
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
+
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        } else {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+                end = dc.length;
+            }
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    }
+
+
+    $('#edit_profile').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        let first_name = $('#inputFname').val()
+        let last_name = $('#inputLname').val()
+        {#let main_st = $('#inputStreet1').val()#}
+        {#let auxiliary_st = $('#inputStreet2').val()#}
+        {#let alley = $('#inputAlley').val()#}
+        {#let no = $('#inputNo').val()#}
+        let cook = getCookie('csrftoken')
+        var JsonData = {
+            'fist_name': first_name,
+            'last_name': last_name,
+        }
+        $.ajax({
+            url: '{% url 'edit_profile' 0 %}'.replace('0', item_id),
+            type: 'PATCH',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": cook,
+            },
+            success: function (response) {
+                {#console.log(response)#}
+                Swal.fire(
+                    "{% trans 'Good job!' %}",
+                    '{% trans 'You edit profile user!' %}',
+                    'success'
+                )
+                $('#inputFname').value(first_name)
+                $('#inputLname').value(last_name)
+            },
+            error: function (error) {
+                {#console.log(error)#}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        })
+    })
+
+
+</script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/js/main.js' %}"></script>

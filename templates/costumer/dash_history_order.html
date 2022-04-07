@@ -1,0 +1,452 @@
+{#{% extends 'costumer/dashboard.html' %}#}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'dashboard/table/images/icons/favicon.ico ' %}"/>
+    <!--===============================================================================================-->
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/bootstrap/css/bootstrap.min.css' %}">#}
+    <!--===============================================================================================-->
+    {#    <link rel="stylesheet" type="text/css"#}
+    {#          href="{% static 'dashboard/table/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">#}
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/table/css/main2.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'cart_item/samplecart.css' %}">
+{% endblock %}
+
+{% block content %}
+    <style>
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+    </style>
+    {#    <div class="container">#}
+    {#        <div class="col-md-12">#}
+    {#            <div class="panel panel-default">#}
+    {#                <div class="panel-heading">#}
+    {#                    Employee#}
+    {#                </div>#}
+    {#                <div class="panel-body">#}
+    {#                    <table class="table table-condensed table-striped">#}
+    {#                        <thead>#}
+    {#                        <tr>#}
+    {#                            <th></th>#}
+    {#                            <th>Fist Name</th>#}
+    {#                            <th>Last Name</th>#}
+    {#                            <th>City</th>#}
+    {#                            <th>State</th>#}
+    {#                            <th>Status</th>#}
+    {#                        </tr>#}
+    {#                        </thead>#}
+    {##}
+    {#                        <tbody>#}
+    {#                        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>Carlos</td>#}
+    {#                            <td>Mathias</td>#}
+    {#                            <td>Leme</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td>new</td>#}
+    {#                        </tr>#}
+    {##}
+    {#                        <tr>#}
+    {#                            <td colspan="12" class="hiddenRow">#}
+    {#                                <div class="accordian-body collapse" id="demo1">#}
+    {#                                    <table class="table table-striped">#}
+    {#                                        <thead>#}
+    {#                                        <tr class="info">#}
+    {#                                            <th>Job</th>#}
+    {#                                            <th>Company</th>#}
+    {#                                            <th>Salary</th>#}
+    {#                                            <th>Date On</th>#}
+    {#                                            <th>Date off</th>#}
+    {#                                            <th>Action</th>#}
+    {#                                        </tr>#}
+    {#                                        </thead>#}
+    {##}
+    {#                                        <tbody>#}
+    {##}
+    {#                                        <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo10">#}
+    {#                                            <td><a href="#">Enginner Software</a></td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td>#}
+    {#                                                <a href="#" class="btn btn-default btn-sm">#}
+    {#                                                    <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                                </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td colspan="12" class="hiddenRow">#}
+    {#                                                <div class="accordian-body collapse" id="demo10">#}
+    {#                                                    <table class="table table-striped">#}
+    {#                                                        <thead>#}
+    {#                                                        <tr>#}
+    {#                                                            <td><a href="#"> XPTO 1</a></td>#}
+    {#                                                            <td>XPTO 2</td>#}
+    {#                                                            <td>Obs</td>#}
+    {#                                                        </tr>#}
+    {#                                                        <tr>#}
+    {#                                                            <th>item 1</th>#}
+    {#                                                            <th>item 2</th>#}
+    {#                                                            <th>item 3</th>#}
+    {#                                                            <th>item 4</th>#}
+    {#                                                            <th>item 5</th>#}
+    {#                                                            <th>Actions</th>#}
+    {#                                                        </tr>#}
+    {#                                                        </thead>#}
+    {#                                                        <tbody>#}
+    {#                                                        <tr>#}
+    {#                                                            <td>item 1</td>#}
+    {#                                                            <td>item 2</td>#}
+    {#                                                            <td>item 3</td>#}
+    {#                                                            <td>item 4</td>#}
+    {#                                                            <td>item 5</td>#}
+    {#                                                            <td>#}
+    {#                                                                <a href="#" class="btn btn-default btn-sm">#}
+    {#                                                                    <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                                                </a>#}
+    {#                                                            </td>#}
+    {#                                                        </tr>#}
+    {#                                                        </tbody>#}
+    {#                                                    </table>#}
+    {##}
+    {#                                                </div>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Scrum Master</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Back-end</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        <tr>#}
+    {#                                            <td>Front-end</td>#}
+    {#                                            <td>Google</td>#}
+    {#                                            <td>U$8.00000</td>#}
+    {#                                            <td> 2016/09/27</td>#}
+    {#                                            <td> 2017/09/27</td>#}
+    {#                                            <td><a href="#" class="btn btn-default btn-sm">#}
+    {#                                                <i class="glyphicon glyphicon-cog"></i>#}
+    {#                                            </a>#}
+    {#                                            </td>#}
+    {#                                        </tr>#}
+    {##}
+    {##}
+    {#                                        </tbody>#}
+    {#                                    </table>#}
+    {##}
+    {#                                </div>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {##}
+    {##}
+    {#                        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>Silvio</td>#}
+    {#                            <td>Santos</td>#}
+    {#                            <td>São Paulo</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td> new</td>#}
+    {#                        </tr>#}
+    {#                        <tr>#}
+    {#                            <td colspan="6" class="hiddenRow">#}
+    {#                                <div id="demo2" class="accordian-body collapse">Demo2</div>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                        <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">#}
+    {#                            <td>#}
+    {#                                <button class="btn btn-default btn-xs"><span#}
+    {#                                        class="glyphicon glyphicon-eye-open"></span></button>#}
+    {#                            </td>#}
+    {#                            <td>John</td>#}
+    {#                            <td>Doe</td>#}
+    {#                            <td>Dracena</td>#}
+    {#                            <td>SP</td>#}
+    {#                            <td> New</td>#}
+    {#                        </tr>#}
+    {#                        <tr>#}
+    {#                            <td colspan="6" class="hiddenRow">#}
+    {#                                <div id="demo3" class="accordian-body collapse">Demo3 sadasdasdasdasdas</div>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                        </tbody>#}
+    {#                    </table>#}
+    {#                </div>#}
+    {##}
+    {#            </div>#}
+    {##}
+    {#        </div>#}
+    {#    </div>#}
+
+
+
+
+    <div class="table100 ver1 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1" style="font-family: Vazir,serif">{% trans "Time" %}</th>
+                    <th class="cell100 column2" style="font-family: Vazir,serif">{% trans "Address" %}</th>
+                    <th class="cell100 column3" style="font-family: Vazir,serif">{% trans "Off Code" %}</th>
+                    <th class="cell100 column4" style="font-family: Vazir,serif">{% trans "Total Price" %}</th>
+                    <th class="cell100 column5" style="font-family: Vazir,serif">{% trans "Final Price" %}</th>
+                    <th class="cell100 column6" style="font-family: Vazir,serif">{% trans "Detail" %}</th>
+
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="to_fill"><h1>to fill salam</h1></div>
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for item in items %}
+
+            <div class="table100-body js-pscroll">
+                <table>
+                    <tbody>
+                    <tr class="row100 body">
+                        <td class="cell100 column1">{{ item.create_time }}</td>
+                        <td class="cell100 column2">{{ item.address }}</td>
+                        <td class="cell100 column3">{{ item.off_code }}</td>
+                        <td class="cell100 column4">{{ item.total_price }}</td>
+                        <td class="cell100 column5">{{ item.final_price }}</td>
+                        <td class="cell100 column5">
+
+                            <button class="btn btn-primary detail_cart" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ item.id }}" aria-expanded="false"
+                                    aria-controls="collapseExample" akbar="{{ item.id }}" style="font-family: Vazir,serif">
+                                {% trans "Detail" %}
+                            </button>
+
+                        </td>
+
+
+                    </tbody>
+                    </tr>
+                    <tr>
+                        <div class="collapse" id="collapse{{ item.id }}">
+                            <div class="card card-body" id="to_fill{{ item.id }}">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                richardson ad
+                                squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+                                sapiente ea proident.
+                            </div>
+                        </div>
+                    </tr>
+
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {% if is_paginated %}
+        <div class="pagination">
+        <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+            <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+        </div>
+    {% endif %}
+
+
+{% endblock %}
+
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'dashboard/table/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script>
+    $('.js-pscroll').each(function () {
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
+
+    $('.detail_cart').on('click', function () {
+        let item_id = $(this).attr('akbar')
+        console.log(item_id)
+        let fill = `#to_fill${item_id}`
+        console.log(fill)
+        {#console.log(typeof(fill))#}
+        var JsonData = {'cart_id': item_id}
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'order_item_list_in_dashboard' %}',
+            data: JsonData,
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function (response) {
+                console.log(response)
+                $(fill).html('')
+                {#let fill = $('#to_fil')#}
+                {#fill.empty()#}
+                for (let i of response) {
+                    console.log(i['product'])
+                    let id_product = i['product']
+                    {#let JsonData1={'product_id':id_product}#}
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'product_dashboard' 0 %}'.replace('0', id_product),
+                        headers: {
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            console.log(response)
+                            $(`
+                            <div class="product">
+                                        <div class="product-image">
+                                            <img src="${response['image']}">
+                                        </div>
+                                        <div class="product-details">
+                                            <p class="product-description">Product Name: ${response['name']}</p>
+                                            <p class="product-description">Quantity: ${i['number_item']}</p>
+                                        </div>
+                                        <div class="product-price"> Price of Unit: ${response['price']} $</div>
+                                        {#<div class="product-quantity">#}
+                                        {#    <input type="number" value="${i['number_item']}" min="1">#}
+                                        {#</div>#}
+                            {#<div class="product-line-price">{{ item.product.price }}</div>#}
+                                    </div>
+
+
+
+`).appendTo($(fill))
+
+
+                            {#$(`<h1>salam ajax<h1>`).appendTo(fill)#}
+                            {#                $(`#}
+                            {#<div class="product">#}
+                            {#            <div class="product-image">#}
+                            {#                <img src="${i['image']}">#}
+                            {#            </div>#}
+                            {#            <div class="product-details">#}
+                            {#                <p class="product-description">Product Name: ${i['price']}</p>#}
+                            {#            </div>#}
+                            {#            <div class="product-price">${i['price']}</div>#}
+                            {#            <div class="product-quantity">#}
+                            {#                <input type="number" value="${i['price']}" min="1">#}
+                            {#            </div>#}
+                            {#<div class="product-line-price">{{ item.product.price }}</div>#}
+                            {#        </div>#}
+                            {##}
+                            {#`).appendTo($('#to_fill'))#}
+                            {#            }#}
+
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+
+
+                    })
+                }
+
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    })
+
+
+</script>
+<!--===============================================================================================-->
+<script src="{% static 'dashboard/table/js/main.js' %}"></script>

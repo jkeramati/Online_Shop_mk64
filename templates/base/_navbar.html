@@ -1,0 +1,333 @@
+{% load static %}
+{% load i18n %}
+<header class="header" style="background-color: #12cc94">
+
+    <!--UPPER BAR-->
+    <div class="social-call" style="background-color: #12cc94">
+        <div class="social">
+            <a href="https://github.com/jkeramati"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/jkeramati"><i class="fab fa-linkedin"></i></a>
+            <a href="https://t.me/jalaloddinkeramati"><i class="fab fa-telegram"></i></a>
+            <a href="https://t.me/jalaloddinkeramati"><i class="fab fa-google-plus"></i></a>
+        </div>
+        <div class="phone">
+            <span> <span>+98 912 453 9006</span> {% trans "Call" %}</span>
+        </div>
+    </div>
+    <!--END OF UPPER BAR-->
+    <div class="container">
+        <div class="row v-center">
+            <div class="header-item item-left">
+                <div class="logo" ><a href="{% url 'index' %}" style="font-family: 'Sitka Banner' ,serif">Digital SHOP</a></div>
+            </div>
+            <div class="header-item item-center">
+                <div class="menu-overlay"></div>
+                <nav class="menu">
+                    <div class="mobile-menu-head">
+                        <div class="go-back"><i class="fas fa-angle-left"></i></div>
+                        <div class="current-menu-title"></div>
+                        <div class="mobile-menu-close">&times;</div>
+                    </div>
+                    <ul class="menu-main">
+                        <li>
+                            <a href="{% url 'index' %}"> {% trans "Home" %} </a>
+                        </li>
+
+                        <li class="menu-item-has-children" id="category_shop">
+                            <a href="#">{% trans "Main Category" %} <i class="fas fa-angle-down"></i></a>
+                            <div class="sub-menu mega-menu mega-menu-column-4">
+                                {% for item in main_cat %}
+                                    <div class="list-item text-center">
+                                        <a href="{% url 'category_list' %}?category={{ item.name }}" class="cate_main"
+                                           akbar="{{ item.id }}">
+                                            <img class="show-img"
+                                                 src="{{ item.image.url }}"
+                                                 alt="">
+                                            <h2 class="title" style="background-color: #12cc94">{{ item.name }}</h2>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+
+
+                                {#                                <div class="list-item text-center">#}
+                                {#                                    <a href="#">#}
+                                {#                                        <img class="show-img"#}
+                                {#                                             src="https://raw.githubusercontent.com/Mohammadsanu/hosted-assets/main/showcase2.png"#}
+                                {#                                             alt="">#}
+                                {#                                        <h2 class="title">Photoshop</h2>#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="list-item text-center">#}
+                                {#                                    <a href="#">#}
+                                {#                                        <img class="show-img"#}
+                                {#                                             src="https://raw.githubusercontent.com/Mohammadsanu/hosted-assets/main/showcase3.png"#}
+                                {#                                             alt="">#}
+                                {#                                        <h2 class="title">Design</h2>#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="list-item text-center">#}
+                                {#                                    <a href="#">#}
+                                {#                                        <img class="show-img"#}
+                                {#                                             src="https://raw.githubusercontent.com/Mohammadsanu/hosted-assets/main/showcase4.png"#}
+                                {#                                             alt="">#}
+                                {#                                        <h2 class="title">Social Media</h2>#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="list-item text-center">#}
+                                {#                                    <a href="#">#}
+                                {#                                        <img class="show-img"#}
+                                {#                                             src="https://raw.githubusercontent.com/Mohammadsanu/hosted-assets/main/showcase7.png"#}
+                                {#                                             alt="">#}
+                                {#                                        <h2 class="title">Logo Design</h2>#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+
+                            </div>
+
+                        </li>
+                        <li>
+                            <a href="{% url 'category_list' %}"> {% trans "Products" %} </a>
+                        </li>
+{#                        <li>#}
+{#                            <a href="{% url 'category_list' %}"> {% trans "About Us" %} </a>#}
+{#                        </li>#}
+                        {#                        <li class="menu-item-has-children">#}
+                        {#                            <!--SALE LABEL-->#}
+                        {#                            <div class="sale-design">#}
+                        {#                                <span class="sale-label">Sale</span>#}
+                        {#                            </div>#}
+                        {##}
+                        {#                            <a href="#">Products <i class="fas fa-angle-down"></i></a>#}
+                        {#                            <div class="sub-menu mega-menu mega-menu-column-4">#}
+                        {#                                <div class="list-item">#}
+                        {##}
+                        {#                                    <h2 class="title">Fashion</h2>#}
+                        {#                                    <ul>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                    </ul>#}
+                        {#                                </div>#}
+                        {#                                <div class="list-item">#}
+                        {#                                    <h2 class="title">Web Design</h2>#}
+                        {#                                    <ul>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                    </ul>#}
+                        {#                                    <h2 class="title">Graphic Design</h2>#}
+                        {#                                    <ul>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                        <li><a href="#">Mohammad Sanu</a></li>#}
+                        {#                                    </ul>#}
+                        {#                                </div>#}
+                        {##}
+                        {##}
+                        {#                                <div class="list-item">#}
+                        {#                                    <img src="https://raw.githubusercontent.com/Mohammadsanu/hosted-assets/main/showcase5.png"#}
+                        {#                                         alt="">#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </li>#}
+
+                        {#                        <li>#}
+                        {#                            <a href="#">Discover</a>#}
+                        {#                        </li>#}
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-item item-right">
+                <div class="dropdown">
+                    <i class="fa fa-language pointer-event" style='font-size:24px; cursor: pointer'
+                       aria-hidden="true" data-toggle="dropdown"><span class="caret" style="display: none"></span></i>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="http://127.0.0.1:8000/fa/" style="color: black" class="font-weight-bold">فارسی <img
+                                src="{% static 'Home/ir.svg' %}" width="20px" height="20px" alt="Farsi"></a></li>
+                        <li><a href="http://127.0.0.1:8000/en/" style="color: black" class="font-weight-bold">English
+                            <img
+                                    src="{% static 'Home/um.svg' %}" width="20px" height="20px" alt="English"> </a></li>
+                    </ul>
+
+
+                </div>
+{#                <a href="#" class="search">#}
+{#                    <i class="fas fa-search" style='font-size:24px'></i>#}
+{#                </a>#}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}"> <i class="far fa-user" style='font-size:24px'></i></a>
+                {% else %}
+                    <a href="{% url 'costumer_login_view' %}?link={{ request.path }}" class="user"><i
+                            class='fas fa-sign-in-alt'
+                            style='font-size:24px'></i></a>
+                {% endif %}
+
+                <a href="{% url 'order_item_list' %}">
+                    <i class="fas fa-shopping-cart" style='font-size:24px'>
+
+                        <!--NUMBER OF PRODUCTS IN CART-->
+                        <span class="num-cart-product" id="main_number_basket">{{ number_basket }}</span>
+                    </i>
+                </a>
+
+
+                {#                <div class="mobile-menu-trigger">#}
+                {#                    <span></span>#}
+                {#                </div>#}
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--SEARCH-->
+<div class="search-bar">
+    <div class="search-input">
+        <input type="text" placeholder="Search For Product">
+        <a href="#" class="search-cancel">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+
+{#<div class="form">#}
+{#    <div class="login-form">#}
+{#        <!--CANCEL FORM BTN-->#}
+{#        <a href="#  " class="form-cancel">#}
+{#            <i class="fas fa-times"></i>#}
+{#        </a>#}
+{##}
+{#        <strong>Log In</strong>#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            <input type="text" placeholder="Phone Number: 09XXXXXXXXX" name="phone">#}
+{#            {{ data }}#}
+{##}
+{#            <input type="password" placeholder="Password" name="password">#}
+{#            {{ form.as_p }}#}
+{##}
+{#            <input type="submit" value="Log In">#}
+{#        </form>#}
+{##}
+{#        <!--FORGET & SIGN UP BUTTON-->#}
+{#        <div class="form-btns">#}
+{#            <a href="#" class="forget">Forget Your Password?</a>#}
+{#            <a href="#" class="sign-up-btn">Create Account</a>#}
+{#        </div>#}
+{#        <!--END OF FORGET & SIGN UP-->#}
+{#    </div>#}
+{##}
+{#    <div class="sign-up-form">#}
+{#        <!--CANCEL FORM BTN-->#}
+{#        <a href="#" class="form-cancel">#}
+{#            <i class="fas fa-times"></i>#}
+{#        </a>#}
+{##}
+{#        <strong>Sign Up</strong>#}
+{#        <form action="#">#}
+{#            <input type="text" placeholder="Phone Number: 09XXXXXXXXX" name="phone">#}
+{#            <input type="password" placeholder="Password" name="password">#}
+{#            <input type="password" placeholder="Confirm Password" name="password2">#}
+{#            <input type="text" placeholder="First Name" name="first_name">#}
+{#            <input type="text" placeholder="Last Name" name="last_name">#}
+{##}
+{#            <input type="submit" value="Sign up">#}
+{#        </form>#}
+{##}
+{#        <!--FORGET & SIGN UP BUTTON-->#}
+{#        <div class="form-btns">#}
+{#            <a href="#" class="already-account">Already Have Account?</a>#}
+{#        </div>#}
+{#        <!--END OF FORGET & SIGN UP-->#}
+{#    </div>#}
+{#</div>#}
+<!--END OF LOGIN & SIGN UP FORM-->
+<script>
+
+    // Search BUtton
+
+    $(document).on('click', '.search', function () {
+        $('.search-bar').addClass('search-bar-active')
+    });
+
+    $(document).on('click', '.search-cancel', function () {
+        $('.search-bar').removeClass('search-bar-active')
+    });
+
+    //LOGIN SIGN UP FORM
+
+    $(document).on('click', '.user, .already-account', function () {
+        $('.form').addClass('login-active').removeClass('sign-up-active')
+    });
+
+
+    $(document).on('click', '.sign-up-btn', function () {
+        $('.form').addClass('sign-up-active').removeClass('login-active')
+    });
+
+
+    $(document).on('click', '.form-cancel', function () {
+        $('.form').removeClass('login-active').removeClass('sign-up-active')
+    });
+
+
+    {#    $('.cate_main').click(function () {#}
+    {#            var par = $(this).attr('akbar')#}
+    {#            console.log(par)#}
+    {#            let JsonData = {'category_id': par};#}
+    {#            $.ajax({#}
+    {#                type: "GET",#}
+    {#                url: 'http://127.0.0.1:8000/product/product_list_api/',#}
+    {#                data: JsonData,#}
+    {#                success: function (response) {#}
+    {#if#}
+    {#                    $('.to_fill').html('')#}
+    {#                    for (let i of response) {#}
+    {#                        $(`<div class="item col-5 " style="display: flex; flex-wrap: wrap;">#}
+    {#                                    <div class="product shadow-sm">#}
+    {#                                        <div class="product-thumb">#}
+    {#                                            <img class="pro-thumb-img click-to-product"#}
+    {#                                                 src="${i['image']}"#}
+    {#                                                 alt="${i['name']}">#}
+    {#                                            <div class="product-button ">#}
+    {#                                                <a href="http://127.0.0.1:8000/product/product_detail/${i['id']}" title="Quick View">#}
+    {#                                                    <i class="fas fa-eye "></i>#}
+    {#                                                </a>#}
+    {#                                                <a href="#" title="Add To Cart" class="click_to_add1" product_id_cookie=${i['id']}>#}
+    {#                                                    <i class="fas fa-shopping-bag click_to_add" product_id_cookie=${i['id']} ></i>#}
+    {#                                                </a>#}
+    {#                                            </div>#}
+    {#                                        </div>#}
+    {#                                        <div class="product-info">#}
+    {#                                            <h3 class="product-name">${i['brand']['name']}</h3>#}
+    {#                                            <h3 class="product-name">${i['name']}</h3>#}
+    {#                                            <h3 class="product-name">${i['price']}</h3>#}
+    {##}
+    {#                                            <div class="off-info">#}
+    {#                                            </div>#}
+    {#                                        </div>#}
+    {#                                    </div>#}
+    {#                                </div>`).appendTo($('.to_fill'))#}
+    {#                        console.log(i)#}
+    {#                    }#}
+    {##}
+    {#                },#}
+    {#                error: function () {#}
+    {#                    console.log('error')#}
+    {#                }#}
+    {#            })#}
+    {#        })#}
+</script>

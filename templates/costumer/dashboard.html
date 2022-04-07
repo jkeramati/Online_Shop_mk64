@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% load i18n %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Panel</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/panel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart_item/samplecart.css' %}">
+    {#    <script src="{% static 'jssource.js' %}"></script>#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
+
+    {% block extra_head %}  {% endblock %}
+
+
+</head>
+<body>
+<style>
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+
+    .deals-value .amount {
+        text-decoration: line-through;
+    }
+
+    .woocommerce-Price-currencySymbol {
+        margin-right: 10px;
+    }
+
+    .list-group-item {
+        background-color: azure !important;
+    }
+
+    .list-group {
+        box-shadow: black;
+    }
+
+    .list-group-item-action {
+        color: blue;
+    }
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!-- sidebar -->
+        <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-white shadow-sm sidebar" id="sidebar"
+             style="background-color: azure !important;">
+            <h1 class="text-primary d-flex my-4 justify-content-center"><img src="{% static 'shopping.png' %}"
+                                                                             alt="logo" width="75" height="75"></h1>
+            <div class="list-group rounded-0">
+                <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center"
+                        data-toggle="collapse" data-target="#sale-collapse">
+                    <div>
+                        <span class="bi bi-box"></span>
+                        <span class="ml-2">{% trans "Profile" %}</span>
+                    </div>
+                    <span class="bi bi-chevron-down small"></span>
+                </button>
+                <div class="collapse" id="sale-collapse" data-parent="#sidebar">
+                    <div class="list-group">
+                        <ul style="list-style-type: none">
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 personal-info"
+                                   id="personal_info">
+                                {% trans "Personal Info" %}</a></li>
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
+                                   id="address">{% trans "Address" %}</a></li>
+                            <li><a href="#" class="list-group-item list-group-item-action border-0 pl-5 address"
+                                   id="password">{% trans "Change Password" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center"
+                        data-toggle="collapse" data-target="#purchase-collapse">
+                    <div>
+                        <span class="bi bi-box"></span>
+                        <span class="ml-2">{% trans "Order" %}</span>
+                    </div>
+                    <span class="bi bi-chevron-down small"></span>
+                </button>
+                <div class="collapse" id="purchase-collapse" data-parent="#sidebar">
+
+                    <div class="list-group">
+                        <ul style="list-style-type: none">
+                            {#                        <a href="#" class="list-group-item list-group-item-action border-0 pl-5 recent-order"#}
+                            {#                           id="recent_order">{% trans "Recent Order" %}</a>#}
+                            <li><a href="#"
+                                   class="list-group-item list-group-item-action border-0 pl-5 history-order"
+                                   id="history_order">{% trans "History of Orders" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- overlay to close sidebar on small screens -->
+        <div class="w-100 vh-100 position-fixed overlay d-none" id="sidebar-overlay"></div>
+        <!-- note: in the layout margin auto is the key as sidebar is fixed -->
+        <div class="col-md-9 col-lg-10 ml-md-auto px-0">
+            <!-- top nav -->
+            <nav class="w-100 d-flex px-4 py-2 mb-4 shadow-sm sticky" style="position: sticky; background-color: azure">
+                <!-- close sidebar -->
+                <button class="btn py-0 d-lg-none" id="open-sidebar">
+                    <span class="bi bi-list text-primary h3"></span>
+                </button>
+                <div class="dropdown ml-auto">
+                    <button class="btn py-0 d-flex align-items-center" id="logout-dropdown" data-toggle="dropdown"
+                            aria-expanded="false">
+                        <span class="bi bi-person text-primary h4"></span>
+                        <span class="bi bi-chevron-down ml-1 mb-2  small"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" aria-labelledby="logout-dropdown">
+                        <p class="dropdown-item">{% trans "Phone:" %} {{ user.username }}</p>
+                        <a class="dropdown-item" href="{% url 'index' %}">{% trans "Home" %}</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+
+                    </div>
+                </div>
+            </nav>
+            <!-- main content -->
+            <main class="container-fluid">
+
+                <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left px-4">
+                    <div class="container right-ajax" id="to_fill">
+
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+<script>
+    $('#logggg').click(function () {
+        console.log('test')
+    })
+    $(document).ready(() => {
+
+        $('#open-sidebar').click(() => {
+
+            // add class active on #sidebar
+            $('#sidebar').addClass('active');
+
+            // show sidebar overlay
+            $('#sidebar-overlay').removeClass('d-none');
+
+        });
+
+
+        $('#sidebar-overlay').click(function () {
+
+            // add class active on #sidebar
+            $('#sidebar').removeClass('active');
+
+            // show sidebar overlay
+            $(this).addClass('d-none');
+
+        });
+
+    });
+
+    $('#address').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'address_list' %}',
+            success: function (response) {
+                $('#to_fill').html(response['address'])
+                {#console.log(response['address'])#}
+            },
+            error: function (error) {
+
+            },
+        })
+    })
+    $('#password').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'change_password' %}',
+            success: function (response) {
+                $('#to_fill').html(response['password'])
+                {#console.log(response['password'])#}
+            },
+            error: function (error) {
+
+            },
+        })
+    })
+
+    $('#history_order').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'order_history' %}',
+            success: function (response) {
+                $('#to_fill').html(response['cart'])
+                {#console.log(response['cart'])#}
+            },
+            error: function (error) {
+
+            },
+        })
+    })
+    $('#personal_info').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'information_profile' %}',
+            success: function (response) {
+                $('#to_fill').html(response['costumer'])
+                {#console.log(response['costumer'])#}
+            },
+            error: function (error) {
+
+            },
+        })
+    })
+
+
+</script>
+
+</html>

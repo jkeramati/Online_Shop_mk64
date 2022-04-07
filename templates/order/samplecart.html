@@ -1,0 +1,490 @@
+{% extends 'base/_base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}Product{% endblock %}
+{% block extra_head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'cart_item/samplecart.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'sweet_alert.js' %}"></script>
+
+{% endblock %}
+<style>
+    body {
+        padding: 0.25rem;
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: normal;
+        src: url({% static 'fonts/Vazir.eot'%});
+        src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+    }
+
+    @font-face {
+        font-family: Vazir;
+        font-style: normal;
+        font-weight: bold;
+        src: url({% static 'fonts/Vazir-Bold.eot'%});
+        src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+        url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+        url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+        url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+    }
+
+    * {
+        font-family: 'Vazir', Arial, sans-serif;
+    }
+
+    .deals-value .amount {
+        text-decoration: line-through;
+    }
+
+    .woocommerce-Price-currencySymbol {
+        margin-right: 10px;
+    }
+</style>
+
+
+{% block content %}
+    {% if items == 1 %}
+        <style>
+            * {
+                transition: all 0.6s;
+            }
+
+            html {
+                height: 100%;
+            }
+
+            body {
+                font-family: 'Lato', sans-serif;
+                color: #888;
+                margin: 0;
+            }
+
+            #main {
+                display: table;
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+            }
+
+            .fof {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .fof h1 {
+                font-size: 50px;
+                display: inline-block;
+                padding-right: 12px;
+                animation: type .5s alternate infinite;
+            }
+
+            @keyframes type {
+                from {
+                    box-shadow: inset -3px 0px 0px #888;
+                }
+                to {
+                    box-shadow: inset -3px 0px 0px transparent;
+                }
+            }
+        </style>
+        <div id="main">
+            <div class="fof">
+                <h1 style="font-family: Vazir,serif">{% trans "Basket Is Empty" %}</h1>
+            </div>
+        </div>
+
+    {% else %}
+        <h3 style="font-family: Vazir,serif">{% trans "Shopping Cart" %}</h3>
+
+        <div class="shopping-cart">
+
+            <div class="column-labels">
+                <label class="product-image">Image</label>
+                <label class="product-details">Product</label>
+                {#                <label class="product-price">Price</label>#}
+                <label class="product-price">{% trans "Price with discount" %}</label>
+                <label class="product-quantity">{% trans "Quantity" %}</label>
+                <label class="product-removal">Remove</label>
+                <label class="product-line-price">{% trans "Total" %}</label>
+            </div>
+
+            {% for item in items %}
+                <div class="product">
+                    <div class="product-image">
+                        <img src="{{ item.product.image.url }}">
+                    </div>
+                    <div class="product-details">
+                        <div class="brand-title">{% trans "Brand: " %} {{ item.product.brand.name }}</div>
+                        <p class="product-description">{% trans "Name: " %} {{ item.product.name }}</p>
+                    </div>
+                    {#                    <div class="product-price">{{ item.product.price }}</div>#}
+                    <div class="product-price">{{ item.product.price_after_discount }}</div>
+                    <div class="product-quantity">
+                        <input type="number" class="change_number_product" akbar="{{ item.id }}"
+                               asqar="{{ item.product.id }}" value="{{ item.number_item }}" min="1">
+                    </div>
+                    <div class="product-removal" akbar="{{ item.id }}" asqar="{{ item.product.id }}">
+                        <button class="remove-product" style="font-family: Vazir,serif">
+                            {% trans "Remove" %}
+                        </button>
+                    </div>
+                    <div class="product-line-price">{{ item.total_cartitem_price }}</div>
+                </div>
+                <div class="cart_id" style="display: none;" cart_id="{{ item.cart.id }}"></div>
+            {% endfor %}
+            <div class="totals">
+                <div class="totals-item">
+                    <label>{% trans "Subtotal" %}</label>
+                    <div class="totals-value" id="cart-subtotal" value="{{ total_price }}">{{ total_price }}</div>
+                </div>
+                {#                <div class="totals-item">#}
+                {#                    <label>Tax (5%)</label>#}
+                {#                    <div class="totals-value" id="cart-tax">3</div>#}
+                {#                </div>#}
+                {% if user.is_authenticated %}
+                    <div class="totals-item">
+                        <label>{% trans "Off Code:" %} </label>
+                        <div class="totals-value" id="cart-shipping" babaii="0">0</div>
+                        <input id="off_code1" type="text" id_off_code="">
+                        <button id="off_code" type="button" class="btn btn-danger" type_attr=""
+                                value_attr="">{% trans "Apply" %}
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="totals-item">
+                        <label>{% trans "Off Code:" %} </label>
+                        <div class="totals-value" id="cart-shipping" babaii="0">0</div>
+                        <input type="text" disabled>
+                        <button type="button" class="btn btn-danger" disabled>{% trans "Apply" %}</button>
+                    </div>
+
+                {% endif %}
+
+                <div class="totals-item totals-item-total">
+                    <label>{% trans "Grand Total" %}</label>
+                    <div class="totals-value" id="cart-total" value="{{ final_price }}">{{ final_price }}</div>
+                </div>
+            </div>
+
+            <select class="form-control form-control-sm totals-item" aria-label="Default select example" id="address_id"
+                    style="float: right; width: 50%;margin-left: 30rem">
+                {#                <option selected>{% trans "Select an address" %}</option>#}
+                <option selected value="{{ address.0.id }}">{{ address.0 }}</option>
+                {% for add in address %}
+                    {% if forloop.counter0 != 0 %}
+                        <option value="{{ add.id }}">{{ add }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <br>
+
+            {% if user.is_authenticated %}
+                <button id="final" class="checkout my-2"
+                        style="background-color: #2f89fc">{% trans "Apply Final Change" %}</button>
+            {% else %}
+                <button id="final" class="checkout my-2" style="background-color: #2f89fc"><a
+                        href="{% url 'costumer_login_view' %}">{% trans "Login" %}</a></button>
+            {% endif %}
+
+
+        </div>
+
+    {% endif %}
+
+    <script>
+
+
+        {#java script to handle front price#}
+        /* Set rates + misc */
+        var taxRate = 0.05;
+        {#var shippingRate = Number($('#cart-shipping').attr('babaii'));#}
+        var fadeTime = 300;
+        var raw_number_item = 0;
+
+        function removeItem(removeButton) {
+            console.log('mashti hazf shod')
+            /* Remove row from DOM and recalc cart total */
+            let productRow = $(removeButton).parent().parent();
+            productRow.slideUp(fadeTime, function () {
+                productRow.remove();
+                recalculateCart();
+            });
+        }
+
+        /* Assign actions */
+        $(".product-quantity input").change(function () {
+            updateQuantity(this);
+        });
+
+
+        /* Recalculate cart */
+        function recalculateCart() {
+            var subtotal = 0;
+
+            /* Sum up row totals */
+            $(".product").each(function () {
+                subtotal += parseFloat($(this).children(".product-line-price").text());
+            });
+
+            /* Calculate totals */
+            {#var tax = subtotal * taxRate;#}
+            {#var shipping = subtotal > 0 ? shippingRate : 0;#}
+            var type = $('#off_code').attr('type_attr')
+            var value = Number($('#off_code').attr('value_attr'))
+
+
+            var shipping = Number($('#cart-shipping').attr('babaii'));
+            if (type) {
+                if (type === 'PER') {
+                    let value_after_off = subtotal * value / 100
+                    $('#cart-shipping').attr('babaii', value_after_off)
+                    shipping = Number($('#cart-shipping').attr('babaii'));
+                } else if (type === 'PRI') {
+                    if (subtotal < 2 * value) {
+                        $('#cart-shipping').attr('babaii', 0)
+                        shipping = Number($('#cart-shipping').attr('babaii'));
+                    }
+                }
+            }
+
+            var total = subtotal - shipping;
+
+            /* Update totals display */
+            $(".totals-value").fadeOut(fadeTime, function () {
+                $("#cart-subtotal").html(subtotal.toFixed(2));
+                $("#cart-subtotal").attr('value', subtotal);
+                {#$("#cart-tax").html(tax.toFixed(2));#}
+                $("#cart-shipping").html(shipping.toFixed(2));
+                $("#cart-total").html(total.toFixed(2));
+                $("#cart-total").attr('value', total);
+                if (total == 0) {
+                    $(".checkout").fadeOut(fadeTime);
+                } else {
+                    $(".checkout").fadeIn(fadeTime);
+                }
+                $(".totals-value").fadeIn(fadeTime);
+            });
+        }
+
+        /* Update quantity */
+        function updateQuantity(quantityInput) {
+            /* Calculate line price */
+            var productRow = $(quantityInput).parent().parent();
+            var price = parseFloat(productRow.children(".product-price").text());
+            var quantity = $(quantityInput).val();
+            var linePrice = price * quantity;
+
+            /* Update line price display and recalc cart totals */
+            productRow.children(".product-line-price").each(function () {
+                $(this).fadeOut(fadeTime, function () {
+                    $(this).text(linePrice.toFixed(2));
+                    recalculateCart();
+                    $(this).fadeIn(fadeTime);
+                });
+            });
+        }
+
+        /* Remove item from cart */
+        $('#off_code').click(function () {
+            var off = $('#off_code1').val()
+            var cart_id = Number($('.cart_id').attr('cart_id'))
+
+            console.log(typeof (cart_id))
+            console.log(off)
+            console.log((cart_id))
+            let JsonData = {'off_code': off};
+            $.ajax({
+                type: 'PATCH',
+                url: '{% url 'cart_off_code' 0 %}'.replace('0', cart_id),
+                data: JsonData,
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    {#console.log(response)#}
+                    Swal.fire(
+                        'Good job!',
+                        'Your OffCode Apply!',
+                        'success',
+                    )
+                    {#console.log(response['off_code'])#}
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'off_code_check' 0 %}'.replace('0', response['off_code']),
+                        headers: {
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            $('#off_code1').attr('id_off_code', response['id'])
+                            console.log(response['type_disc'])
+                            console.log(response['value'])
+                            if (response['type_disc'] === 'PER') {
+                                let subtotal = Number($('#cart-subtotal').html())
+                                {#console.log(subtotal)#}
+                                let value = Number(response['value'])
+                                {#console.log(value)#}
+                                let calc_disc = subtotal * value / 100
+                                console.log(calc_disc)
+                                $('#cart-shipping').attr('babaii', calc_disc)
+                                $('#cart-shipping').html(calc_disc)
+                                $('#cart-total').html(subtotal - calc_disc)
+                                $('#off_code').attr('type_attr', response['type_disc'])
+                                $('#off_code').attr('value_attr', value)
+                            } else {
+                                let value2 = Number(response['value'])
+                                let subtotal2 = Number($('#cart-subtotal').html())
+                                $('#cart-shipping').attr('babaii', value2)
+                                $('#cart-shipping').html(value2)
+                                $('#cart-total').html(subtotal2 - value2)
+                                $('#off_code').attr('type_attr', response['type_disc'])
+                                $('#off_code').attr('value_attr', value2)
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error.message)
+                            console.log(error[0])
+                        }
+                    })
+
+                },
+                error: function (error) {
+                    console.log(error)
+                    if (error['responseJSON'] === 'unique') {
+                        Swal.fire({
+                            icon: "{% trans 'error' %}",
+                            title: "{% trans 'Oops...' %}",
+                            text: 'Repetitious Off Code!',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: '{% trans 'error' %}',
+                            title: '{% trans 'Oops...' %}',
+                            text: '{% trans 'This OffCode is Not Valid!' %}',
+                        })
+                    }
+
+                    {#console.log(error['responseJSON'])#}
+                    {#console.log(error[0])#}
+
+                }
+
+            })
+        })
+
+
+        {#to set final price and total price in data base cart view: CartUpdateAPI #}
+        $('#final').on('click', function () {
+            var total_price = Number($("#cart-subtotal").html())
+            var final_price = Number($("#cart-total").html())
+            var address_id = $("#address_id").val()
+            var off_code_id = $('#off_code1').attr('id_off_code')
+            console.log(off_code_id, typeof (off_code_id))
+            {#console.log(address_id)#}
+            var cart_id = $('.cart_id').attr('cart_id')
+            {#console.log(total_price)#}
+            {#console.log(final_price)#}
+            let JsonData1 = {
+                'total_price': total_price,
+                'final_price': final_price,
+                'address': address_id,
+                'off_code': off_code_id
+            };
+            $.ajax({
+                type: 'PATCH',
+                url: '{% url 'next_to_dashboard_cart' 0 %}'.replace('0', cart_id),
+                data: JsonData1,
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log(response)
+                    Swal.fire(
+                        'Thanks for your Shopping!',
+                        '',
+                        'success',
+                    )
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+
+
+        {#remove item from data base and from front, view:CartItemDetail#}
+
+        $('.remove-product').on('click', function () {
+            let item_id = $(this).parent().attr('akbar')
+            let product_id = $(this).parent().attr('asqar')
+            var th_is = $(this)
+            {#console.log(th_is)#}
+            $.ajax({
+                type: 'DELETE',
+                url: "{% url 'cartitem-list' %}" + `${item_id}`,
+                data: {'product_id': product_id},
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    let number_item_before = th_is.parent().parent().children('div.product-quantity').children('input.change_number_product').val()
+                    console.log(number_item_before)
+                    let count = $('#main_number_basket').html()
+                    let new_count = Number(count) - Number(number_item_before)
+                    $('#main_number_basket').html(new_count)
+                    removeItem(th_is);
+                },
+                error: function (error) {
+                    {#console.log(error)#}
+                }
+            })
+        })
+        $(".change_number_product").on('focus', function () {
+            let number_item_before = $(this).val()
+            let count = $('#main_number_basket').html()
+            count = Number(count)
+            raw_number_item = count - number_item_before
+        })
+
+        $('.change_number_product').change(function () {
+            let number_item = $(this).val()
+            let item_id = $(this).attr('akbar')
+            let product_id = $(this).attr('asqar')
+            $.ajax({
+                type: 'PATCH',
+                url: "{% url 'cartitem-detail' 0 %}".replace('0', item_id),
+                data: {'product': product_id, 'number_item': number_item},
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    let new_count = Number(raw_number_item) + Number(number_item)
+                    $('#main_number_basket').html(new_count)
+
+                },
+                error: function (error) {
+                    {#console.log(error)#}
+                }
+            })
+        })
+
+
+    </script>
+{% endblock %}

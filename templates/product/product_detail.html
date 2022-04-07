@@ -1,0 +1,175 @@
+{% extends 'base/_base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% block title %}Product{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'cart_item/item.css' %}">
+    <script src="{% static 'sweet_alert.js' %}"></script>
+
+
+{% endblock %}
+{% block content %}
+    <style>
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: normal;
+            src: url({% static 'fonts/Vazir.eot'%});
+            src: url({% static 'fonts/Vazir.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir.ttf'%}) format('truetype');
+        }
+
+        @font-face {
+            font-family: Vazir;
+            font-style: normal;
+            font-weight: bold;
+            src: url({% static 'fonts/Vazir-Bold.eot'%});
+            src: url({% static 'fonts/Vazir-Bold.eot?#iefix'%}) format('embedded-opentype'),
+            url({% static 'fonts/Vazir-Bold.woff2'%}) format('woff2'),
+            url({% static 'fonts/Vazir-Bold.woff'%}) format('woff'),
+            url({% static 'fonts/Vazir-Bold.ttf'%}) format('truetype');
+        }
+
+        * {
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
+        .deals-value .amount {
+            text-decoration: line-through;
+        }
+
+        .woocommerce-Price-currencySymbol {
+            margin-right: 10px;
+        }
+    </style>
+    <div class="py-4" style="display: flex;align-items: center; justify-content: center; flex-direction: column">
+        <div class="product-card">
+            <div class="logo-cart">
+                <img src="{{ product.brand.image.url }}"
+                     alt="logo">
+                <i class='bx bx-shopping-bag'></i>
+            </div>
+            <div class="main-images">
+                <img id="blue" class="blue active"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+                <img id="pink" class="pink"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+                <img id="yellow" class="yellow"
+                     src="{{ product.image.url }}"
+                     alt="blue">
+            </div>
+            <div class="shoe-details" style="text-align: center;margin: 4rem">
+                <span class="shoe_name">{{ product.name }}</span>
+                <p>{% trans "Description:" %} {{ product.description }}  </p>
+            </div>
+            <div class="color-price">
+                {% if languages == "en" %}
+                    <div class="color-option">
+                        <span class="color">{% trans "Price: " %}</span>
+                        {#                    <div class="circles">#}
+                        {#                        <span class="circle blue active" id="blue"></span>#}
+                        {#                        <span class="circle pink " id="pink"></span>#}
+                        {#                        <span class="circle yellow " id="yellow"></span>#}
+                        {#                    </div>#}
+                    </div>
+                    <div class="price">
+                        {% if  not product.discount %}
+                            <span class="price_num">${{ product.price }}</span>
+                        {% else %}
+                            {#                        <span class="price_num">${{ product.price }}</span>#}
+                            <p class="deals-value"><span><span
+                                    class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
+                            </p>
+                            <span class="price_num">${{ product.price_after_discount }}</span>
+                        {% endif %}
+                    </div>
+
+                {% else %}
+                    <div class="price">
+                        {% if  not product.discount %}
+                            <span class="price_num">${{ product.price }}</span>
+                        {% else %}
+                            {#                        <span class="price_num">${{ product.price }}</span>#}
+                            <p class="deals-value"><span><span
+                                    class="woocommerce-Price-currencySymbol amount  price_num text-danger">${{ product.price }}</span></span>
+                            </p>
+                            <span class="price_num">${{ product.price_after_discount }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="color-option">
+                        <span class="color">{% trans "Price: " %}</span>
+                        {#                    <div class="circles">#}
+                        {#                        <span class="circle blue active" id="blue"></span>#}
+                        {#                        <span class="circle pink " id="pink"></span>#}
+                        {#                        <span class="circle yellow " id="yellow"></span>#}
+                        {#                    </div>#}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="button">
+                <div class="button-layer"></div>
+                <button class="click_to_add1" product_id_cookie="{{ product.id }}">{% trans "Add To Cart" %}</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.click_to_add1').click(function () {
+            let id_product = $(this).attr('product_id_cookie')
+            console.log(id_product)
+            let count = 1
+            let JsonData = {'product': id_product, 'number_item': count}
+            $.ajax({
+                type: "POST",
+                url: 'http://127.0.0.1:8000/order/cartitem/',
+                data: JsonData,
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log(response)
+                    Swal.fire(
+                        "{% trans 'Good job!' %}",
+                        "{% trans 'Added to Cart!' %}",
+                        'success'
+                    )
+                    let count = $('#main_number_basket').html()
+                    count = Number(count)
+                    {#console.log(count)#}
+                    {#console.log(typeof(count))#}
+                    $('#main_number_basket').html(count + 1)
+                    {#console.log($('#main_number_basket').html())#}
+                },
+                error: function (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: "{% trans 'error' %}",
+                        title: "{% trans 'Oops...' %}",
+                        text: 'Something went wrong!',
+                    })
+                }
+            })
+        })
+
+
+        let circle = document.querySelector(".color-option");
+
+        circle.addEventListener("click", (e) => {
+            let target = e.target;
+            if (target.classList.contains("circle")) {
+                circle.querySelector(".active").classList.remove("active");
+                target.classList.add("active");
+                document.querySelector(".main-images .active").classList.remove("active");
+                document.querySelector(`.main-images .${target.id}`).classList.add("active");
+            }
+        });
+    </script>
+{% endblock %}
